@@ -67,6 +67,18 @@ class Container:
             AuditService(event_bus=self.resolve(EventBus)),
         )
 
+        # Register Dashboard Query Service
+        from spfarm.application.queries.dashboard import DashboardQueryService
+
+        self.register_factory(
+            DashboardQueryService,
+            lambda: DashboardQueryService(
+                uow_factory=lambda: self.resolve(IUnitOfWork),
+                error_center=self.resolve(ErrorCenterService),
+                audit_service=self.resolve(AuditService),
+            ),
+        )
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance
@@ -130,6 +142,12 @@ class Container:
         from spfarm.application.services.audit import AuditService
 
         return self.resolve(AuditService)
+
+    @property
+    def dashboard_queries(self) -> Any:
+        from spfarm.application.queries.dashboard import DashboardQueryService
+
+        return self.resolve(DashboardQueryService)
 
     @property
     def registered_service_names(self) -> list[str]:

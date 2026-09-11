@@ -24,7 +24,6 @@ from spfarm.presentation.activity.activity_view import ActivityCenterView
 from spfarm.presentation.components.cards import CuteCard
 from spfarm.presentation.components.command_palette import CommandPaletteDialog
 from spfarm.presentation.components.inspector import CuteInspector
-from spfarm.presentation.components.status_pill import CuteStatusPill
 from spfarm.presentation.settings.settings_view import SettingsDialog
 from spfarm.presentation.shell.sidebar import AppSidebar
 from spfarm.presentation.shell.topbar import AppTopbar
@@ -174,39 +173,13 @@ class MainWindow(QMainWindow):
     # Route Views
     # -------------------------------------------------------------------------
     def _create_dashboard_view(self) -> QWidget:
-        view = QWidget()
-        layout = QVBoxLayout(view)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(16)
+        from spfarm.presentation.dashboard.dashboard_view import DashboardView
 
-        # Welcome Card
-        welcome_card = CuteCard(title="🌱 Welcome to SP-Farm V2")
-        w_lbl = QLabel(
-            "Clean, modern operations dashboard adhering to the Cute Light Design System. "
-            "Navigate using the left sidebar or press <b>Ctrl+K</b> to quickly jump between screens."
+        view = DashboardView(
+            query_service=self.container.dashboard_queries,
+            event_bus=self.container.event_bus,
         )
-        w_lbl.setWordWrap(True)
-        welcome_card.add_widget(w_lbl)
-        layout.addWidget(welcome_card)
-
-        # Metrics summary row
-        metrics_row = QHBoxLayout()
-        metrics_row.setSpacing(12)
-
-        card1 = CuteCard(title="👥 Accounts", badge=CuteStatusPill("Healthy", "ready"))
-        card1.add_widget(QLabel("<b>Total Managed:</b> 0 accounts<br><b>Active Sessions:</b> 0"))
-        metrics_row.addWidget(card1)
-
-        card2 = CuteCard(title="📱 Device Pool", badge=CuteStatusPill("Ready", "ready"))
-        card2.add_widget(QLabel("<b>Ready Devices:</b> 0<br><b>Running Jobs:</b> 0"))
-        metrics_row.addWidget(card2)
-
-        card3 = CuteCard(title="📢 Campaigns", badge=CuteStatusPill("Idle", "cooldown"))
-        card3.add_widget(QLabel("<b>Scheduled Posts:</b> 0<br><b>Pending Reviews:</b> 0"))
-        metrics_row.addWidget(card3)
-
-        layout.addLayout(metrics_row)
-        layout.addStretch()
+        view.navigate_requested.connect(self.navigate_to_route)
         return view
 
     def _create_activity_view(self) -> QWidget:
