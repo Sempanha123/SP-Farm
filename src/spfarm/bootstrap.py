@@ -32,6 +32,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Run startup initialization without displaying GUI window",
     )
+    parser.add_argument(
+        "--arch-status",
+        action="store_true",
+        help="Display developer architecture status screen",
+    )
     return parser.parse_args(argv)
 
 
@@ -67,7 +72,15 @@ def main(argv: list[str] | None = None) -> int:
     app.setApplicationVersion(__version__)
     app.setStyleSheet(build_app_stylesheet())
 
-    # 4. Display Splash / Boot Window
+    # 4. If developer architecture status requested, open architecture dialog
+    if args.arch_status:
+        from spfarm.presentation.shell.architecture_view import ArchitectureStatusDialog
+
+        dlg = ArchitectureStatusDialog()
+        dlg.show()
+        return app.exec()
+
+    # 5. Display Splash / Boot Window
     splash = SplashWindow()
     splash.center_on_screen()
     splash.show()
