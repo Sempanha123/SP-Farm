@@ -1,0 +1,171 @@
+SP-FARM V2 — COMPANION APP BRIDGE REFERENCE
+============================================
+
+The operator already has a no-restart Android companion app.
+
+Integrate it through a safe bridge.
+
+REFERENCE PYTHON SHAPE
+----------------------
+
+from dataclasses import dataclass, asdict
+from typing import Optional
+from pathlib import Path
+import subprocess
+import tempfile
+
+
+@dataclass(slots=True)
+class DeviceLabProfile:
+    locale: Optional[str] = None
+    language: Optional[str] = None
+    timezone: Optional[str] = None
+
+    screen_width: Optional[int] = None
+    screen_height: Optional[int] = None
+    density_dpi: Optional[int] = None
+    orientation: Optional[str] = None
+
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+
+    app_channel: Optional[str] = None
+    app_package: Optional[str] = None
+    app_version: Optional[str] = None
+
+    network_profile_id: Optional[str] = None
+    permission_profile_id: Optional[str] = None
+    notification_profile_id: Optional[str] = None
+
+    environment_id: Optional[str] = None
+    account_id: Optional[str] = None
+
+
+class DeviceProfileBridge:
+    ALLOWED_KEYS = {
+        "locale",
+        "language",
+        "timezone",
+        "screen_width",
+        "screen_height",
+        "density_dpi",
+        "orientation",
+        "latitude",
+        "longitude",
+        "app_channel",
+        "app_package",
+        "app_version",
+        "network_profile_id",
+        "permission_profile_id",
+        "notification_profile_id",
+        "environment_id",
+        "account_id",
+    }
+
+    def serialize(self, profile: DeviceLabProfile) -> str:
+        raw = asdict(profile)
+        safe = {
+            k: v
+            for k, v in raw.items()
+            if k in self.ALLOWED_KEYS and v is not None
+        }
+        return "\n".join(f"{k}={v}" for k, v in safe.items())
+
+    def push_and_apply(
+        self,
+        adb_path: str,
+        device: str,
+        profile: DeviceLabProfile,
+        remote_path: str,
+        broadcast_action: str,
+    ) -> tuple[bool, str]:
+        payload = self.serialize(profile)
+
+        temp_path = None
+        try:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                suffix=".prop",
+                prefix="spfarm_env_",
+                delete=False,
+            ) as tmp:
+                tmp.write(payload)
+                temp_path = tmp.name
+
+            push = subprocess.run(
+                [adb_path, "-s", device, "push", temp_path, remote_path],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                check=False,
+            )
+
+            if push.returncode != 0:
+                return False, push.stderr.strip() or "ADB push failed"
+
+            chmod = subprocess.run(
+                [adb_path, "-s", device, "shell", "chmod", "600", remote_path],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+
+            if chmod.returncode != 0:
+                return False, chmod.stderr.strip() or "chmod failed"
+
+            apply_result = subprocess.run(
+                [
+                    adb_path, "-s", device,
+                    "shell", "am", "broadcast",
+                    "-a", broadcast_action,
+                    "--es", "profile_path", remote_path,
+                ],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+
+            if apply_result.returncode != 0:
+                return False, apply_result.stderr.strip() or "apply failed"
+
+            return True, "Environment applied"
+
+        except subprocess.TimeoutExpired:
+            return False, "ADB timeout"
+
+        finally:
+            if temp_path:
+                Path(temp_path).unlink(missing_ok=True)
+
+
+SECURITY IMPROVEMENTS OVER OLD CODE
+-----------------------------------
+- tempfile instead of predictable temp filename
+- subprocess argument arrays
+- command timeout
+- chmod 600, not 777
+- cleanup in finally
+- allowlist fields
+- no secrets in payload
+- typed/structured result
+- redact payload from logs
+
+DO NOT ADD THESE KEYS
+---------------------
+imei
+meid
+serial_number
+gsf_id
+advertising_id
+build_fingerprint
+imsi
+simid
+esim_eid
+mac
+bluetooth_mac
+wifi_bssid
+
+when the purpose is anti-detection/fingerprint spoofing.

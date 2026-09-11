@@ -1,0 +1,81 @@
+SP-FARM V2 — PHASE 17
+Account Environment Engine
+======================================
+
+COPY-PASTE THIS ENTIRE PROMPT INTO THE CODING AI.
+
+IMPORTANT
+---------
+This roadmap is the FINAL starting roadmap.
+Before coding this phase:
+
+1. Read 00_MASTER_GOAL.txt.
+2. Read 01_UX_UI_SOURCE_OF_TRUTH.txt.
+3. Read 02_TARGET_SOURCE_TREE.txt.
+4. Read 03_ACCOUNT_ENVIRONMENT_DATA_MODEL.txt.
+5. Read 04_COMPANION_APP_BRIDGE_REFERENCE.txt when device-environment work is relevant.
+6. Inspect all code from earlier completed phases.
+7. Run existing tests.
+8. Preserve architecture boundaries.
+9. Do not skip acceptance criteria.
+
+PHASE GOAL
+----------
+Create the persistent environment planner/apply/restore lifecycle.
+
+MUST BUILD
+----------
+- EnvironmentPlanner.
+- Compatibility checks.
+- Environment revisions.
+- Prepare device.
+- Apply environment.
+- Restore permitted encrypted app/session state.
+- Health check.
+- Optional safe backup.
+- Cleanup/release.
+- Persist runtime history.
+
+UX / UI REQUIREMENTS
+--------------------
+Account → Environment tab shows revision/status/app/network/last runtime/restore/backup.
+
+TECHNICAL RULES
+---------------
+- One account may run on different compatible devices.
+- Runtime host reusable after cleanup.
+- No fake fingerprint generation.
+
+GLOBAL SAFETY / SECURITY RULES
+------------------------------
+- Operate only on accounts/Pages/Groups/devices/content the operator owns or is authorized to manage.
+- Do not build bulk Facebook signup.
+- Do not build disposable-number Facebook registration.
+- Do not build CAPTCHA/checkpoint/security bypass.
+- Do not build anti-detect hardware identity rotation.
+- Do not generate fake IMEI/MEID/GSF/serial/advertising-ID fingerprints for Facebook evasion.
+- Do not build mass-like/comment/story-view/friend-request/unsolicited-message workflows.
+- Prefer official Meta APIs where supported.
+- Never store secrets in source code/plaintext JSON.
+- Never log secrets.
+
+ACCEPTANCE CRITERIA
+-------------------
+- [ ] Environment survives restart.
+- [ ] Compatibility failures explicit.
+- [ ] History recorded.
+
+DELIVERABLE FORMAT
+------------------
+When finished, respond with:
+
+1. Summary of changes.
+2. Exact files added/modified.
+3. Migrations added.
+4. Commands to install/run/test.
+5. Tests executed and results.
+6. Known limitations.
+7. Architecture notes if anything was refactored.
+8. "Ready for Phase 18" only if all acceptance criteria pass.
+
+Do not call the phase complete if tests fail.

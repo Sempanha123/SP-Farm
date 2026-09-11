@@ -1,0 +1,83 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing & Linting
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# IDE & OS
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Secrets & Environment
+.env
+.env.*
+!.env.example
+*.token
+*.cookie
+*.secret
+*vault*
+*.pem
+*.key
+*.p12
+*.crt
+
+# Databases & Backups
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+backups/
+*.bak
+*.dump
+
+# Logs & Caches
+logs/
+*.log
+cache/
+media_cache/
+apk_cache/
+downloads/
+temp/
+tmp/
+
+# Legacy Archive
+archive/
+_archive/
+legacy/

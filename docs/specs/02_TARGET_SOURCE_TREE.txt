@@ -1,0 +1,115 @@
+SP-FARM V2 — TARGET SOURCE TREE
+===============================
+
+src/
+└── spfarm/
+    ├── __main__.py
+    ├── bootstrap.py
+    │
+    ├── presentation/
+    │   ├── shell/
+    │   ├── dashboard/
+    │   ├── accounts/
+    │   ├── pages/
+    │   ├── groups/
+    │   ├── devices/
+    │   ├── device_pool/
+    │   ├── apps/
+    │   ├── content/
+    │   ├── campaigns/
+    │   ├── scheduler/
+    │   ├── jobs/
+    │   ├── actions/
+    │   ├── providers/
+    │   ├── activity/
+    │   ├── analytics/
+    │   ├── backups/
+    │   ├── settings/
+    │   └── components/
+    │
+    ├── application/
+    │   ├── commands/
+    │   ├── queries/
+    │   ├── events/
+    │   ├── services/
+    │   └── workflows/
+    │       ├── account/
+    │       ├── security/
+    │       ├── publishing/
+    │       ├── community/
+    │       ├── messages/
+    │       ├── qa/
+    │       └── diagnostics/
+    │
+    ├── domain/
+    │   ├── accounts/
+    │   ├── pages/
+    │   ├── groups/
+    │   ├── environments/
+    │   ├── devices/
+    │   ├── apps/
+    │   ├── content/
+    │   ├── campaigns/
+    │   ├── schedules/
+    │   ├── jobs/
+    │   ├── providers/
+    │   └── audit/
+    │
+    ├── infrastructure/
+    │   ├── database/
+    │   │   ├── models/
+    │   │   ├── repositories/
+    │   │   └── migrations/
+    │   ├── secrets/
+    │   ├── devices/
+    │   │   ├── base.py
+    │   │   ├── ldplayer/
+    │   │   ├── mumu/
+    │   │   ├── android/
+    │   │   └── environment/
+    │   │       ├── bridge.py
+    │   │       ├── compatibility.py
+    │   │       ├── applier.py
+    │   │       └── health.py
+    │   ├── automation/
+    │   │   ├── adb/
+    │   │   ├── appium/
+    │   │   ├── sessions/
+    │   │   ├── selectors/
+    │   │   └── screens/
+    │   ├── meta/
+    │   ├── mail/
+    │   ├── phone/
+    │   ├── network/
+    │   ├── storage/
+    │   └── plugins/
+    │
+    ├── workers/
+    │   ├── supervisor.py
+    │   ├── device_worker.py
+    │   ├── job_worker.py
+    │   └── media_worker.py
+    │
+    └── shared/
+        ├── errors.py
+        ├── result.py
+        ├── logging.py
+        ├── ids.py
+        └── time.py
+
+tests/
+├── unit/
+├── integration/
+├── devices/
+├── workflows/
+├── ui/
+└── performance/
+
+assets/
+├── icons/
+├── themes/
+└── translations/
+
+migrations/
+docs/
+scripts/

@@ -1,0 +1,408 @@
+SP-FARM V2 — FINAL MASTER GOAL
+==============================
+
+THIS PACKAGE SUPERSEDES ALL PREVIOUS ROADMAPS.
+Start from Phase 01 in this package.
+
+PRODUCT GOAL
+------------
+Build SP-Farm V2 from zero as a modern Windows desktop operations platform for:
+
+- Authorized Facebook account/profile organization
+- Authorized Facebook Page/Group management
+- LDPlayer management
+- MuMu management
+- Physical Android device management
+- Multi-device concurrent jobs
+- App/APK install/update management
+- Account Environment Profiles
+- Secure session/secret storage
+- Content library
+- Page publishing
+- Reels/Story publishing where supported
+- Campaigns
+- Scheduling
+- Job engine
+- Account health/security review
+- Page comments/inbox workflows where supported
+- Safe device-lab environment application through an existing companion Android app
+- Logging, audit, analytics, backups and recovery
+
+THIS IS A COMPLETE REWRITE.
+Do not retain the old god-class architecture.
+
+SAFE PRODUCT BOUNDARY
+---------------------
+The product MAY:
+
+- Manage accounts, Pages, Groups, devices and content the operator owns or is authorized to manage.
+- Use official Meta APIs where available.
+- Use Android UI automation for authorized management/QA workflows.
+- Install/update approved Facebook official and Facebook Lite APKs on owned devices.
+- Manage legitimate proxy/VPN profiles.
+- Apply test/mock locations where supported for QA/device-lab purposes.
+- Help the user configure 2FA and contact/security settings on their own accounts.
+- Manage existing/manually created authorized accounts.
+- Guide legitimate sign-in through Facebook Lite or official Facebook.
+- Restore permitted app/session state where lawful and supported.
+- Perform controlled QA reactions/comments/story rendering checks only on owned/test content.
+
+The product MUST NOT:
+
+- Mass-create Facebook accounts.
+- Automate bulk signup with disposable SMS numbers.
+- Solve/bypass CAPTCHA.
+- Bypass checkpoint, account integrity, device trust, bans or verification.
+- Evade Meta anti-abuse/rate-limit systems.
+- Generate/rotate fake hardware fingerprints for anti-detection.
+- Generate fake IMEI/MEID/GSF/serial/advertising-ID identity for Facebook evasion.
+- Build stealth/anti-detect/bypass/teleport-bypass modes.
+- Mass-like unrelated content.
+- Mass-comment unrelated content.
+- Mass-view stories for engagement farming.
+- Send unsolicited bulk messages.
+- Friend-request farm.
+- Spam groups.
+
+CORE IDENTITY MODEL
+-------------------
+DO NOT bind a Facebook account to "LD-01".
+
+There are two separate concepts:
+
+1. Runtime Device
+   - LDPlayer instance
+   - MuMu instance
+   - Physical Android phone/tablet
+   - Temporary execution host
+
+2. Account Environment Profile
+   - Persistent account-linked configuration
+   - App channel/package/version
+   - Locale/language
+   - Timezone
+   - Display configuration
+   - Network profile
+   - Optional QA/test location profile
+   - Permission profile
+   - Notification profile
+   - Secure session/app-state references
+   - Environment revision history
+   - Last runtime/restore/backup metadata
+
+Correct runtime flow:
+
+Account
+  ↓
+Load Account Environment Profile
+  ↓
+Find compatible Runtime Device
+  ↓
+Reserve device
+  ↓
+Prepare device
+  ↓
+Apply safe environment through companion app / normal supported settings
+  ↓
+Restore permitted secure state if enabled
+  ↓
+Health check
+  ↓
+Run authorized workflow
+  ↓
+Persist result/runtime history
+  ↓
+Optional safe state backup
+  ↓
+Cleanup
+  ↓
+Release device
+
+COMPANION APP INTEGRATION
+-------------------------
+The operator already has an Android companion app that can apply configuration without restarting the device.
+
+Integrate it as:
+
+DeviceProfileBridge
+EnvironmentApplier
+EnvironmentCompatibilityService
+EnvironmentHealthCheck
+
+Safe configuration payload may include:
+- locale
+- language
+- timezone
+- display width/height/density/orientation
+- app channel
+- app package
+- app version
+- network profile reference
+- permission profile reference
+- notification profile reference
+- QA/test location latitude/longitude
+- environment ID
+- account ID
+
+Do NOT forward:
+- fake IMEI
+- fake MEID
+- fake serial
+- fake GSF ID
+- advertising-ID rotation
+- fake build fingerprint
+- generated IMSI/ICCID/EID
+- generated MAC/BSSID for anti-detection
+- other protected hardware identity spoofing
+
+ACCOUNT DATA DEPTH
+------------------
+Account record must support:
+
+Overview
+- internal UUID
+- platform
+- profile/user ID
+- display name
+- first/middle/last name
+- username/vanity
+- profile URL
+- avatar
+- birthday
+- optional gender metadata
+- country/city
+- language
+- locale
+- timezone
+- account status
+- health state
+- created/imported date
+- last sync
+- last activity
+- tags
+- category
+- notes
+- owner/workspace
+- priority
+- archive state
+
+Contacts
+- multiple emails
+- multiple phones
+- labels/types
+- primary flags
+- verified flags
+- timestamps
+
+Security
+- 2FA enabled
+- 2FA method
+- recovery contact status
+- primary email
+- primary phone
+- last security review
+- manual review flag
+- restriction/checkpoint informational state
+- password stored flag
+- cookie/session stored flag
+- session last updated
+
+Relations
+- Pages
+- Groups
+- environment profile
+- runtime history
+- publishing settings
+- campaign memberships
+- jobs
+- activity
+- audit
+
+Sensitive values:
+- password
+- cookies
+- session tokens
+- access tokens
+- TOTP seed
+- recovery codes
+- mail app passwords
+- proxy passwords
+
+MUST NOT be plaintext database columns or JSON files.
+
+Use secure references:
+password_secret_ref
+cookie_vault_ref
+session_vault_ref
+access_token_secret_ref
+totp_secret_ref
+recovery_codes_secret_ref
+
+UI example:
+
+Password       ••••••••••       [Reveal] [Copy]
+Cookie Jar     Securely stored   [Metadata]
+Session        Securely stored
+2FA Secret     Securely stored
+
+Reveal/copy:
+- explicit
+- temporary
+- audit logged
+- never written to log files
+- never included in diagnostic exports
+
+ARCHITECTURE
+------------
+PySide6 Presentation
+      ↓ Commands / Queries
+Application Layer
+      ↓
+Domain Layer
+      ↓
+Infrastructure
+  ├─ SQLite / SQLAlchemy
+  ├─ SecretStore
+  ├─ ADB
+  ├─ Appium
+  ├─ LDPlayer
+  ├─ MuMu
+  ├─ Physical Android
+  ├─ Companion App Bridge
+  ├─ Meta APIs
+  ├─ Mail Providers
+  ├─ Network Providers
+  └─ Storage
+      ↓
+Worker Supervisor
+      ↓
+Persistent Job Engine
+      ↓
+Device Pool
+      ↓
+Results / Events / Audit
+      ↓
+Database
+      ↓
+UI updates
+
+ENGINEERING RULES
+-----------------
+1. Python package: src/spfarm.
+2. PySide6 UI contains no business logic.
+3. UI never directly calls SQL, requests, subprocess, adb or Appium.
+4. Domain never imports PySide6/SQLAlchemy/requests/Appium.
+5. Every long operation runs off the UI thread.
+6. Use QTableView + QAbstractTableModel for large data.
+7. SQLite + SQLAlchemy 2 + Alembic.
+8. Enable SQLite WAL.
+9. Use UUID internal IDs.
+10. Structured logging with correlation IDs.
+11. External integrations behind interfaces.
+12. Device operations support timeout/cancellation.
+13. Jobs are persistent and restart-safe.
+14. Prefer official Meta APIs where supported.
+15. Mobile automation uses versioned selector registry.
+16. Avoid god classes.
+17. Add tests every phase.
+18. Support Python 3.13+; test 3.14 only where dependencies support it.
+19. Secrets never enter Git.
+20. Runtime data is not stored in repository root JSON files.
+
+VISUAL DESIGN
+-------------
+Signature style:
+
+Cute
+Clean
+Soft
+Modern
+Light-first
+Professional
+Friendly
+
+Default:
+Light + Sky Blue
+
+Secondary cute accent:
+Pastel Pink
+
+Optional accent:
+Lavender
+
+Recommended palette:
+
+Background          #F7F9FE
+Surface             #FFFFFF
+Surface Alt         #F2F6FD
+Soft Blue           #EDF5FF
+Soft Pink           #FFF1F7
+
+Primary Blue        #5B8DEF
+Blue Hover          #79A5F5
+Blue Pressed        #4676D7
+
+Cute Pink           #F38BB7
+Pink Hover          #F6A4C6
+
+Lavender            #A894F6
+Sky                 #78C7F7
+
+Success             #55BFA3
+Warning             #F2B65E
+Danger              #E96F7F
+
+Text                 #293247
+Text Secondary       #657089
+Text Muted           #98A2B8
+
+Border               #E3E9F3
+Border Strong        #D3DCEC
+Selection            #EEF5FF
+
+Do not copy FARM LD demo design.
+Do not use bright green as the main theme.
+Do not make every button colorful.
+Do not use heavy glow.
+
+TARGET NAVIGATION
+-----------------
+Dashboard
+Accounts
+Pages
+Groups
+Devices
+Device Pool
+Apps
+Content
+Campaigns
+Scheduler
+Jobs
+Actions
+Providers
+Activity
+Analytics
+Backups
+Settings
+
+COMPLETION DEFINITION
+---------------------
+SP-Farm V2 is complete only when:
+
+- Fresh install starts cleanly.
+- Database auto-migrates.
+- LDPlayer/MuMu/physical Android discovery works.
+- Multi-device jobs run concurrently.
+- Account Environment Profiles are persistent.
+- Companion app bridge applies safe environment without restart.
+- Jobs survive restart.
+- APK manager works.
+- Rich account management works.
+- Official Meta API integration works where permissions allow.
+- Content library/campaign/scheduler work.
+- Modern modular action engine works.
+- Selector failures are diagnosable.
+- Secrets are securely stored.
+- Audit/logging/analytics/backups work.
+- Installer/updater works.
+- Critical automated tests pass.

@@ -1,0 +1,90 @@
+SP-FARM V2 — FINAL PRODUCT FLOW
+===============================
+
+STARTUP
+-------
+Launch App
+→ Load Settings
+→ Open Database
+→ Run Migrations
+→ Start Logging/Event Bus
+→ Discover Providers
+→ Discover Devices
+→ Recover Jobs
+→ Open Dashboard
+
+ACCOUNT RUN
+-----------
+Select Account
+→ Load Account Environment Profile
+→ Create Job
+→ Device Pool finds compatible runtime host
+→ Reserve Runtime Device
+→ Ensure approved Facebook app/version
+→ Apply safe environment through Companion App Bridge
+→ Restore permitted secure session/app state
+→ Health Check
+→ Execute Authorized Workflow
+→ Capture Result
+→ Optional Safe State Backup
+→ Persist Runtime History
+→ Cleanup
+→ Release Device
+
+PAGE PUBLISH
+------------
+Campaign/Schedule
+→ Create Publishing Job
+→ Capability Check
+→ Official Meta API available?
+    YES → Official API
+    NO  → Authorized Device Workflow if enabled/supported
+→ Verify Result
+→ Update Campaign/History
+
+FACEBOOK UI CHANGE
+------------------
+Workflow step fails
+→ Selector Registry tries known approved variants
+→ Still not found
+→ Capture screenshot + UI hierarchy + app version
+→ Mark SELECTOR_UPDATE_REQUIRED
+→ Stop
+→ Developer updates selector pack
+→ Retry
+
+ACCOUNT SECURITY
+----------------
+Select Account
+→ Security Center
+→ Review status
+→ Guided action
+→ Manual confirmation if needed
+→ Platform security challenge?
+    YES → MANUAL_REVIEW_REQUIRED
+→ User completes legitimately
+→ Resume
+→ Persist status/audit
+
+APP UPDATE
+----------
+Apps
+→ Select Facebook Official/Lite
+→ Select devices
+→ Preflight compatibility
+→ Create deployment jobs
+→ Install approved version
+→ Validate package/version
+→ Report per-device result
+
+CONTENT
+-------
+Import Media
+→ Library
+→ Create Post Template
+→ Create Campaign
+→ Select Pages
+→ Schedule
+→ Jobs
+→ Publish
+→ Results

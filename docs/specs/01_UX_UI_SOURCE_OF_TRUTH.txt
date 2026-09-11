@@ -1,0 +1,321 @@
+SP-FARM V2 — UX/UI SOURCE OF TRUTH
+==================================
+
+STYLE
+-----
+Cute Productivity Dashboard.
+
+Light-first.
+Blue primary.
+Pink secondary accent.
+Lavender optional.
+Professional enough for long daily use.
+
+APP SHELL
+---------
+LEFT SIDEBAR
+
+♡ SP FARM
+
+Dashboard
+Accounts
+Pages
+Groups
+
+Devices
+Device Pool
+Apps
+
+Content
+Campaigns
+Scheduler
+Jobs
+Actions
+
+Providers
+Activity
+Analytics
+Backups
+Settings
+
+TOP BAR
+-------
+Page title
+Global search
+Ctrl+K command palette
+Running jobs
+Device health
+Notifications
+Theme/accent
+Workspace/user menu
+
+PRIMARY LAYOUT
+--------------
+Main workspace:
+- contextual toolbar
+- filters/search
+- main table/grid
+- optional right inspector
+
+ROUTINE EDITS
+-------------
+Use right-side inspector.
+Avoid nested modal dialogs.
+
+TABLES
+------
+White surface
+Subtle borders
+38–44px rows
+Soft hover
+Pale blue selection
+Sticky header
+Status pills
+No bright full-row status colors
+
+ACCOUNT TABLE
+-------------
+Recommended columns:
+
+Avatar
+Name
+Profile ID
+Status
+Security
+Primary Contact
+Pages
+Environment
+Runtime
+Network
+Last Activity
+Next Job
+Tags
+
+Do NOT show password/cookies in list view.
+
+ACCOUNT INSPECTOR TABS
+----------------------
+Overview
+Contacts
+Security
+Pages
+Groups
+Environment
+Runtime
+Publishing
+Activity
+Jobs
+Notes
+Audit
+
+ACCOUNT ENVIRONMENT DISPLAY
+---------------------------
+Example:
+
+Environment
+ENV-0231 · Facebook Official
+
+App
+Facebook Official 5xx.x
+
+Locale
+en_US
+
+Timezone
+Asia/Phnom_Penh
+
+Network
+Office-KH
+
+Test Location
+Off
+
+Last Runtime
+Worker-04 · LDPlayer
+
+Last Restore
+10m ago
+
+Do not say:
+Device = LD-01
+
+unless showing temporary current runtime.
+
+DEVICE PAGE
+-----------
+Metrics:
+All
+Ready
+Running
+Offline
+Error
+
+Device rows/cards:
+Provider
+Friendly Runtime Name
+Android
+ADB
+Health
+Current Environment
+Current Account
+Current Job
+App Version
+Battery/Storage if available
+
+DEVICE POOL
+-----------
+Show:
+Ready Devices
+Reserved
+Running
+Cooldown
+Offline
+
+Each running card:
+Worker-04
+LDPlayer
+Account: Panha
+Environment: ENV-0231
+Job: Account Health
+Progress: 78%
+
+ACTION DRAWER
+-------------
+Select accounts/pages
+→ Actions
+
+Categories:
+
+Account
+- Sync Profile Info
+- Update Profile Picture
+- Update Profile Info
+- Review Notifications
+- Account/App Health
+
+Publishing
+- Publish Page Post
+- Publish Reel
+- Publish Story
+
+Community
+- Moderate Comments
+
+Messages
+- Reply to Page Inbox
+
+Security
+- Security Review
+- Guided 2FA Setup
+- Update Owned Contact
+
+QA
+- Verify Story Rendering
+- Reaction Test on owned/test content
+- Comment Test on owned/test content
+
+Use review screen before creating jobs.
+
+CONTENT
+-------
+Grid + table view.
+Thumbnail.
+Filename.
+Type.
+Duration.
+Tags.
+Used count.
+
+CAMPAIGN
+--------
+5-step wizard:
+
+1 Content
+2 Targets
+3 Schedule
+4 Execution
+5 Review
+
+SCHEDULER
+---------
+Day
+Week
+Month
+Agenda
+
+Light calendar.
+Blue selected day.
+Small pink dots for scheduled posts.
+Timezone clearly visible.
+
+APPS
+----
+App cards:
+
+Facebook Official
+Installed 8/12
+Current approved version
+[Manage] [Update]
+
+Facebook Lite
+Installed 6/12
+[Manage] [Update]
+
+SETTINGS
+--------
+General
+Appearance
+Language
+Storage
+Devices
+Automation
+Network
+Providers
+Security
+Advanced
+
+Appearance:
+Light + Sky Blue DEFAULT
+Light + Pink
+Light + Lavender
+Dark + Blue
+System
+
+MICROINTERACTIONS
+-----------------
+150–220ms.
+
+Subtle only:
+- hover
+- inspector slide
+- toast
+- tabs
+- dropdown
+- progress
+- success check
+
+No heavy animation.
+
+WINDOW SUPPORT
+--------------
+1366x768
+1440x900
+1920x1080
+2560x1440
+4K scaling
+
+Use layouts.
+Avoid absolute geometry.
+
+FINAL FEEL
+----------
+"Cute, clean, easy, powerful."
+
+Not:
+"old automation tool"
+
+Not:
+"bright gaming UI"
+
+Not:
+"plain database program"
