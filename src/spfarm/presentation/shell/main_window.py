@@ -95,10 +95,7 @@ class MainWindow(QMainWindow):
                 "🌐 Account Environment Profiles", "Decoupled device profiles"
             ),
         )
-        self._register_route(
-            "devices",
-            self._create_placeholder_view("📱 Runtime Devices", "Physical Android, LDPlayer, MuMu"),
-        )
+        self._register_route("devices", self._create_devices_view())
         self._register_route(
             "device_pool",
             self._create_placeholder_view("🏊 Device Pool Orchestrator", "Multi-device allocation"),
@@ -260,6 +257,33 @@ class MainWindow(QMainWindow):
             add_group_handler=self.container.resolve(AddGroupHandler),
             update_group_handler=self.container.resolve(UpdateGroupHandler),
             delete_group_handler=self.container.resolve(DeleteGroupHandler),
+            event_bus=self.container.event_bus,
+        )
+        view.navigate_requested.connect(self.navigate_to_route)
+        return view
+
+    def _create_devices_view(self) -> QWidget:
+        from spfarm.application.commands.device_commands import (
+            DiscoverDevicesHandler,
+            LaunchDevicePackageHandler,
+            RestartDeviceHandler,
+            StartDeviceHandler,
+            StopDeviceHandler,
+            StopDevicePackageHandler,
+            TakeDeviceScreenshotHandler,
+        )
+        from spfarm.application.queries.devices import DeviceQueryService
+        from spfarm.presentation.devices.devices_view import DevicesView
+
+        view = DevicesView(
+            query_service=self.container.resolve(DeviceQueryService),
+            discover_handler=self.container.resolve(DiscoverDevicesHandler),
+            start_handler=self.container.resolve(StartDeviceHandler),
+            stop_handler=self.container.resolve(StopDeviceHandler),
+            restart_handler=self.container.resolve(RestartDeviceHandler),
+            screenshot_handler=self.container.resolve(TakeDeviceScreenshotHandler),
+            launch_handler=self.container.resolve(LaunchDevicePackageHandler),
+            stop_pkg_handler=self.container.resolve(StopDevicePackageHandler),
             event_bus=self.container.event_bus,
         )
         view.navigate_requested.connect(self.navigate_to_route)

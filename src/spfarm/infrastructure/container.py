@@ -232,6 +232,74 @@ class Container:
         cmd_bus.register(UpdateGroupCommand, update_group_handler)
         cmd_bus.register(DeleteGroupCommand, delete_group_handler)
 
+        # Register Device Registry & Query Service
+        from spfarm.application.commands.device_commands import (
+            DiscoverDevicesCommand,
+            DiscoverDevicesHandler,
+            InstallDevicePackageCommand,
+            InstallDevicePackageHandler,
+            LaunchDevicePackageCommand,
+            LaunchDevicePackageHandler,
+            RestartDeviceCommand,
+            RestartDeviceHandler,
+            StartDeviceCommand,
+            StartDeviceHandler,
+            StopDeviceCommand,
+            StopDeviceHandler,
+            StopDevicePackageCommand,
+            StopDevicePackageHandler,
+            TakeDeviceScreenshotCommand,
+            TakeDeviceScreenshotHandler,
+        )
+        from spfarm.application.queries.devices import DeviceQueryService
+        from spfarm.application.services.device_registry import DeviceRegistry
+        from spfarm.infrastructure.devices.fake_provider import FakeDeviceProvider
+
+        device_registry = DeviceRegistry(
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        fake_provider = FakeDeviceProvider()
+        device_registry.register_provider(fake_provider)
+        device_registry.discover_all()
+
+        self.register_singleton(DeviceRegistry, device_registry)
+        self.register_singleton(FakeDeviceProvider, fake_provider)
+        self.register_factory(
+            DeviceQueryService,
+            lambda: DeviceQueryService(
+                registry=self.resolve(DeviceRegistry),
+                uow_factory=lambda: self.resolve(IUnitOfWork),
+            ),
+        )
+
+        discover_handler = DiscoverDevicesHandler(device_registry)
+        start_handler = StartDeviceHandler(device_registry)
+        stop_handler = StopDeviceHandler(device_registry)
+        restart_handler = RestartDeviceHandler(device_registry)
+        screenshot_handler = TakeDeviceScreenshotHandler(device_registry)
+        install_handler = InstallDevicePackageHandler(device_registry)
+        launch_handler = LaunchDevicePackageHandler(device_registry)
+        stop_pkg_handler = StopDevicePackageHandler(device_registry)
+
+        self.register_singleton(DiscoverDevicesHandler, discover_handler)
+        self.register_singleton(StartDeviceHandler, start_handler)
+        self.register_singleton(StopDeviceHandler, stop_handler)
+        self.register_singleton(RestartDeviceHandler, restart_handler)
+        self.register_singleton(TakeDeviceScreenshotHandler, screenshot_handler)
+        self.register_singleton(InstallDevicePackageHandler, install_handler)
+        self.register_singleton(LaunchDevicePackageHandler, launch_handler)
+        self.register_singleton(StopDevicePackageHandler, stop_pkg_handler)
+
+        cmd_bus.register(DiscoverDevicesCommand, discover_handler)
+        cmd_bus.register(StartDeviceCommand, start_handler)
+        cmd_bus.register(StopDeviceCommand, stop_handler)
+        cmd_bus.register(RestartDeviceCommand, restart_handler)
+        cmd_bus.register(TakeDeviceScreenshotCommand, screenshot_handler)
+        cmd_bus.register(InstallDevicePackageCommand, install_handler)
+        cmd_bus.register(LaunchDevicePackageCommand, launch_handler)
+        cmd_bus.register(StopDevicePackageCommand, stop_pkg_handler)
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance
@@ -301,6 +369,18 @@ class Container:
         from spfarm.application.queries.dashboard import DashboardQueryService
 
         return self.resolve(DashboardQueryService)
+
+    @property
+    def device_registry(self) -> Any:
+        from spfarm.application.services.device_registry import DeviceRegistry
+
+        return self.resolve(DeviceRegistry)
+
+    @property
+    def device_queries(self) -> Any:
+        from spfarm.application.queries.devices import DeviceQueryService
+
+        return self.resolve(DeviceQueryService)
 
     @property
     def registered_service_names(self) -> list[str]:

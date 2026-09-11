@@ -13,6 +13,12 @@ from spfarm.application.queries.dashboard import (
     DashboardQueryService,
     GetDashboardDataQuery,
 )
+from spfarm.application.queries.devices import (
+    DeviceDetailDTO,
+    DeviceQueryService,
+    DeviceSummaryDTO,
+    ListDevicesQuery,
+)
 from spfarm.application.queries.pages_groups import (
     GroupSummaryDTO,
     ListGroupsQuery,
@@ -29,10 +35,14 @@ __all__ = [
     "DashboardDataDTO",
     "DashboardMetricsDTO",
     "DashboardQueryService",
+    "DeviceDetailDTO",
+    "DeviceQueryService",
+    "DeviceSummaryDTO",
     "GetAccountDetailQuery",
     "GetDashboardDataQuery",
     "GroupSummaryDTO",
     "ListAccountsQuery",
+    "ListDevicesQuery",
     "ListGroupsQuery",
     "ListPagesQuery",
     "PageSummaryDTO",

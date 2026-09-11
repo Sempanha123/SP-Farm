@@ -28,15 +28,19 @@ class DeviceProvider(str, Enum):
     LDPLAYER = "LDPLAYER"
     MUMU = "MUMU"
     PHYSICAL_ANDROID = "PHYSICAL_ANDROID"
+    CUSTOM = "CUSTOM"
+    FAKE = "FAKE"
 
 
 class DeviceState(str, Enum):
     """Runtime allocation state of a physical device or emulator instance."""
 
     OFFLINE = "OFFLINE"
+    BOOTING = "BOOTING"
     READY = "READY"
     RESERVED = "RESERVED"
     RUNNING = "RUNNING"
+    STOPPING = "STOPPING"
     COOLDOWN = "COOLDOWN"
     ERROR = "ERROR"
 
