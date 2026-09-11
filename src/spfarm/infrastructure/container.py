@@ -25,6 +25,12 @@ class Container:
         self.register_singleton(QueryBus, QueryBus())
         self.register_singleton(EventBus, EventBus())
 
+        # Register Unit of Work factory
+        from spfarm.domain.interfaces.unit_of_work import IUnitOfWork
+        from spfarm.infrastructure.database.unit_of_work import SqlAlchemyUnitOfWork
+
+        self.register_factory(IUnitOfWork, lambda: SqlAlchemyUnitOfWork())
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance
