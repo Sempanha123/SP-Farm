@@ -87,7 +87,9 @@ class AppSidebar(QFrame):
         layout.addLayout(brand_layout)
 
         v2_badge = QLabel("V2 OPERATIONS")
-        v2_badge.setStyleSheet(f"color: {PALETTE.text_muted}; font-size: 10px; font-weight: 600; padding-left: 2px;")
+        v2_badge.setStyleSheet(
+            f"color: {PALETTE.text_muted}; font-size: 10px; font-weight: 600; padding-left: 2px;"
+        )
         layout.addWidget(v2_badge)
 
         # Navigation List
@@ -105,6 +107,7 @@ class AppSidebar(QFrame):
         add_header("Overview")
         self.nav_list.addItem(SidebarItem("📊", "route.dashboard", "dashboard"))
         self.nav_list.addItem(SidebarItem("👤", "route.accounts", "accounts"))
+        self.nav_list.addItem(SidebarItem("📄", "route.pages", "pages"))
         self.nav_list.addItem(SidebarItem("🌐", "route.environments", "environments"))
 
         add_header("Devices")

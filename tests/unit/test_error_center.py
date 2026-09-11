@@ -9,7 +9,9 @@ def test_repeated_error_grouping() -> None:
     # Trigger 5 errors with slightly different parameterized messages
     for i in range(5):
         try:
-            raise ConnectionRefusedError(f"Failed connecting to ADB daemon on port {5555 + i} after attempt {i}")
+            raise ConnectionRefusedError(
+                f"Failed connecting to ADB daemon on port {5555 + i} after attempt {i}"
+            )
         except Exception as exc:
             svc.record_error(
                 exc,

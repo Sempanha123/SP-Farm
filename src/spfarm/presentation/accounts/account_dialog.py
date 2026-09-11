@@ -67,7 +67,9 @@ class AccountDialog(QDialog):
         layout.setSpacing(14)
 
         # Header title
-        header_lbl = QLabel("Account Configuration" if self.is_edit else "Create Authorized Account Record")
+        header_lbl = QLabel(
+            "Account Configuration" if self.is_edit else "Create Authorized Account Record"
+        )
         header_lbl.setStyleSheet(f"font-size: 14px; font-weight: bold; color: {PALETTE.primary};")
         layout.addWidget(header_lbl)
 

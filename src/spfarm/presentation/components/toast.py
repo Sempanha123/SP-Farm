@@ -35,7 +35,7 @@ class CuteToast(QFrame):
 
         self.setStyleSheet(f"""
             CuteToast {{
-                background-color: {theme['bg']};
+                background-color: {theme["bg"]};
                 border: 1px solid {PALETTE.border};
                 border-radius: 10px;
                 padding: 10px 16px;

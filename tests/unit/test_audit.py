@@ -45,8 +45,12 @@ def test_audit_event_bus_automatic_capture(tmp_path: Path) -> None:
     service = AuditService(audit_file=audit_file, event_bus=bus)
 
     # Publish secret revealed event on bus
-    bus.publish(SecretRevealedEvent(secret_ref="vault://accounts/acc_1/password", actor="operator_alice"))
-    bus.publish(SecretCopiedEvent(secret_ref="vault://accounts/acc_1/totp_seed", actor="operator_bob"))
+    bus.publish(
+        SecretRevealedEvent(secret_ref="vault://accounts/acc_1/password", actor="operator_alice")
+    )
+    bus.publish(
+        SecretCopiedEvent(secret_ref="vault://accounts/acc_1/totp_seed", actor="operator_bob")
+    )
 
     events = service.query()
     assert len(events) == 2

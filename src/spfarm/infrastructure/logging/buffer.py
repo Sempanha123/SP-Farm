@@ -109,7 +109,9 @@ class LogBufferHandler(logging.Handler):
                 entry["correlation"] = ctx
 
             if record.exc_info:
-                entry["exception_type"] = record.exc_info[0].__name__ if record.exc_info[0] else "Error"
+                entry["exception_type"] = (
+                    record.exc_info[0].__name__ if record.exc_info[0] else "Error"
+                )
                 entry["exception_message"] = str(record.exc_info[1])
 
             sanitized_entry = redact_sensitive_data(entry)

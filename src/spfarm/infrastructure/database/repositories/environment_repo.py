@@ -31,7 +31,9 @@ class EnvironmentRepository(BaseRepository[AccountEnvironmentProfile]):
         model.label = env.label
         model.status = env.status
         model.revision = env.revision
-        model.preferred_device_provider = env.preferred_device_provider.value if env.preferred_device_provider else None
+        model.preferred_device_provider = (
+            env.preferred_device_provider.value if env.preferred_device_provider else None
+        )
         model.preferred_android_version = env.preferred_android_version
         model.app_channel = env.app_channel.value
         model.app_package = env.app_package
@@ -64,7 +66,9 @@ class EnvironmentRepository(BaseRepository[AccountEnvironmentProfile]):
 
     def get_by_account_id(self, account_id: str) -> list[AccountEnvironmentProfile]:
         """Retrieve all environment profiles for an account."""
-        stmt = select(AccountEnvironmentProfileModel).where(AccountEnvironmentProfileModel.account_id == account_id)
+        stmt = select(AccountEnvironmentProfileModel).where(
+            AccountEnvironmentProfileModel.account_id == account_id
+        )
         models = self.session.execute(stmt).scalars().all()
         return [self._to_domain(m) for m in models]
 
@@ -75,7 +79,9 @@ class EnvironmentRepository(BaseRepository[AccountEnvironmentProfile]):
             label=m.label,
             status=m.status,
             revision=m.revision,
-            preferred_device_provider=DeviceProvider(m.preferred_device_provider) if m.preferred_device_provider else None,
+            preferred_device_provider=DeviceProvider(m.preferred_device_provider)
+            if m.preferred_device_provider
+            else None,
             preferred_android_version=m.preferred_android_version,
             app_channel=AppChannel(m.app_channel),
             app_package=m.app_package,

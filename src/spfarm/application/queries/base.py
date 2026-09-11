@@ -33,7 +33,9 @@ class QueryBus:
     """In-process bus that routes queries to registered query handlers."""
 
     def __init__(self) -> None:
-        self._handlers: dict[Type[Query], QueryHandler[Any, Any] | Callable[[Any], Result[Any, AppError]]] = {}
+        self._handlers: dict[
+            Type[Query], QueryHandler[Any, Any] | Callable[[Any], Result[Any, AppError]]
+        ] = {}
 
     def register(
         self,
@@ -48,9 +50,7 @@ class QueryBus:
         q_type = type(query)
         handler = self._handlers.get(q_type)
         if not handler:
-            return Failure(
-                NotFoundError(f"No query handler registered for {q_type.__name__}")
-            )
+            return Failure(NotFoundError(f"No query handler registered for {q_type.__name__}"))
 
         if isinstance(handler, QueryHandler):
             return handler.handle(query)

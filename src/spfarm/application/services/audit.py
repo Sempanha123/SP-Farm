@@ -43,30 +43,42 @@ class AuditService:
             self._subscribe_events(event_bus)
 
     def _subscribe_events(self, bus: EventBus) -> None:
-        bus.subscribe(SecretRevealedEvent, lambda e: self.record(
-            event_type="SECRET_REVEALED",
-            actor=e.actor,
-            target_type="secret",
-            target_id=e.secret_ref,
-        ))
-        bus.subscribe(SecretCopiedEvent, lambda e: self.record(
-            event_type="SECRET_COPIED",
-            actor=e.actor,
-            target_type="secret",
-            target_id=e.secret_ref,
-        ))
-        bus.subscribe(SecretStoredEvent, lambda e: self.record(
-            event_type="SECRET_STORED",
-            actor=e.actor,
-            target_type="secret",
-            target_id=e.secret_ref,
-        ))
-        bus.subscribe(SecretDeletedEvent, lambda e: self.record(
-            event_type="SECRET_DELETED",
-            actor=e.actor,
-            target_type="secret",
-            target_id=e.secret_ref,
-        ))
+        bus.subscribe(
+            SecretRevealedEvent,
+            lambda e: self.record(
+                event_type="SECRET_REVEALED",
+                actor=e.actor,
+                target_type="secret",
+                target_id=e.secret_ref,
+            ),
+        )
+        bus.subscribe(
+            SecretCopiedEvent,
+            lambda e: self.record(
+                event_type="SECRET_COPIED",
+                actor=e.actor,
+                target_type="secret",
+                target_id=e.secret_ref,
+            ),
+        )
+        bus.subscribe(
+            SecretStoredEvent,
+            lambda e: self.record(
+                event_type="SECRET_STORED",
+                actor=e.actor,
+                target_type="secret",
+                target_id=e.secret_ref,
+            ),
+        )
+        bus.subscribe(
+            SecretDeletedEvent,
+            lambda e: self.record(
+                event_type="SECRET_DELETED",
+                actor=e.actor,
+                target_type="secret",
+                target_id=e.secret_ref,
+            ),
+        )
 
     def _load_from_disk(self) -> None:
         if not self._audit_file.exists():
@@ -115,7 +127,7 @@ class AuditService:
 
             self._in_memory_events.append(event)
             if len(self._in_memory_events) > self._max_in_memory:
-                self._in_memory_events = self._in_memory_events[-self._max_in_memory:]
+                self._in_memory_events = self._in_memory_events[-self._max_in_memory :]
 
             # Persist to disk
             try:

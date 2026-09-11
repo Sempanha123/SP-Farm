@@ -53,7 +53,7 @@ class CuteStatusPill(QFrame):
 
         self.setStyleSheet(f"""
             QFrame {{
-                background-color: {style['bg']};
+                background-color: {style["bg"]};
                 border-radius: 10px;
                 border: 1px solid {PALETTE.border};
             }}
@@ -69,7 +69,7 @@ class CuteStatusPill(QFrame):
         self.text_label.setStyleSheet(f"color: {style['fg']}; font-weight: 600; font-size: 11px;")
         self.setStyleSheet(f"""
             QFrame {{
-                background-color: {style['bg']};
+                background-color: {style["bg"]};
                 border-radius: 10px;
                 border: 1px solid {PALETTE.border};
             }}

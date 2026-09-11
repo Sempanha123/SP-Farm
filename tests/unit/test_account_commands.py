@@ -223,7 +223,9 @@ def test_bulk_update_status():
     acc2 = Account(id="acc_2", profile_id="1002", display_name="Acc 2")
 
     mock_uow = MagicMock()
-    mock_uow.accounts.get_by_id.side_effect = lambda aid: acc1 if aid == "acc_1" else (acc2 if aid == "acc_2" else None)
+    mock_uow.accounts.get_by_id.side_effect = lambda aid: (
+        acc1 if aid == "acc_1" else (acc2 if aid == "acc_2" else None)
+    )
     mock_uow_ctx = MagicMock()
     mock_uow_ctx.__enter__.return_value = mock_uow
 

@@ -150,7 +150,9 @@ class AccountsView(QWidget):
         self.table_view.setModel(self.table_model)
         self.table_view.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
         self.table_view.setSelectionMode(QTableView.SelectionMode.SingleSelection)
-        self.table_view.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.table_view.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )
         self.table_view.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         self.table_view.verticalHeader().setDefaultSectionSize(36)
         self.table_view.verticalHeader().hide()
@@ -354,9 +356,7 @@ class AccountsView(QWidget):
                 QMessageBox.critical(self, "Failed to Update Account", res.error.message)
 
     def _on_save_notes(self, account_id: str, notes: str) -> None:
-        res = self.update_handler.handle(
-            UpdateAccountCommand(account_id=account_id, notes=notes)
-        )
+        res = self.update_handler.handle(UpdateAccountCommand(account_id=account_id, notes=notes))
         if res.is_success:
             self.refresh_accounts()
         else:

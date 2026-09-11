@@ -42,7 +42,9 @@ class KeyringSecretStore(ISecretStore):
             backend_name = backend.__class__.__name__.lower()
             # If keyring backend is explicitly a dummy/fail backend (like in headless linux without gnome-keyring)
             if "fail" in backend_name or "null" in backend_name:
-                logger.info("Keyring backend is %s; using EncryptedFileSecretStore fallback.", backend_name)
+                logger.info(
+                    "Keyring backend is %s; using EncryptedFileSecretStore fallback.", backend_name
+                )
                 self._keyring_available = False
                 return False
 
@@ -60,7 +62,9 @@ class KeyringSecretStore(ISecretStore):
                 self._keyring_available = False
                 return False
         except Exception as exc:
-            logger.warning("OS Keyring check failed (%s). Defaulting to encrypted fallback vault.", exc)
+            logger.warning(
+                "OS Keyring check failed (%s). Defaulting to encrypted fallback vault.", exc
+            )
             self._keyring_available = False
             return False
 
@@ -76,7 +80,9 @@ class KeyringSecretStore(ISecretStore):
                 keyring.set_password(self._service_name, ref, value)
                 return
             except Exception as exc:
-                logger.warning("Failed storing secret in keyring (%s); storing in fallback vault.", exc)
+                logger.warning(
+                    "Failed storing secret in keyring (%s); storing in fallback vault.", exc
+                )
 
         # Use encrypted fallback
         self._fallback_store.store_secret(ref, value)
@@ -89,7 +95,9 @@ class KeyringSecretStore(ISecretStore):
                 if val is not None:
                     return val
             except Exception as exc:
-                logger.warning("Failed retrieving secret from keyring (%s); checking fallback vault.", exc)
+                logger.warning(
+                    "Failed retrieving secret from keyring (%s); checking fallback vault.", exc
+                )
 
         return self._fallback_store.retrieve_secret(ref)
 

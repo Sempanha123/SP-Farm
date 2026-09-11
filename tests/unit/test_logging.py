@@ -76,11 +76,13 @@ def test_log_ring_buffer_capacity_and_filtering() -> None:
 
     for i in range(10):
         level = "ERROR" if i % 2 == 0 else "INFO"
-        buf.append({
-            "level": level,
-            "message": f"Message {i}",
-            "correlation": {"job_id": f"job-{i}"},
-        })
+        buf.append(
+            {
+                "level": level,
+                "message": f"Message {i}",
+                "correlation": {"job_id": f"job-{i}"},
+            }
+        )
 
     # Buffer length is bounded to capacity
     assert len(buf) == 5
@@ -123,6 +125,7 @@ def test_configure_logging_and_cleanup(tmp_path: Path) -> None:
     # Simulate old mtime (30 days ago)
     old_time = time.time() - (30 * 86400)
     import os
+
     os.utime(old_log, (old_time, old_time))
 
     deleted = cleanup_old_logs(logs_dir=logs_dir, max_age_days=14)

@@ -56,7 +56,10 @@ class AccountModel(Base):
         "AccountPhoneModel", back_populates="account", cascade="all, delete-orphan"
     )
     security: Mapped[Optional[AccountSecurityModel]] = relationship(
-        "AccountSecurityModel", back_populates="account", uselist=False, cascade="all, delete-orphan"
+        "AccountSecurityModel",
+        back_populates="account",
+        uselist=False,
+        cascade="all, delete-orphan",
     )
     pages: Mapped[list[PageModel]] = relationship(
         "PageModel", back_populates="account", cascade="all, delete-orphan"
@@ -75,7 +78,9 @@ class AccountEmailModel(Base):
     __tablename__ = "account_emails"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     address: Mapped[str] = mapped_column(String(255), nullable=False)
     label: Mapped[str] = mapped_column(String(64), default="personal")
     is_primary: Mapped[bool] = mapped_column(Boolean, default=False)
@@ -92,7 +97,9 @@ class AccountPhoneModel(Base):
     __tablename__ = "account_phones"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     number: Mapped[str] = mapped_column(String(64), nullable=False)
     country: Mapped[str] = mapped_column(String(16), default="US")
     label: Mapped[str] = mapped_column(String(64), default="mobile")
@@ -109,7 +116,9 @@ class AccountSecurityModel(Base):
 
     __tablename__ = "account_security"
 
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), primary_key=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), primary_key=True
+    )
     two_factor_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
     two_factor_method: Mapped[str] = mapped_column(String(32), default="NONE")
     recovery_email_status: Mapped[str] = mapped_column(String(64), default="unknown")
@@ -136,7 +145,9 @@ class PageModel(Base):
     __tablename__ = "pages"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     platform_page_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     category: Mapped[str] = mapped_column(String(128), default="General")
@@ -157,7 +168,9 @@ class GroupModel(Base):
     __tablename__ = "groups"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     platform_group_id: Mapped[str] = mapped_column(String(64), index=True, nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     role: Mapped[str] = mapped_column(String(64), default="MEMBER")
@@ -175,7 +188,9 @@ class AccountEnvironmentProfileModel(Base):
     __tablename__ = "account_environments"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     label: Mapped[str] = mapped_column(String(128), default="Default Environment")
     status: Mapped[str] = mapped_column(String(32), default="ACTIVE")
     revision: Mapped[int] = mapped_column(Integer, default=1)
@@ -234,7 +249,9 @@ class RuntimeHistoryModel(Base):
     __tablename__ = "runtime_history"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    account_id: Mapped[str] = mapped_column(String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("accounts.id", ondelete="CASCADE"), index=True
+    )
     environment_id: Mapped[str] = mapped_column(String(36), nullable=False)
     device_id: Mapped[str] = mapped_column(String(36), nullable=False)
     job_id: Mapped[Optional[str]] = mapped_column(String(36))

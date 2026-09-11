@@ -33,7 +33,12 @@ class AccountRepository(BaseRepository[Account]):
         """Persist or update an Account aggregate."""
         model = self.session.get(AccountModel, account.id)
         if not model:
-            model = AccountModel(id=account.id, profile_id=account.profile_id, display_name=account.display_name, created_at=account.created_at)
+            model = AccountModel(
+                id=account.id,
+                profile_id=account.profile_id,
+                display_name=account.display_name,
+                created_at=account.created_at,
+            )
             self.session.add(model)
 
         # Update scalar fields

@@ -72,7 +72,9 @@ class AccountDuplicateDetector:
                 continue
 
             # 2. Email match
-            acc_emails = {normalize_email(e.address) for e in acc.emails if normalize_email(e.address)}
+            acc_emails = {
+                normalize_email(e.address) for e in acc.emails if normalize_email(e.address)
+            }
             email_overlap = norm_target_emails.intersection(acc_emails)
             if email_overlap:
                 matches.append(
@@ -86,11 +88,15 @@ class AccountDuplicateDetector:
                 continue
 
             # 3. Phone match
-            acc_phones = [normalize_phone(p.number) for p in acc.phones if normalize_phone(p.number)]
+            acc_phones = [
+                normalize_phone(p.number) for p in acc.phones if normalize_phone(p.number)
+            ]
             matched_phone: Optional[str] = None
             for tp in norm_target_phones:
                 for ap in acc_phones:
-                    if tp == ap or (len(tp) >= 7 and len(ap) >= 7 and (tp.endswith(ap) or ap.endswith(tp))):
+                    if tp == ap or (
+                        len(tp) >= 7 and len(ap) >= 7 and (tp.endswith(ap) or ap.endswith(tp))
+                    ):
                         matched_phone = tp
                         break
                 if matched_phone:

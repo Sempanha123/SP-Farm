@@ -12,7 +12,9 @@ from typing import Any, Optional
 from spfarm.shared.time import format_iso
 
 # Pattern for normalizing variable tokens in error messages (IDs, hex, numbers)
-UUID_PATTERN = re.compile(r"[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}")
+UUID_PATTERN = re.compile(
+    r"[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+)
 ID_PATTERN = re.compile(r"\b[a-zA-Z0-9_\-]+_\d+\b")
 NUMBER_PATTERN = re.compile(r"\b\d+\b")
 
@@ -98,7 +100,9 @@ class ErrorCenterService:
                 error_type = exc.__class__.__name__
                 raw_msg = str(exc)
                 if not stack_trace:
-                    stack_trace = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+                    stack_trace = "".join(
+                        traceback.format_exception(type(exc), exc, exc.__traceback__)
+                    )
             else:
                 error_type = "ApplicationError"
                 raw_msg = str(exc)

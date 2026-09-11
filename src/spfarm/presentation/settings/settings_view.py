@@ -171,14 +171,18 @@ class SettingsDialog(QDialog):
         # Footer buttons
         footer_layout = QHBoxLayout()
         self.btn_reset = QPushButton("🔄 Reset Defaults")
-        self.btn_reset.setStyleSheet(f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text_secondary};")
+        self.btn_reset.setStyleSheet(
+            f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text_secondary};"
+        )
         self.btn_reset.clicked.connect(self._on_reset_defaults)
         footer_layout.addWidget(self.btn_reset)
 
         footer_layout.addStretch()
 
         self.btn_cancel = QPushButton("Cancel")
-        self.btn_cancel.setStyleSheet(f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text};")
+        self.btn_cancel.setStyleSheet(
+            f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text};"
+        )
         self.btn_cancel.clicked.connect(self.reject)
         footer_layout.addWidget(self.btn_cancel)
 
@@ -348,9 +352,7 @@ class SettingsDialog(QDialog):
         # Overview group
         info_group = QGroupBox("Vault Status & Storage Backend")
         info_layout = QVBoxLayout(info_group)
-        backend_desc = (
-            "🔒 Protected by OS Keyring (Windows Credential Manager / DPAPI) with AES-128-CBC local encrypted fallback."
-        )
+        backend_desc = "🔒 Protected by OS Keyring (Windows Credential Manager / DPAPI) with AES-128-CBC local encrypted fallback."
         lbl_desc = QLabel(backend_desc)
         lbl_desc.setWordWrap(True)
         lbl_desc.setStyleSheet(f"color: {PALETTE.text_secondary};")
@@ -381,12 +383,16 @@ class SettingsDialog(QDialog):
         val_layout.addWidget(self.txt_secret_val, 1)
 
         self.btn_reveal = QPushButton("👁️ Reveal")
-        self.btn_reveal.setStyleSheet(f"background-color: {PALETTE.soft_blue}; color: {PALETTE.primary_blue};")
+        self.btn_reveal.setStyleSheet(
+            f"background-color: {PALETTE.soft_blue}; color: {PALETTE.primary_blue};"
+        )
         self.btn_reveal.clicked.connect(self._toggle_reveal_secret)
         val_layout.addWidget(self.btn_reveal)
 
         self.btn_copy = QPushButton("📋 Copy")
-        self.btn_copy.setStyleSheet(f"background-color: {PALETTE.soft_pink}; color: {PALETTE.cute_pink};")
+        self.btn_copy.setStyleSheet(
+            f"background-color: {PALETTE.soft_pink}; color: {PALETTE.cute_pink};"
+        )
         self.btn_copy.clicked.connect(self._copy_secret_to_clipboard)
         val_layout.addWidget(self.btn_copy)
 
@@ -397,7 +403,9 @@ class SettingsDialog(QDialog):
 
         btn_store_layout = QHBoxLayout()
         self.btn_save_secret = QPushButton("Save Secret to Vault")
-        self.btn_save_secret.setStyleSheet(f"background-color: {PALETTE.primary_blue}; color: white;")
+        self.btn_save_secret.setStyleSheet(
+            f"background-color: {PALETTE.primary_blue}; color: white;"
+        )
         self.btn_save_secret.clicked.connect(self._save_secret_action)
         btn_store_layout.addWidget(self.btn_save_secret)
 

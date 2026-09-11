@@ -340,13 +340,19 @@ class ActivityCenterView(QWidget):
         errors = self.error_center.list_errors()
 
         for err in errors:
-            status_emoji = "🔴" if err.status == "active" else ("🟡" if err.status == "acknowledged" else "🟢")
-            item_text = f"{status_emoji} [{err.count}x] {err.error_type}: {err.message_template[:45]}"
+            status_emoji = (
+                "🔴" if err.status == "active" else ("🟡" if err.status == "acknowledged" else "🟢")
+            )
+            item_text = (
+                f"{status_emoji} [{err.count}x] {err.error_type}: {err.message_template[:45]}"
+            )
             item = QListWidgetItem(item_text)
             item.setData(Qt.ItemDataRole.UserRole, err.fingerprint)
             self.error_list.addItem(item)
 
-    def _on_error_selected(self, current: Optional[QListWidgetItem], previous: Optional[QListWidgetItem]) -> None:
+    def _on_error_selected(
+        self, current: Optional[QListWidgetItem], previous: Optional[QListWidgetItem]
+    ) -> None:
         if not current:
             return
 
@@ -414,10 +420,12 @@ class ActivityCenterView(QWidget):
         # Table
         self.audit_table = QTableWidget()
         self.audit_table.setColumnCount(6)
-        self.audit_table.setHorizontalHeaderLabels([
-            "Timestamp", "Event Type", "Actor", "Target Type", "Target ID", "Details"
-        ])
-        self.audit_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.audit_table.setHorizontalHeaderLabels(
+            ["Timestamp", "Event Type", "Actor", "Target Type", "Target ID", "Details"]
+        )
+        self.audit_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )
         self.audit_table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
         self.audit_table.verticalHeader().setVisible(False)
         self.audit_table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)

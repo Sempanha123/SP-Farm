@@ -115,7 +115,9 @@ class SettingsManager:
         """Load settings from JSON file with error recovery for corrupt data."""
         with self._lock:
             if not self._settings_file.exists():
-                logger.info("Settings file not found at %s. Using default settings.", self._settings_file)
+                logger.info(
+                    "Settings file not found at %s. Using default settings.", self._settings_file
+                )
                 self._settings = AppSettings()
                 return self._settings
 

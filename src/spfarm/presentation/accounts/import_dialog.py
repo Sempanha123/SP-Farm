@@ -107,7 +107,9 @@ class AccountImportDialog(QDialog):
         # 3. Preview Table
         self.table = QTableWidget()
         self.table.setColumnCount(6)
-        self.table.setHorizontalHeaderLabels(["#", "Name", "Profile ID", "Contact", "Status", "Notes / Deduplication"])
+        self.table.setHorizontalHeaderLabels(
+            ["#", "Name", "Profile ID", "Contact", "Status", "Notes / Deduplication"]
+        )
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
         self.table.horizontalHeader().setSectionResizeMode(5, QHeaderView.ResizeMode.Stretch)
         layout.addWidget(self.table, 1)
@@ -189,7 +191,9 @@ class AccountImportDialog(QDialog):
             self.table.setItem(row_idx, 5, detail_item)
 
         # Enable import if we have valid rows or duplicates that can be imported
-        can_import = preview.valid_count > 0 or (not self.chk_skip_dups.isChecked() and preview.duplicate_count > 0)
+        can_import = preview.valid_count > 0 or (
+            not self.chk_skip_dups.isChecked() and preview.duplicate_count > 0
+        )
         self.btn_import.setEnabled(can_import)
 
     def _on_execute_import(self) -> None:

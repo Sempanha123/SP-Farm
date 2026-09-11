@@ -115,7 +115,9 @@ class AccountQueryService:
     def __init__(self, uow_factory: Callable[[], IUnitOfWork]) -> None:
         self._uow_factory = uow_factory
 
-    def list_accounts(self, criteria: Optional[AccountFilterCriteria] = None) -> list[AccountSummaryDTO]:
+    def list_accounts(
+        self, criteria: Optional[AccountFilterCriteria] = None
+    ) -> list[AccountSummaryDTO]:
         """Query and filter accounts with high speed."""
         crit = criteria or AccountFilterCriteria()
         results: list[AccountSummaryDTO] = []
@@ -136,14 +138,17 @@ class AccountQueryService:
                 devices_by_id[dev.id] = dev
 
             for acc in accounts:
-                is_archived = (acc.status.value == "ARCHIVED")
+                is_archived = acc.status.value == "ARCHIVED"
                 if not crit.include_archived and is_archived:
                     continue
 
                 if crit.status and acc.status.value.lower() != crit.status.lower():
                     continue
 
-                if crit.health_state and acc.health_state.value.lower() != crit.health_state.lower():
+                if (
+                    crit.health_state
+                    and acc.health_state.value.lower() != crit.health_state.lower()
+                ):
                     continue
 
                 if crit.category_id and acc.category_id != crit.category_id:
@@ -152,7 +157,12 @@ class AccountQueryService:
                 # Search filter across name, profile ID, emails, notes
                 if search_term:
                     match_found = False
-                    if search_term in acc.display_name.lower() or search_term in acc.profile_id.lower() or acc.notes and search_term in acc.notes.lower():
+                    if (
+                        search_term in acc.display_name.lower()
+                        or search_term in acc.profile_id.lower()
+                        or acc.notes
+                        and search_term in acc.notes.lower()
+                    ):
                         match_found = True
                     else:
                         for em in acc.emails:
@@ -202,9 +212,9 @@ class AccountQueryService:
             return []
 
         if crit.offset > 0:
-            results = results[crit.offset:]
+            results = results[crit.offset :]
         if crit.limit > 0:
-            results = results[:crit.limit]
+            results = results[: crit.limit]
 
         return results
 

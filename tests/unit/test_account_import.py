@@ -63,10 +63,12 @@ def test_import_json_preview():
         create_handler=MagicMock(),
     )
 
-    json_data = json.dumps([
-        {"id": "5001", "name": "JSON User 1", "email": "u1@json.com"},
-        {"uid": "5002", "display_name": "JSON User 2", "phone": "1234567890"},
-    ])
+    json_data = json.dumps(
+        [
+            {"id": "5001", "name": "JSON User 1", "email": "u1@json.com"},
+            {"uid": "5002", "display_name": "JSON User 2", "phone": "1234567890"},
+        ]
+    )
 
     preview = service.preview_json_content(json_data)
     assert preview.total_rows == 2

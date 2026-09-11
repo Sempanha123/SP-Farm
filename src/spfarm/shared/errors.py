@@ -34,7 +34,9 @@ class ValidationError(AppError):
         details: dict[str, Any] | None = None,
         correlation_id: str | None = None,
     ) -> None:
-        super().__init__(message, code="VALIDATION_ERROR", details=details, correlation_id=correlation_id)
+        super().__init__(
+            message, code="VALIDATION_ERROR", details=details, correlation_id=correlation_id
+        )
 
 
 class NotFoundError(AppError):
@@ -70,7 +72,9 @@ class UnauthorizedError(AppError):
         details: dict[str, Any] | None = None,
         correlation_id: str | None = None,
     ) -> None:
-        super().__init__(message, code="UNAUTHORIZED", details=details, correlation_id=correlation_id)
+        super().__init__(
+            message, code="UNAUTHORIZED", details=details, correlation_id=correlation_id
+        )
 
 
 class InfrastructureError(AppError):
@@ -82,7 +86,9 @@ class InfrastructureError(AppError):
         details: dict[str, Any] | None = None,
         correlation_id: str | None = None,
     ) -> None:
-        super().__init__(message, code="INFRASTRUCTURE_ERROR", details=details, correlation_id=correlation_id)
+        super().__init__(
+            message, code="INFRASTRUCTURE_ERROR", details=details, correlation_id=correlation_id
+        )
 
 
 class DeviceError(AppError):
@@ -94,7 +100,9 @@ class DeviceError(AppError):
         details: dict[str, Any] | None = None,
         correlation_id: str | None = None,
     ) -> None:
-        super().__init__(message, code="DEVICE_ERROR", details=details, correlation_id=correlation_id)
+        super().__init__(
+            message, code="DEVICE_ERROR", details=details, correlation_id=correlation_id
+        )
 
 
 class ArchitectureViolationError(AppError):
@@ -106,4 +114,6 @@ class ArchitectureViolationError(AppError):
         details: dict[str, Any] | None = None,
         correlation_id: str | None = None,
     ) -> None:
-        super().__init__(message, code="ARCHITECTURE_VIOLATION", details=details, correlation_id=correlation_id)
+        super().__init__(
+            message, code="ARCHITECTURE_VIOLATION", details=details, correlation_id=correlation_id
+        )

@@ -52,8 +52,14 @@ class AccountsTableModel(QAbstractTableModel):
             return 0
         return len(HEADERS)
 
-    def headerData(self, section: int, orientation: Qt.Orientation, role: int = Qt.ItemDataRole.DisplayRole) -> Any:
-        if orientation == Qt.Orientation.Horizontal and role == Qt.ItemDataRole.DisplayRole and 0 <= section < len(HEADERS):
+    def headerData(
+        self, section: int, orientation: Qt.Orientation, role: int = Qt.ItemDataRole.DisplayRole
+    ) -> Any:
+        if (
+            orientation == Qt.Orientation.Horizontal
+            and role == Qt.ItemDataRole.DisplayRole
+            and 0 <= section < len(HEADERS)
+        ):
             return HEADERS[section]
         return None
 
@@ -65,7 +71,9 @@ class AccountsTableModel(QAbstractTableModel):
         col = index.column()
 
         if role == Qt.ItemDataRole.CheckStateRole and col == COL_CHECK:
-            return Qt.CheckState.Checked if acc.id in self._selected_ids else Qt.CheckState.Unchecked
+            return (
+                Qt.CheckState.Checked if acc.id in self._selected_ids else Qt.CheckState.Unchecked
+            )
 
         if role == Qt.ItemDataRole.DisplayRole:
             if col == COL_CHECK:
@@ -103,13 +111,22 @@ class AccountsTableModel(QAbstractTableModel):
                 elif acc.health_state == "REQUIRES_ATTENTION":
                     return QColor(PALETTE.danger)
 
-        if role == Qt.ItemDataRole.TextAlignmentRole and col in (COL_CHECK, COL_STATUS, COL_HEALTH, COL_PAGES_GROUPS):
+        if role == Qt.ItemDataRole.TextAlignmentRole and col in (
+            COL_CHECK,
+            COL_STATUS,
+            COL_HEALTH,
+            COL_PAGES_GROUPS,
+        ):
             return Qt.AlignmentFlag.AlignCenter
 
         return None
 
     def setData(self, index: QModelIndex, value: Any, role: int = Qt.ItemDataRole.EditRole) -> bool:
-        if index.isValid() and index.column() == COL_CHECK and role == Qt.ItemDataRole.CheckStateRole:
+        if (
+            index.isValid()
+            and index.column() == COL_CHECK
+            and role == Qt.ItemDataRole.CheckStateRole
+        ):
             acc = self._accounts[index.row()]
             if value == Qt.CheckState.Checked:
                 self._selected_ids.add(acc.id)

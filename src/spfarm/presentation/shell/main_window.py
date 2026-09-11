@@ -88,14 +88,41 @@ class MainWindow(QMainWindow):
 
         self._register_route("dashboard", self._create_dashboard_view())
         self._register_route("accounts", self._create_accounts_view())
-        self._register_route("environments", self._create_placeholder_view("🌐 Account Environment Profiles", "Decoupled device profiles"))
-        self._register_route("devices", self._create_placeholder_view("📱 Runtime Devices", "Physical Android, LDPlayer, MuMu"))
-        self._register_route("device_pool", self._create_placeholder_view("🏊 Device Pool Orchestrator", "Multi-device allocation"))
-        self._register_route("apps", self._create_placeholder_view("📦 Mobile Applications", "Facebook Official & Lite catalogs"))
-        self._register_route("campaigns", self._create_placeholder_view("📢 Publishing Campaigns", "Content scheduling"))
-        self._register_route("scheduler", self._create_placeholder_view("📅 Operations Calendar", "Scheduled workflows"))
-        self._register_route("jobs", self._create_placeholder_view("⚡ Automation Jobs", "Job execution and queue"))
-        self._register_route("actions", self._create_placeholder_view("🎯 Action Drawer", "Routine batch operations"))
+        self._register_route("pages", self._create_pages_groups_view())
+        self._register_route(
+            "environments",
+            self._create_placeholder_view(
+                "🌐 Account Environment Profiles", "Decoupled device profiles"
+            ),
+        )
+        self._register_route(
+            "devices",
+            self._create_placeholder_view("📱 Runtime Devices", "Physical Android, LDPlayer, MuMu"),
+        )
+        self._register_route(
+            "device_pool",
+            self._create_placeholder_view("🏊 Device Pool Orchestrator", "Multi-device allocation"),
+        )
+        self._register_route(
+            "apps",
+            self._create_placeholder_view(
+                "📦 Mobile Applications", "Facebook Official & Lite catalogs"
+            ),
+        )
+        self._register_route(
+            "campaigns",
+            self._create_placeholder_view("📢 Publishing Campaigns", "Content scheduling"),
+        )
+        self._register_route(
+            "scheduler",
+            self._create_placeholder_view("📅 Operations Calendar", "Scheduled workflows"),
+        )
+        self._register_route(
+            "jobs", self._create_placeholder_view("⚡ Automation Jobs", "Job execution and queue")
+        )
+        self._register_route(
+            "actions", self._create_placeholder_view("🎯 Action Drawer", "Routine batch operations")
+        )
         self._register_route("activity", self._create_activity_view())
         self._register_route("settings", self._create_settings_embed())
 
@@ -211,9 +238,43 @@ class MainWindow(QMainWindow):
         view.navigate_requested.connect(self.navigate_to_route)
         return view
 
+    def _create_pages_groups_view(self) -> QWidget:
+        from spfarm.application.commands.page_group_commands import (
+            AddGroupHandler,
+            AddPageHandler,
+            DeleteGroupHandler,
+            DeletePageHandler,
+            UpdateGroupHandler,
+            UpdatePageHandler,
+        )
+        from spfarm.application.queries.accounts import AccountQueryService
+        from spfarm.application.queries.pages_groups import PagesAndGroupsQueryService
+        from spfarm.presentation.pages_groups.pages_groups_view import PagesAndGroupsView
+
+        view = PagesAndGroupsView(
+            query_service=self.container.resolve(PagesAndGroupsQueryService),
+            account_queries=self.container.resolve(AccountQueryService),
+            add_page_handler=self.container.resolve(AddPageHandler),
+            update_page_handler=self.container.resolve(UpdatePageHandler),
+            delete_page_handler=self.container.resolve(DeletePageHandler),
+            add_group_handler=self.container.resolve(AddGroupHandler),
+            update_group_handler=self.container.resolve(UpdateGroupHandler),
+            delete_group_handler=self.container.resolve(DeleteGroupHandler),
+            event_bus=self.container.event_bus,
+        )
+        view.navigate_requested.connect(self.navigate_to_route)
+        return view
+
     def _create_activity_view(self) -> QWidget:
         return ActivityCenterView(
-            log_buffer=self.container.resolve("LogRingBuffer") if "LogRingBuffer" in self.container.registered_service_names else self.container.resolve("spfarm.infrastructure.logging.buffer.LogRingBuffer") if False else None or __import__("spfarm.infrastructure.logging.setup", fromlist=["get_log_buffer"]).get_log_buffer(),
+            log_buffer=self.container.resolve("LogRingBuffer")
+            if "LogRingBuffer" in self.container.registered_service_names
+            else self.container.resolve("spfarm.infrastructure.logging.buffer.LogRingBuffer")
+            if False
+            else None
+            or __import__(
+                "spfarm.infrastructure.logging.setup", fromlist=["get_log_buffer"]
+            ).get_log_buffer(),
             error_center=self.container.error_center,
             audit_service=self.container.audit_service,
         )
@@ -224,7 +285,9 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(20, 20, 20, 20)
 
         card = CuteCard(title="⚙️ Application Settings")
-        desc = QLabel("Configure visual theme, local storage paths, device emulators, and secure secret vault.")
+        desc = QLabel(
+            "Configure visual theme, local storage paths, device emulators, and secure secret vault."
+        )
         btn_launch = QPushButton("Launch Full Settings Dialog")
         btn_launch.clicked.connect(self._launch_settings_dialog)
 
@@ -244,7 +307,9 @@ class MainWindow(QMainWindow):
         layout.setContentsMargins(20, 20, 20, 20)
 
         card = CuteCard(title=title)
-        sub_lbl = QLabel(f"<i>{subtitle}</i><br><br>Ready for full module orchestration in subsequent phases.")
+        sub_lbl = QLabel(
+            f"<i>{subtitle}</i><br><br>Ready for full module orchestration in subsequent phases."
+        )
         card.add_widget(sub_lbl)
         layout.addWidget(card)
         layout.addStretch()

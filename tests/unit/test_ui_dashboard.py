@@ -65,15 +65,19 @@ def test_dashboard_view_populated_state(qapp: QApplication) -> None:
             recent_errors_count=0,
         ),
         running_jobs=[{"id": "job_1", "job_type": "post", "progress": 50}],
-        device_pool_summary=[{"id": "dev_1", "name": "LD-1", "provider": "LDPLAYER", "state": "READY"}],
+        device_pool_summary=[
+            {"id": "dev_1", "name": "LD-1", "provider": "LDPLAYER", "state": "READY"}
+        ],
         upcoming_schedules=[{"id": "job_2", "job_type": "Campaign Run", "scheduled_time": "15:30"}],
-        recent_activity=[{
-            "id": "act_1",
-            "event_type": "account.added",
-            "actor": "admin",
-            "target": "account:acc_1",
-            "timestamp": "2026-09-12T10:00:00Z",
-        }],
+        recent_activity=[
+            {
+                "id": "act_1",
+                "event_type": "account.added",
+                "actor": "admin",
+                "target": "account:acc_1",
+                "timestamp": "2026-09-12T10:00:00Z",
+            }
+        ],
         is_empty_state=False,
     )
 

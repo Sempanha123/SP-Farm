@@ -165,6 +165,73 @@ class Container:
         cmd_bus.register(DeleteAccountCommand, delete_handler)
         cmd_bus.register(BulkUpdateAccountStatusCommand, bulk_handler)
 
+        # Register Pages and Groups Services & Handlers
+        from spfarm.application.commands.page_group_commands import (
+            AddGroupCommand,
+            AddGroupHandler,
+            AddPageCommand,
+            AddPageHandler,
+            DeleteGroupCommand,
+            DeleteGroupHandler,
+            DeletePageCommand,
+            DeletePageHandler,
+            UpdateGroupCommand,
+            UpdateGroupHandler,
+            UpdatePageCommand,
+            UpdatePageHandler,
+        )
+        from spfarm.application.queries.pages_groups import PagesAndGroupsQueryService
+
+        self.register_factory(
+            PagesAndGroupsQueryService,
+            lambda: PagesAndGroupsQueryService(uow_factory=lambda: self.resolve(IUnitOfWork)),
+        )
+
+        add_page_handler = AddPageHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        update_page_handler = UpdatePageHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        delete_page_handler = DeletePageHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        add_group_handler = AddGroupHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        update_group_handler = UpdateGroupHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        delete_group_handler = DeleteGroupHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+
+        self.register_singleton(AddPageHandler, add_page_handler)
+        self.register_singleton(UpdatePageHandler, update_page_handler)
+        self.register_singleton(DeletePageHandler, delete_page_handler)
+        self.register_singleton(AddGroupHandler, add_group_handler)
+        self.register_singleton(UpdateGroupHandler, update_group_handler)
+        self.register_singleton(DeleteGroupHandler, delete_group_handler)
+
+        cmd_bus.register(AddPageCommand, add_page_handler)
+        cmd_bus.register(UpdatePageCommand, update_page_handler)
+        cmd_bus.register(DeletePageCommand, delete_page_handler)
+        cmd_bus.register(AddGroupCommand, add_group_handler)
+        cmd_bus.register(UpdateGroupCommand, update_group_handler)
+        cmd_bus.register(DeleteGroupCommand, delete_group_handler)
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance

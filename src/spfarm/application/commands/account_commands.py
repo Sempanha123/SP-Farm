@@ -38,6 +38,7 @@ logger = logging.getLogger(__name__)
 # Create Account Command
 # =============================================================================
 
+
 @dataclass(frozen=True, kw_only=True)
 class CreateAccountCommand(Command):
     """Command to register a new account."""
@@ -170,6 +171,7 @@ class CreateAccountHandler(CommandHandler[CreateAccountCommand, str]):
 # Update Account Command
 # =============================================================================
 
+
 @dataclass(frozen=True, kw_only=True)
 class UpdateAccountCommand(Command):
     """Command to update an existing account's metadata."""
@@ -214,7 +216,7 @@ class UpdateAccountHandler(CommandHandler[UpdateAccountCommand, None]):
                 account.health_state = cmd.health_state
             if cmd.two_factor_method is not None and account.security:
                 account.security.two_factor_method = cmd.two_factor_method
-                account.security.two_factor_enabled = (cmd.two_factor_method != TwoFactorMethod.NONE)
+                account.security.two_factor_enabled = cmd.two_factor_method != TwoFactorMethod.NONE
 
             uow.accounts.add(account)
             uow.commit()
@@ -232,6 +234,7 @@ class UpdateAccountHandler(CommandHandler[UpdateAccountCommand, None]):
 # =============================================================================
 # Archive & Restore Commands
 # =============================================================================
+
 
 @dataclass(frozen=True, kw_only=True)
 class ArchiveAccountCommand(Command):
@@ -318,6 +321,7 @@ class RestoreAccountHandler(CommandHandler[RestoreAccountCommand, None]):
 # Delete Account Command
 # =============================================================================
 
+
 @dataclass(frozen=True, kw_only=True)
 class DeleteAccountCommand(Command):
     """Command to permanently delete an account and its credentials."""
@@ -369,6 +373,7 @@ class DeleteAccountHandler(CommandHandler[DeleteAccountCommand, None]):
 # =============================================================================
 # Bulk Update Status Command
 # =============================================================================
+
 
 @dataclass(frozen=True, kw_only=True)
 class BulkUpdateAccountStatusCommand(Command):

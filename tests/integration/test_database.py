@@ -33,7 +33,9 @@ def test_fresh_db_migrates_and_persists_account(tmp_path: Path) -> None:
         status=AccountStatus.ACTIVE,
         health_state=AccountHealthState.HEALTHY,
     )
-    account.add_email(AccountEmail(account_id=account.id, address="user@domain.com", is_primary=True))
+    account.add_email(
+        AccountEmail(account_id=account.id, address="user@domain.com", is_primary=True)
+    )
     account.add_phone(AccountPhone(account_id=account.id, number="+15550001", is_primary=True))
     account.security = AccountSecurity(
         account_id=account.id,
@@ -41,8 +43,12 @@ def test_fresh_db_migrates_and_persists_account(tmp_path: Path) -> None:
         two_factor_method=TwoFactorMethod.TOTP,
         password_secret_ref="vault://acc/pwd",
     )
-    account.pages.append(Page(account_id=account.id, platform_page_id="page-101", name="Global Brand"))
-    account.groups.append(Group(account_id=account.id, platform_group_id="grp-201", name="VIP Group"))
+    account.pages.append(
+        Page(account_id=account.id, platform_page_id="page-101", name="Global Brand")
+    )
+    account.groups.append(
+        Group(account_id=account.id, platform_group_id="grp-201", name="VIP Group")
+    )
 
     with SqlAlchemyUnitOfWork(session_factory) as uow:
         uow.accounts.add(account)

@@ -73,7 +73,9 @@ class SetupWizardDialog(QDialog):
         header_layout.setSpacing(8)
 
         self.lbl_step_indicator = QLabel(f"Step {self.current_step + 1} of {self.TOTAL_STEPS}")
-        self.lbl_step_indicator.setStyleSheet(f"color: {PALETTE.primary_blue}; font-weight: bold; font-size: 12px;")
+        self.lbl_step_indicator.setStyleSheet(
+            f"color: {PALETTE.primary_blue}; font-weight: bold; font-size: 12px;"
+        )
         header_layout.addWidget(self.lbl_step_indicator)
 
         self.progress_bar = QProgressBar()
@@ -96,7 +98,9 @@ class SetupWizardDialog(QDialog):
         # Footer Navigation
         footer = QHBoxLayout()
         self.btn_back = QPushButton("← Back")
-        self.btn_back.setStyleSheet(f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text};")
+        self.btn_back.setStyleSheet(
+            f"background-color: {PALETTE.surface_alt}; color: {PALETTE.text};"
+        )
         self.btn_back.setEnabled(False)
         self.btn_back.clicked.connect(self._prev_step)
         footer.addWidget(self.btn_back)
@@ -168,7 +172,9 @@ class SetupWizardDialog(QDialog):
         paths.ensure_directories()
 
         path_box = QFrame()
-        path_box.setStyleSheet(f"background-color: {PALETTE.soft_blue}; border-radius: 8px; padding: 10px;")
+        path_box.setStyleSheet(
+            f"background-color: {PALETTE.soft_blue}; border-radius: 8px; padding: 10px;"
+        )
         path_layout = QVBoxLayout(path_box)
         path_layout.setSpacing(6)
 
@@ -207,7 +213,9 @@ class SetupWizardDialog(QDialog):
         layout.addWidget(desc)
 
         dev_box = QFrame()
-        dev_box.setStyleSheet(f"background-color: {PALETTE.surface_alt}; border-radius: 8px; padding: 12px;")
+        dev_box.setStyleSheet(
+            f"background-color: {PALETTE.surface_alt}; border-radius: 8px; padding: 12px;"
+        )
         dev_layout = QVBoxLayout(dev_box)
         dev_layout.setSpacing(8)
 
@@ -243,10 +251,14 @@ class SetupWizardDialog(QDialog):
         layout.addWidget(desc)
 
         vbox = QFrame()
-        vbox.setStyleSheet(f"background-color: {PALETTE.soft_pink}; border-radius: 8px; padding: 12px;")
+        vbox.setStyleSheet(
+            f"background-color: {PALETTE.soft_pink}; border-radius: 8px; padding: 12px;"
+        )
         vlayout = QVBoxLayout(vbox)
 
-        status_lbl = QLabel("🛡️ OS Keyring (Windows Credential Manager) & AES-128 Fallback: Operational")
+        status_lbl = QLabel(
+            "🛡️ OS Keyring (Windows Credential Manager) & AES-128 Fallback: Operational"
+        )
         status_lbl.setStyleSheet(f"color: {PALETTE.cute_pink}; font-weight: bold;")
         vlayout.addWidget(status_lbl)
 

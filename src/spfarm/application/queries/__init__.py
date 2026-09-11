@@ -13,6 +13,13 @@ from spfarm.application.queries.dashboard import (
     DashboardQueryService,
     GetDashboardDataQuery,
 )
+from spfarm.application.queries.pages_groups import (
+    GroupSummaryDTO,
+    ListGroupsQuery,
+    ListPagesQuery,
+    PagesAndGroupsQueryService,
+    PageSummaryDTO,
+)
 
 __all__ = [
     "AccountDetailDTO",
@@ -24,7 +31,12 @@ __all__ = [
     "DashboardQueryService",
     "GetAccountDetailQuery",
     "GetDashboardDataQuery",
+    "GroupSummaryDTO",
     "ListAccountsQuery",
+    "ListGroupsQuery",
+    "ListPagesQuery",
+    "PageSummaryDTO",
+    "PagesAndGroupsQueryService",
     "Query",
     "QueryBus",
     "QueryHandler",

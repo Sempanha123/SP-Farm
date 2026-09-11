@@ -36,9 +36,21 @@ class AppPaths:
 
         # 2. Subdirectories with optional specific environment overrides
         data = base / "data"
-        logs = Path(os.getenv("SPFARM_LOG_DIR")).resolve() if os.getenv("SPFARM_LOG_DIR") else base / "logs"
-        backups = Path(os.getenv("SPFARM_BACKUP_DIR")).resolve() if os.getenv("SPFARM_BACKUP_DIR") else base / "backups"
-        cache = Path(os.getenv("SPFARM_CACHE_DIR")).resolve() if os.getenv("SPFARM_CACHE_DIR") else base / "cache"
+        logs = (
+            Path(os.getenv("SPFARM_LOG_DIR")).resolve()
+            if os.getenv("SPFARM_LOG_DIR")
+            else base / "logs"
+        )
+        backups = (
+            Path(os.getenv("SPFARM_BACKUP_DIR")).resolve()
+            if os.getenv("SPFARM_BACKUP_DIR")
+            else base / "backups"
+        )
+        cache = (
+            Path(os.getenv("SPFARM_CACHE_DIR")).resolve()
+            if os.getenv("SPFARM_CACHE_DIR")
+            else base / "cache"
+        )
         secrets = base / "secrets"
 
         # 3. Database path and settings file

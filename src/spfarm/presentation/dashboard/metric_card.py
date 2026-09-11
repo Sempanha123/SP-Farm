@@ -63,7 +63,9 @@ class CuteMetricCard(QFrame):
         content_layout.setSpacing(2)
 
         self.lbl_title = QLabel(title)
-        self.lbl_title.setStyleSheet(f"color: {PALETTE.text_secondary}; font-size: 11px; font-weight: 600;")
+        self.lbl_title.setStyleSheet(
+            f"color: {PALETTE.text_secondary}; font-size: 11px; font-weight: 600;"
+        )
         content_layout.addWidget(self.lbl_title)
 
         self.lbl_value = QLabel(str(value))

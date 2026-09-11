@@ -81,15 +81,18 @@ class AccountImportService:
         """Read CSV file from disk and return preview."""
         path = Path(file_path)
         if not path.exists():
-            return ImportPreviewDTO(error_count=1, rows=[
-                ImportRowDTO(
-                    row_index=0,
-                    display_name="",
-                    profile_id="",
-                    is_valid=False,
-                    validation_error=f"File not found: {path}",
-                )
-            ])
+            return ImportPreviewDTO(
+                error_count=1,
+                rows=[
+                    ImportRowDTO(
+                        row_index=0,
+                        display_name="",
+                        profile_id="",
+                        is_valid=False,
+                        validation_error=f"File not found: {path}",
+                    )
+                ],
+            )
         text = path.read_text(encoding="utf-8-sig")
         return self.preview_csv_content(text)
 
@@ -98,15 +101,18 @@ class AccountImportService:
         try:
             data = json.loads(content)
         except Exception as exc:
-            return ImportPreviewDTO(error_count=1, rows=[
-                ImportRowDTO(
-                    row_index=0,
-                    display_name="",
-                    profile_id="",
-                    is_valid=False,
-                    validation_error=f"Invalid JSON syntax: {exc}",
-                )
-            ])
+            return ImportPreviewDTO(
+                error_count=1,
+                rows=[
+                    ImportRowDTO(
+                        row_index=0,
+                        display_name="",
+                        profile_id="",
+                        is_valid=False,
+                        validation_error=f"Invalid JSON syntax: {exc}",
+                    )
+                ],
+            )
 
         if isinstance(data, dict):
             # Check if wrapped in "accounts" or "data"
@@ -125,15 +131,18 @@ class AccountImportService:
         """Read JSON file from disk and return preview."""
         path = Path(file_path)
         if not path.exists():
-            return ImportPreviewDTO(error_count=1, rows=[
-                ImportRowDTO(
-                    row_index=0,
-                    display_name="",
-                    profile_id="",
-                    is_valid=False,
-                    validation_error=f"File not found: {path}",
-                )
-            ])
+            return ImportPreviewDTO(
+                error_count=1,
+                rows=[
+                    ImportRowDTO(
+                        row_index=0,
+                        display_name="",
+                        profile_id="",
+                        is_valid=False,
+                        validation_error=f"File not found: {path}",
+                    )
+                ],
+            )
         text = path.read_text(encoding="utf-8-sig")
         return self.preview_json_content(text)
 
@@ -153,7 +162,9 @@ class AccountImportService:
 
         for idx, r in enumerate(raw_rows, start=1):
             # Normalize column names case-insensitively
-            normalized: dict[str, str] = {k.strip().lower(): (v or "").strip() for k, v in r.items()}
+            normalized: dict[str, str] = {
+                k.strip().lower(): (v or "").strip() for k, v in r.items()
+            }
 
             profile_id = (
                 normalized.get("profile_id")
@@ -169,7 +180,12 @@ class AccountImportService:
                 or profile_id
             )
             email = normalized.get("email") or normalized.get("primary_email") or ""
-            phone = normalized.get("phone") or normalized.get("primary_phone") or normalized.get("mobile") or ""
+            phone = (
+                normalized.get("phone")
+                or normalized.get("primary_phone")
+                or normalized.get("mobile")
+                or ""
+            )
             category_id = normalized.get("category") or normalized.get("category_id") or ""
             notes = normalized.get("notes") or normalized.get("remark") or ""
             status = normalized.get("status") or "ACTIVE"

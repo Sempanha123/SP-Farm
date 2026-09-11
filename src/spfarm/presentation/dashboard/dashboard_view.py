@@ -200,7 +200,9 @@ class DashboardView(QWidget):
         msg_title.setFont(QFont("Segoe UI", 12, QFont.Weight.Bold))
         msg_title.setStyleSheet(f"color: {PALETTE.primary};")
 
-        msg_desc = QLabel("Get started by onboarding your first Facebook account or connecting an Android emulator or device.")
+        msg_desc = QLabel(
+            "Get started by onboarding your first Facebook account or connecting an Android emulator or device."
+        )
         msg_desc.setStyleSheet(f"color: {PALETTE.text_secondary}; font-size: 11px;")
         msg_layout.addWidget(msg_title)
         msg_layout.addWidget(msg_desc)
@@ -217,12 +219,24 @@ class DashboardView(QWidget):
         grid_layout = QGridLayout()
         grid_layout.setSpacing(12)
 
-        self.metric_accounts = CuteMetricCard("Accounts", value="0", icon="👤", pastel_bg="#EDF5FF", icon_fg=PALETTE.primary)
-        self.metric_pages = CuteMetricCard("Pages", value="0", icon="📄", pastel_bg="#FFF1F7", icon_fg=PALETTE.cute_pink)
-        self.metric_devices = CuteMetricCard("Devices", value="0", icon="📱", pastel_bg="#F3F0FF", icon_fg=PALETTE.lavender)
-        self.metric_running = CuteMetricCard("Running Jobs", value="0", icon="⚡", pastel_bg="#E8F8F2", icon_fg=PALETTE.success)
-        self.metric_errors = CuteMetricCard("Active Errors", value="0", icon="⚠️", pastel_bg="#FEECEE", icon_fg=PALETTE.danger)
-        self.metric_scheduled = CuteMetricCard("Scheduled Today", value="0", icon="📅", pastel_bg="#FEF7E6", icon_fg=PALETTE.warning)
+        self.metric_accounts = CuteMetricCard(
+            "Accounts", value="0", icon="👤", pastel_bg="#EDF5FF", icon_fg=PALETTE.primary
+        )
+        self.metric_pages = CuteMetricCard(
+            "Pages", value="0", icon="📄", pastel_bg="#FFF1F7", icon_fg=PALETTE.cute_pink
+        )
+        self.metric_devices = CuteMetricCard(
+            "Devices", value="0", icon="📱", pastel_bg="#F3F0FF", icon_fg=PALETTE.lavender
+        )
+        self.metric_running = CuteMetricCard(
+            "Running Jobs", value="0", icon="⚡", pastel_bg="#E8F8F2", icon_fg=PALETTE.success
+        )
+        self.metric_errors = CuteMetricCard(
+            "Active Errors", value="0", icon="⚠️", pastel_bg="#FEECEE", icon_fg=PALETTE.danger
+        )
+        self.metric_scheduled = CuteMetricCard(
+            "Scheduled Today", value="0", icon="📅", pastel_bg="#FEF7E6", icon_fg=PALETTE.warning
+        )
 
         grid_layout.addWidget(self.metric_accounts, 0, 0)
         grid_layout.addWidget(self.metric_pages, 0, 1)
@@ -234,12 +248,16 @@ class DashboardView(QWidget):
         self.layout.addLayout(grid_layout)
 
     def _build_running_jobs_card(self) -> CuteCard:
-        card = CuteCard(title="⚡ Active Workflows & Device Pool", badge=CuteStatusPill("0 Running", "ready"))
+        card = CuteCard(
+            title="⚡ Active Workflows & Device Pool", badge=CuteStatusPill("0 Running", "ready")
+        )
         self.running_jobs_layout = QVBoxLayout()
         self.running_jobs_layout.setSpacing(8)
 
         self.lbl_no_jobs = QLabel("No active automation jobs running. System is idle.")
-        self.lbl_no_jobs.setStyleSheet(f"color: {PALETTE.text_secondary}; font-style: italic; padding: 12px 0;")
+        self.lbl_no_jobs.setStyleSheet(
+            f"color: {PALETTE.text_secondary}; font-style: italic; padding: 12px 0;"
+        )
         self.running_jobs_layout.addWidget(self.lbl_no_jobs)
 
         card.add_widget(QWidget())
@@ -248,7 +266,9 @@ class DashboardView(QWidget):
         return card
 
     def _build_upcoming_schedules_card(self) -> CuteCard:
-        card = CuteCard(title="📅 Scheduled Operations Peek", badge=CuteStatusPill("Upcoming", "cooldown"))
+        card = CuteCard(
+            title="📅 Scheduled Operations Peek", badge=CuteStatusPill("Upcoming", "cooldown")
+        )
         self.upcoming_list = QListWidget()
         self.upcoming_list.setFixedHeight(140)
 
@@ -353,7 +373,9 @@ class DashboardView(QWidget):
             self.upcoming_list.addItem(item)
         else:
             for s in data.upcoming_schedules[:5]:
-                self.upcoming_list.addItem(QListWidgetItem(f"⏰ {s['scheduled_time']} — {s['job_type']}"))
+                self.upcoming_list.addItem(
+                    QListWidgetItem(f"⏰ {s['scheduled_time']} — {s['job_type']}")
+                )
 
         # Update Recent Activity list
         self.activity_list.clear()
@@ -365,5 +387,7 @@ class DashboardView(QWidget):
             for act in data.recent_activity:
                 time_part = act.get("timestamp", "").split("T")[-1][:8]
                 self.activity_list.addItem(
-                    QListWidgetItem(f"[{time_part}] {act['actor']}: {act['event_type']} ({act['target']})")
+                    QListWidgetItem(
+                        f"[{time_part}] {act['actor']}: {act['event_type']} ({act['target']})"
+                    )
                 )

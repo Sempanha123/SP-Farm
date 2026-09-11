@@ -70,7 +70,9 @@ def test_application_layer_has_no_ui_imports() -> None:
                 if mod == forbidden or mod.startswith(f"{forbidden}."):
                     violations.append(f"{py_file.name} imports forbidden '{mod}'")
 
-    assert not violations, "Application layer architectural violations found:\n" + "\n".join(violations)
+    assert not violations, "Application layer architectural violations found:\n" + "\n".join(
+        violations
+    )
 
 
 def test_presentation_layer_has_no_direct_sql_or_subprocess() -> None:
@@ -92,4 +94,6 @@ def test_presentation_layer_has_no_direct_sql_or_subprocess() -> None:
                 if mod == forbidden or mod.startswith(f"{forbidden}."):
                     violations.append(f"{py_file.name} imports forbidden '{mod}'")
 
-    assert not violations, "Presentation layer architectural violations found:\n" + "\n".join(violations)
+    assert not violations, "Presentation layer architectural violations found:\n" + "\n".join(
+        violations
+    )

@@ -321,7 +321,9 @@ class AccountInspectorPanel(CuteInspector):
 
         layout.addWidget(QLabel("Operator Notes & Remarks:"))
         self.txt_notes = QTextEdit()
-        self.txt_notes.setPlaceholderText("Enter notes, annotations, or reminder tags for this account...")
+        self.txt_notes.setPlaceholderText(
+            "Enter notes, annotations, or reminder tags for this account..."
+        )
         layout.addWidget(self.txt_notes, 1)
 
         self.btn_save_notes = CuteButton("💾 Save Notes", role="primary")
@@ -375,7 +377,9 @@ class AccountInspectorPanel(CuteInspector):
         self.lbl_ov_timezone.setText(account.timezone)
         self.lbl_ov_category.setText(account.category_id or "Uncategorized")
         self.lbl_ov_created.setText(account.created_at[:19] if account.created_at else "—")
-        self.lbl_ov_last_act.setText(account.last_activity_at[:19] if account.last_activity_at else "Never")
+        self.lbl_ov_last_act.setText(
+            account.last_activity_at[:19] if account.last_activity_at else "Never"
+        )
 
         # 2. Contacts
         self.contacts_list.clear()
@@ -385,11 +389,15 @@ class AccountInspectorPanel(CuteInspector):
             for em in account.emails:
                 primary_tag = " [Primary]" if em.get("is_primary") else ""
                 verified_tag = " ✓" if em.get("is_verified") else ""
-                self.contacts_list.addItem(f"📧 Email: {em.get('masked')}{primary_tag}{verified_tag}")
+                self.contacts_list.addItem(
+                    f"📧 Email: {em.get('masked')}{primary_tag}{verified_tag}"
+                )
             for ph in account.phones:
                 primary_tag = " [Primary]" if ph.get("is_primary") else ""
                 verified_tag = " ✓" if ph.get("is_verified") else ""
-                self.contacts_list.addItem(f"📱 Phone: {ph.get('masked')}{primary_tag}{verified_tag}")
+                self.contacts_list.addItem(
+                    f"📱 Phone: {ph.get('masked')}{primary_tag}{verified_tag}"
+                )
 
         # 3. Security
         sec = account.security or {}
@@ -406,7 +414,9 @@ class AccountInspectorPanel(CuteInspector):
             self.pages_list.addItem("No Facebook Pages connected.")
         else:
             for pg in account.pages:
-                self.pages_list.addItem(f"📄 {pg.get('name')} ({pg.get('platform_page_id')}) — {pg.get('followers')} followers")
+                self.pages_list.addItem(
+                    f"📄 {pg.get('name')} ({pg.get('platform_page_id')}) — {pg.get('followers')} followers"
+                )
 
         # 5. Groups
         self.groups_list.clear()
@@ -414,7 +424,9 @@ class AccountInspectorPanel(CuteInspector):
             self.groups_list.addItem("No Facebook Groups connected.")
         else:
             for gr in account.groups:
-                self.groups_list.addItem(f"👥 {gr.get('name')} ({gr.get('platform_group_id')}) — Role: {gr.get('role')}")
+                self.groups_list.addItem(
+                    f"👥 {gr.get('name')} ({gr.get('platform_group_id')}) — Role: {gr.get('role')}"
+                )
 
         # 6. Environment
         if account.environment:
@@ -484,7 +496,9 @@ class AccountInspectorPanel(CuteInspector):
         ref_key = "password_secret_ref" if secret_type == "password" else "totp_secret_ref"
         ref = sec.get(ref_key)
         if not ref:
-            QMessageBox.information(self, "No Secret", f"No {secret_type} vaulted for this account.")
+            QMessageBox.information(
+                self, "No Secret", f"No {secret_type} vaulted for this account."
+            )
             return
 
         val = self.secret_store.retrieve_secret(ref)
@@ -495,4 +509,6 @@ class AccountInspectorPanel(CuteInspector):
                 target_id=self._current_account.id,
                 details={"ref": ref},
             )
-        QMessageBox.information(self, f"Revealed {secret_type.title()}", f"{secret_type.title()}:\n{val or 'Empty'}")
+        QMessageBox.information(
+            self, f"Revealed {secret_type.title()}", f"{secret_type.title()}:\n{val or 'Empty'}"
+        )

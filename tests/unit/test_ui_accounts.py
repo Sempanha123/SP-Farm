@@ -74,7 +74,10 @@ def test_accounts_table_model_10000_rows(qapp: QApplication) -> None:
     # Selection performance
     model.toggle_selection(5)
     assert model.get_selected_ids() == ["acc_00005"]
-    assert model.data(model.index(5, COL_CHECK), Qt.ItemDataRole.CheckStateRole) == Qt.CheckState.Checked
+    assert (
+        model.data(model.index(5, COL_CHECK), Qt.ItemDataRole.CheckStateRole)
+        == Qt.CheckState.Checked
+    )
 
     model.clear_selection()
     assert len(model.get_selected_ids()) == 0
@@ -103,8 +106,24 @@ def test_account_inspector_all_12_tabs(qapp: QApplication) -> None:
         notes="Important business account",
         created_at="2026-09-12T10:00:00Z",
         last_activity_at="2026-09-12T12:00:00Z",
-        emails=[{"id": "em_1", "address": "ceo@firm.com", "masked": "c***o@firm.com", "is_primary": True, "is_verified": True}],
-        phones=[{"id": "ph_1", "number": "+15551234567", "masked": "***-***-4567", "is_primary": True, "is_verified": False}],
+        emails=[
+            {
+                "id": "em_1",
+                "address": "ceo@firm.com",
+                "masked": "c***o@firm.com",
+                "is_primary": True,
+                "is_verified": True,
+            }
+        ],
+        phones=[
+            {
+                "id": "ph_1",
+                "number": "+15551234567",
+                "masked": "***-***-4567",
+                "is_primary": True,
+                "is_verified": False,
+            }
+        ],
         security={
             "two_factor_enabled": True,
             "two_factor_method": "TOTP",
@@ -112,8 +131,17 @@ def test_account_inspector_all_12_tabs(qapp: QApplication) -> None:
             "totp_secret_ref": "vault://accounts/acc_test_123/totp",
             "last_security_review_at": "2026-09-10T00:00:00Z",
         },
-        pages=[{"id": "pg_1", "name": "Firm Official", "platform_page_id": "999888", "followers": 15000}],
-        groups=[{"id": "grp_1", "name": "Firm VIPs", "platform_group_id": "777666", "role": "ADMIN"}],
+        pages=[
+            {
+                "id": "pg_1",
+                "name": "Firm Official",
+                "platform_page_id": "999888",
+                "followers": 15000,
+            }
+        ],
+        groups=[
+            {"id": "grp_1", "name": "Firm VIPs", "platform_group_id": "777666", "role": "ADMIN"}
+        ],
         environment={
             "id": "env_1",
             "app_channel": "Official",
@@ -225,11 +253,26 @@ def test_account_import_dialog_preview(qapp: QApplication) -> None:
         duplicate_count=1,
         error_count=0,
         rows=[
-            ImportRowDTO(row_index=1, display_name="Account Alpha", profile_id="1001", email="a@test.com", is_valid=True),
-            ImportRowDTO(row_index=2, display_name="Account Beta", profile_id="1002", is_valid=True, is_duplicate=True, duplicate_reason="Matched existing profile"),
+            ImportRowDTO(
+                row_index=1,
+                display_name="Account Alpha",
+                profile_id="1001",
+                email="a@test.com",
+                is_valid=True,
+            ),
+            ImportRowDTO(
+                row_index=2,
+                display_name="Account Beta",
+                profile_id="1002",
+                is_valid=True,
+                is_duplicate=True,
+                duplicate_reason="Matched existing profile",
+            ),
         ],
     )
-    mock_import_service.execute_import.return_value = ImportResultDTO(imported_count=1, skipped_count=1)
+    mock_import_service.execute_import.return_value = ImportResultDTO(
+        imported_count=1, skipped_count=1
+    )
 
     dlg = AccountImportDialog(import_service=mock_import_service)
     dlg._current_preview = mock_import_service.preview_csv_file("dummy.csv")

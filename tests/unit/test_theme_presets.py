@@ -49,8 +49,8 @@ def test_stylesheet_generation_contains_theme_colors() -> None:
         assert palette.primary in qss
         assert palette.background in qss
         assert palette.cute_pink in qss
-        assert "role=\"cute\"" in qss
-        assert "role=\"surface\"" in qss
+        assert 'role="cute"' in qss
+        assert 'role="surface"' in qss
 
 
 def test_theme_persists_in_settings(tmp_path: Path) -> None:

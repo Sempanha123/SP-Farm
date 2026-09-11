@@ -24,13 +24,15 @@ def test_activity_center_view_flood_batching(qapp: QApplication, tmp_path: Path)
 
     # 1. Simulate flood of 1,000 log records in rapid succession
     for i in range(1000):
-        view.enqueue_log_entry({
-            "timestamp": "2026-09-12T04:00:00Z",
-            "level": "INFO",
-            "logger": "flood.test",
-            "message": f"High throughput log event {i}",
-            "correlation": {"job_id": f"job_{i % 5}"},
-        })
+        view.enqueue_log_entry(
+            {
+                "timestamp": "2026-09-12T04:00:00Z",
+                "level": "INFO",
+                "logger": "flood.test",
+                "message": f"High throughput log event {i}",
+                "correlation": {"job_id": f"job_{i % 5}"},
+            }
+        )
 
     # Assert queue buffered them without crashing or freezing
     assert len(view._pending_log_entries) == 1000

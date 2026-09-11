@@ -124,41 +124,55 @@ class DashboardQueryService:
             with self._uow_factory() as uow:
                 accounts = uow.accounts.list_all()
                 total_accounts = len(accounts)
-                active_accounts = sum(1 for a in accounts if getattr(a, "status", None) and str(a.status.name).lower() == "active")
+                active_accounts = sum(
+                    1
+                    for a in accounts
+                    if getattr(a, "status", None) and str(a.status.name).lower() == "active"
+                )
                 total_pages = sum(len(getattr(a, "pages", [])) for a in accounts)
 
                 devices = uow.devices.list_all()
                 total_devices = len(devices)
-                ready_devices = sum(1 for d in devices if getattr(d, "state", None) and str(d.state.name).lower() == "ready")
+                ready_devices = sum(
+                    1
+                    for d in devices
+                    if getattr(d, "state", None) and str(d.state.name).lower() == "ready"
+                )
 
                 for d in devices:
-                    device_pool_list.append({
-                        "id": d.id,
-                        "name": getattr(d, "custom_name", None) or d.id,
-                        "provider": getattr(d.provider, "name", str(d.provider)),
-                        "state": getattr(d.state, "name", str(d.state)),
-                    })
+                    device_pool_list.append(
+                        {
+                            "id": d.id,
+                            "name": getattr(d, "custom_name", None) or d.id,
+                            "provider": getattr(d.provider, "name", str(d.provider)),
+                            "state": getattr(d.state, "name", str(d.state)),
+                        }
+                    )
 
                 jobs = uow.jobs.list_all()
                 for j in jobs:
                     status_str = str(getattr(j.status, "name", j.status)).lower()
                     if status_str == "running":
                         running_jobs_count += 1
-                        running_jobs_list.append({
-                            "id": j.id,
-                            "job_type": getattr(j, "job_type", "Routine"),
-                            "progress": getattr(j, "progress_percent", 50),
-                            "account_id": getattr(j, "account_id", ""),
-                            "device_id": getattr(j, "runtime_device_id", ""),
-                        })
+                        running_jobs_list.append(
+                            {
+                                "id": j.id,
+                                "job_type": getattr(j, "job_type", "Routine"),
+                                "progress": getattr(j, "progress_percent", 50),
+                                "account_id": getattr(j, "account_id", ""),
+                                "device_id": getattr(j, "runtime_device_id", ""),
+                            }
+                        )
                     elif status_str == "failed":
                         failed_jobs_count += 1
                     elif status_str in ("pending", "scheduled"):
-                        upcoming_schedules_list.append({
-                            "id": j.id,
-                            "job_type": getattr(j, "job_type", "Scheduled Action"),
-                            "scheduled_time": getattr(j, "scheduled_at", "Later Today"),
-                        })
+                        upcoming_schedules_list.append(
+                            {
+                                "id": j.id,
+                                "job_type": getattr(j, "job_type", "Scheduled Action"),
+                                "scheduled_time": getattr(j, "scheduled_at", "Later Today"),
+                            }
+                        )
 
         except Exception as exc:
             logger.warning("Could not read metrics from UnitOfWork: %s", exc)
@@ -200,7 +214,7 @@ class DashboardQueryService:
             recent_errors_count=recent_errors_count,
         )
 
-        is_empty = (total_accounts == 0 and total_devices == 0)
+        is_empty = total_accounts == 0 and total_devices == 0
 
         return DashboardDataDTO(
             metrics=metrics,
