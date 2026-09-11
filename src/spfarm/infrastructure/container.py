@@ -79,6 +79,92 @@ class Container:
             ),
         )
 
+        # Register Account Services and CQRS Handlers
+        from spfarm.application.commands.account_commands import (
+            ArchiveAccountCommand,
+            ArchiveAccountHandler,
+            BulkUpdateAccountStatusCommand,
+            BulkUpdateAccountStatusHandler,
+            CreateAccountCommand,
+            CreateAccountHandler,
+            DeleteAccountCommand,
+            DeleteAccountHandler,
+            RestoreAccountCommand,
+            RestoreAccountHandler,
+            UpdateAccountCommand,
+            UpdateAccountHandler,
+        )
+        from spfarm.application.queries.accounts import AccountQueryService
+        from spfarm.application.services.account_dedup import AccountDuplicateDetector
+        from spfarm.application.services.account_import import AccountImportService
+        from spfarm.domain.interfaces.secret_store import ISecretStore
+
+        self.register_singleton(
+            AccountDuplicateDetector,
+            AccountDuplicateDetector(uow_factory=lambda: self.resolve(IUnitOfWork)),
+        )
+
+        self.register_factory(
+            AccountQueryService,
+            lambda: AccountQueryService(uow_factory=lambda: self.resolve(IUnitOfWork)),
+        )
+
+        create_handler = CreateAccountHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            secret_store=self.resolve(ISecretStore),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+            dedup_detector=self.resolve(AccountDuplicateDetector),
+        )
+        update_handler = UpdateAccountHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        archive_handler = ArchiveAccountHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        restore_handler = RestoreAccountHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        delete_handler = DeleteAccountHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            secret_store=self.resolve(ISecretStore),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        bulk_handler = BulkUpdateAccountStatusHandler(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            event_bus=self.resolve(EventBus),
+            audit_service=self.resolve(AuditService),
+        )
+        import_service = AccountImportService(
+            uow_factory=lambda: self.resolve(IUnitOfWork),
+            dedup_detector=self.resolve(AccountDuplicateDetector),
+            create_handler=create_handler,
+        )
+
+        self.register_singleton(CreateAccountHandler, create_handler)
+        self.register_singleton(UpdateAccountHandler, update_handler)
+        self.register_singleton(ArchiveAccountHandler, archive_handler)
+        self.register_singleton(RestoreAccountHandler, restore_handler)
+        self.register_singleton(DeleteAccountHandler, delete_handler)
+        self.register_singleton(BulkUpdateAccountStatusHandler, bulk_handler)
+        self.register_singleton(AccountImportService, import_service)
+
+        # Register with CommandBus
+        cmd_bus = self.resolve(CommandBus)
+        cmd_bus.register(CreateAccountCommand, create_handler)
+        cmd_bus.register(UpdateAccountCommand, update_handler)
+        cmd_bus.register(ArchiveAccountCommand, archive_handler)
+        cmd_bus.register(RestoreAccountCommand, restore_handler)
+        cmd_bus.register(DeleteAccountCommand, delete_handler)
+        cmd_bus.register(BulkUpdateAccountStatusCommand, bulk_handler)
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance

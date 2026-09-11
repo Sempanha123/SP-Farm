@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
         self._route_indices: dict[str, int] = {}
 
         self._register_route("dashboard", self._create_dashboard_view())
-        self._register_route("accounts", self._create_placeholder_view("👤 Accounts Management", "Profiles, Pages, Groups"))
+        self._register_route("accounts", self._create_accounts_view())
         self._register_route("environments", self._create_placeholder_view("🌐 Account Environment Profiles", "Decoupled device profiles"))
         self._register_route("devices", self._create_placeholder_view("📱 Runtime Devices", "Physical Android, LDPlayer, MuMu"))
         self._register_route("device_pool", self._create_placeholder_view("🏊 Device Pool Orchestrator", "Multi-device allocation"))
@@ -178,6 +178,35 @@ class MainWindow(QMainWindow):
         view = DashboardView(
             query_service=self.container.dashboard_queries,
             event_bus=self.container.event_bus,
+        )
+        view.navigate_requested.connect(self.navigate_to_route)
+        return view
+
+    def _create_accounts_view(self) -> QWidget:
+        from spfarm.application.commands.account_commands import (
+            ArchiveAccountHandler,
+            BulkUpdateAccountStatusHandler,
+            CreateAccountHandler,
+            DeleteAccountHandler,
+            RestoreAccountHandler,
+            UpdateAccountHandler,
+        )
+        from spfarm.application.queries.accounts import AccountQueryService
+        from spfarm.application.services.account_import import AccountImportService
+        from spfarm.presentation.accounts.accounts_view import AccountsView
+
+        view = AccountsView(
+            query_service=self.container.resolve(AccountQueryService),
+            create_handler=self.container.resolve(CreateAccountHandler),
+            update_handler=self.container.resolve(UpdateAccountHandler),
+            archive_handler=self.container.resolve(ArchiveAccountHandler),
+            restore_handler=self.container.resolve(RestoreAccountHandler),
+            delete_handler=self.container.resolve(DeleteAccountHandler),
+            bulk_handler=self.container.resolve(BulkUpdateAccountStatusHandler),
+            import_service=self.container.resolve(AccountImportService),
+            event_bus=self.container.event_bus,
+            secret_store=self.container.secret_store,
+            audit_service=self.container.audit_service,
         )
         view.navigate_requested.connect(self.navigate_to_route)
         return view
