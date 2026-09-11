@@ -261,10 +261,21 @@ class Container:
         )
         fake_provider = FakeDeviceProvider()
         device_registry.register_provider(fake_provider)
+
+        from spfarm.infrastructure.devices.ldplayer.provider import LDPlayerProvider
+        from spfarm.infrastructure.devices.ldplayer.window_layout import LDPlayerWindowLayoutService
+
+        ldplayer_provider = LDPlayerProvider()
+        device_registry.register_provider(ldplayer_provider)
         device_registry.discover_all()
 
         self.register_singleton(DeviceRegistry, device_registry)
         self.register_singleton(FakeDeviceProvider, fake_provider)
+        self.register_singleton(LDPlayerProvider, ldplayer_provider)
+        self.register_singleton(
+            LDPlayerWindowLayoutService,
+            LDPlayerWindowLayoutService(provider=ldplayer_provider),
+        )
         self.register_factory(
             DeviceQueryService,
             lambda: DeviceQueryService(
