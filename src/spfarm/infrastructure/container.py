@@ -31,6 +31,29 @@ class Container:
 
         self.register_factory(IUnitOfWork, lambda: SqlAlchemyUnitOfWork())
 
+        # Register Settings manager
+        from spfarm.shared.settings import SettingsManager
+
+        self.register_singleton(SettingsManager, SettingsManager())
+
+        # Register Secret Store
+        from spfarm.domain.interfaces.secret_store import ISecretStore
+        from spfarm.infrastructure.secrets.keyring_store import KeyringSecretStore
+
+        self.register_singleton(ISecretStore, KeyringSecretStore())
+
+        # Register Diagnostics Service
+        from spfarm.application.services.diagnostics import DiagnosticsService
+
+        self.register_factory(
+            DiagnosticsService,
+            lambda: DiagnosticsService(
+                settings_manager=self.resolve(SettingsManager),
+                event_bus=self.resolve(EventBus),
+                uow_factory=lambda: self.resolve(IUnitOfWork),
+            ),
+        )
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance
@@ -64,6 +87,24 @@ class Container:
     @property
     def app_paths(self) -> AppPaths:
         return self.resolve(AppPaths)
+
+    @property
+    def settings_manager(self) -> Any:
+        from spfarm.shared.settings import SettingsManager
+
+        return self.resolve(SettingsManager)
+
+    @property
+    def secret_store(self) -> Any:
+        from spfarm.domain.interfaces.secret_store import ISecretStore
+
+        return self.resolve(ISecretStore)
+
+    @property
+    def diagnostics(self) -> Any:
+        from spfarm.application.services.diagnostics import DiagnosticsService
+
+        return self.resolve(DiagnosticsService)
 
     @property
     def registered_service_names(self) -> list[str]:
