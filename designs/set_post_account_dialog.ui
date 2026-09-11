@@ -1,0 +1,4497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Post</class>
+ <widget class="QDialog" name="Post">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1222</width>
+    <height>974</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Noto Sans Khmer</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Post</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../ui/resources.qrc">
+    <normaloff>:/icons/images/vpn_loaction.png</normaloff>:/icons/images/vpn_loaction.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget, #post_group {
+	background-color: rgb(226, 241, 255);
+    border-radius: 6px;
+}
+
+/* GroupBox panels */
+QGroupBox {
+	
+	background-color: rgb(255, 188, 218);
+    border: 2px solid rgb(157, 178, 255); /* very subtle border */
+    border-radius: 8px;
+    margin-top: 10px;
+    padding:4px;
+    font-weight: bold;
+}
+
+/* Optional: GroupBox title */
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top left;
+    padding: 0px 4px;
+	color: rgb(16, 16, 16);
+font-size: 18px;
+}
+QPushButton {
+	background-color: rgb(74, 81, 127);
+    color: white;     /* dark gray text */
+    border: none;
+    border-radius: 6px;
+    padding: 3px 13px;
+    font-weight: bold;
+
+}
+
+QPushButton:hover {
+    background-color: #F48EB9;
+}
+
+QPushButton:pressed {
+    background-color: #E96DA4;  /* deeper pink when pressed */
+}
+
+QPushButton:disabled {
+    background-color: #FBD8E4;  /* faded pink for disabled state */
+    color: #999999;
+}
+/* ComboBox Main Style */
+QComboBox {
+    background-color: #FFFFFF; /* white so it stands out on aqua panel */
+    color: rgb(50, 50, 50);    /* dark gray text */
+    border: 1px solid #A3C9D4; /* subtle aqua border */
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+/* ComboBox Main Style */
+QComboBox {
+	background-color: rgb(85, 170, 255);
+	color: rgb(255, 255, 255);
+    border: 1px solid #A3C9D4; /* subtle aqua border */
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+/* Drop-down Button */
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+	background-color: rgb(77, 155, 232);
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+/* Arrow Icon */
+QComboBox::down-arrow {
+	image: url(:/icons/images/down-arrow.png);
+    width: 16px;
+    height: 16px;
+}
+
+/* Popup List */
+QComboBox QAbstractItemView {
+    background-color: #FFFFFF;
+    border: 1px solid #A3C9D4;
+    selection-background-color: #F6AAC9; /* pastel pink highlight */
+    selection-color: rgb(50, 50, 50);
+}
+/* LineEdit Style */
+QLineEdit {
+    background-color: #FFFFFF; /* clean white for good contrast */
+    color: rgb(50, 50, 50);    /* dark gray text */
+    border: 1px solid #A3C9D4; /* same subtle aqua border as ComboBox */
+    border-radius: 6px;
+    padding: 4px 8px;
+    selection-background-color: #F6AAC9; /* pastel pink text highlight */
+    selection-color: rgb(50, 50, 50);
+}
+
+/* Focused (active) state */
+QLineEdit:focus {
+    border: 2px solid #F6AAC9; /* pink border when focused */
+    outline: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * QTableWidget -- A detailed, professional style
+ * --------------------------------------------------------------------------- */
+
+/* Style for the checkbox indicator inside the table */
+QTableWidget::indicator {
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 2px solid rgb(136, 199, 247);
+    border-radius: 5px;
+}
+
+/* Style for when the mouse is hovering over the indicator */
+QTableWidget::indicator:hover {
+    border: 2px solid rgb(42, 126, 0); 
+}
+
+/* Style for when the checkbox is checked */
+QTableWidget::indicator:checked {
+    image: url(:/icons/images/checkmark.png);
+    background-color: white; /* Keeps background white when checked */
+    border: 2px solid rgb(136, 199, 247);
+}
+
+/* Style for when a checked checkbox is hovered */
+QTableWidget::indicator:checked:hover {
+    border: 2px solid rgb(42, 126, 0);
+}
+
+/* Style for when the checkbox is disabled */
+QTableWidget::indicator:disabled {
+    background-color: #3B4252;
+    border: 1px solid #434C5E;
+}
+
+/* ---------------------------------------------------------------------------
+ * QHeaderView -- Styling for the top header
+ * --------------------------------------------------------------------------- */
+
+/* The entire header bar */
+QHeaderView {
+	background-color: rgb(248, 251, 255);
+}
+
+/* Each individual section/column in the header */
+QHeaderView::section {
+	background-color: rgb(213, 242, 250);
+    border: none;
+    text-align: center; /* Ensure text is aligned left */
+padding: 1px;
+}
+
+/* Style for when a header section is clicked/pressed */
+QHeaderView::section:pressed {
+	border: none;
+}
+
+/* The small sort indicator arrow that appears when you click a header */
+QHeaderView::down-arrow {
+    
+	image: url(:/icons/images/down-arrow.png);
+}
+
+QHeaderView::up-arrow {
+    image: url(:/icons/images/down-arrow.png);
+}
+
+/* ---------------------------------------------------------------------------
+ * QScrollBar -- Styling for the vertical and horizontal scrollbars
+ * --------------------------------------------------------------------------- */
+
+/* Vertical Scrollbar */
+QScrollBar:vertical {
+    border: none;
+    background: #2E3440; /* Match the darkest background */
+    width: 14px;
+    margin: 0px;
+}
+QScrollBar::handle:vertical {
+    background: #4C566A; /* Handle color */
+    min-height: 10px;
+    border-radius: 7px;
+}
+QScrollBar::handle:vertical:hover {
+    background: #5E81AC; /* Highlight on hover */
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px; /* Hide the top and bottom arrow buttons */
+    background: none;
+}
+
+/* Horizontal Scrollbar */
+QScrollBar:horizontal {
+    border: none;
+    background: #2E3440;
+    height: 10px;
+    margin: 0px;
+}
+QScrollBar::handle:horizontal {
+    background: #4C566A;
+    min-width: 25px;
+    border-radius: 7px;
+}
+QScrollBar::handle:horizontal:hover {
+    background: #5E81AC;
+}
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    width: 0px; /* Hide the left and right arrow buttons */
+    background: none;
+}
+
+/* ---------------------------------------------------------------------------
+ * QSpinBox -- Professional Dark Theme Style
+ * --------------------------------------------------------------------------- */
+
+QSpinBox {
+	background-color: rgb(136, 199, 247);
+    color: white; /* Light grey text */
+    /*border: 1px solid #2E3440;  Darker border for depth */
+    border-radius: 5px;
+    padding: 4px; /* Give text some space */
+    /*font-size: 14px;*/
+}
+
+QSpinBox:focus {
+    /*border: 1px solid #88C0D0;  Cyan focus border, same as QLineEdit */
+}
+
+
+/* --- Styling the Up and Down Buttons --- */
+
+QSpinBox::up-button {
+background-color:  rgb(125, 151, 216);
+    subcontrol-position: top right; /* Position at the top right */
+    width: 20px;
+    border-top-right-radius: 5px;
+}
+
+QSpinBox::down-button {
+background-color:  rgb(125, 151, 216);
+    subcontrol-position: bottom right; /* Position at the bottom right */
+    width: 20px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Style for when hovering over the buttons */
+QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+    background-color: #5E81AC; /* Main blue accent color */
+}
+
+/* --- Styling the Up and Down Arrows --- */
+
+QSpinBox::up-arrow {
+    image: url(:/icons/images/up-arrow.png); /* You need a white up-arrow icon */
+    width: 17px;
+    height: 17px;
+}
+
+QSpinBox::down-arrow {
+    image: url(:/icons/images/down-arrow.png); /* You need a white down-arrow icon */
+    width: 17px;
+    height: 17px;
+}
+
+
+/* ---------------------------------------------------------------------------
+ * QCheckBox -- Professional Dark Theme Style
+ * --------------------------------------------------------------------------- */
+
+/* Style for the entire checkbox widget (box + text) */
+QCheckBox {
+    color: black; /* Light grey text */
+    spacing: 10px; /* Space between the box and the text */
+}
+
+/* Style for the checkable box itself */
+QCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    background-color: white; /* Dark input field background */
+    border: 2px solid rgb(136, 199, 247);  /* Darker border */
+    border-radius: 5px;
+}
+
+/* Style for when the mouse is hovering over the checkbox */
+QCheckBox::indicator:hover {
+    border: 2px solid rgb(42, 126, 0); /* Lighter blue border on hover */
+}
+
+/* Style for when the checkbox is checked */
+QCheckBox::indicator:checked {
+    /* This displays a checkmark icon from your resources */
+    image: url(:/icons/images/checkmark.png);
+}
+
+/* Style for when a checked checkbox is hovered */
+
+
+/* Style for when the checkbox is disabled */
+QCheckBox:disabled {
+    color: #4C566A; /* Greyed-out text */
+}
+
+QCheckBox::indicator:disabled {
+    background-color: #3B4252; /* Darker, disabled background */
+    border: 1px solid #434C5E;
+}
+
+
+
+/* ---------------------------------------------------------------------------
+ * QRadioButton — Pastel Aqua &amp; Pink Modern Style
+ * --------------------------------------------------------------------------- */
+
+QRadioButton {
+    color: black;                /* Text color */
+    spacing: 10px;               /* Space between circle and text */
+    font-weight: medium;
+}
+
+/* Radio circle (indicator) */
+QRadioButton::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 10px;          /* Make it round */
+    border: 2px solid rgb(136, 199, 247);   /* Same blue tone as QCheckBox */
+    background-color: white;     /* Base background */
+}
+
+/* Hover effect */
+QRadioButton::indicator:hover {
+    border: 2px solid rgb(42, 126, 0);      /* Light green-blue hover border */
+}
+
+/* Checked (active) state */
+QRadioButton::indicator:checked {
+    border: 2px solid rgb(129, 199, 132); /* Pastel green border */
+    background-color: qradialgradient(
+        cx: 0.5, cy: 0.5, radius: 0.6,
+        fx: 0.5, fy: 0.5,
+        stop: 0 rgb(102, 187, 106),
+        stop: 1 white
+    );
+}
+
+
+/* Disabled state */
+QRadioButton:disabled {
+    color: #4C566A;
+}
+
+QRadioButton::indicator:disabled {
+    background-color: #E0E0E0;
+    border: 1px solid #B0B0B0;
+}
+
+/* Focus state (optional glowing border) */
+QRadioButton:focus {
+    outline: none;
+}
+
+QRadioButton::indicator:focus {
+    border: 2px solid rgb(157, 178, 255);
+}
+
+
+/* ---------------------------------------------------------------------------
+ * QMenu -- Style for multi-level context menus
+ * --------------------------------------------------------------------------- */
+
+QMenu {
+    background-color: #3B4252; /* Dark grey background */
+    color: #ECEFF4; /* Light text */
+    border: 1px solid #4C566A;
+    border-radius: 5px;
+    padding: 5px;
+}
+QMenu::icon {
+  width: 24px;
+    height: 24px;
+    padding-left: 10px; /* 👈 Pushes icons to the right */
+}
+
+/* Style for each item in the menu */
+QMenu::item {
+    padding: 4px 6px;
+    border-radius: 4px;
+}
+
+/* This is the hover effect for any menu item */
+QMenu::item:selected {
+    background-color: #5E81AC; /* Main blue accent color */
+}
+/* Style for the separator line */
+QMenu::separator {
+    height: 1px;
+    background-color: #4C566A;
+    margin: 5px 0px;
+}
+
+/* The arrow for submenus */
+QMenu::right-arrow {
+    image: url(:/icons/images/right-arrow-48.png); /* You need a right-arrow icon */
+    width: 16px;
+    height: 16px;
+padding-right: 10px;
+}
+
+/* ------------------------------
+   QTabWidget Base Pane
+--------------------------------*/
+QTabWidget::pane {
+    border: 2px solid  rgb(157, 178, 255);        /* Light mint border */
+    border-radius: 7px;
+    background-color: #f1f8f6;        /* Very light green background */
+    padding: 1px;
+}
+
+/* ------------------------------
+   QTabBar (Tabs Container)
+--------------------------------*/
+QTabBar {
+    qproperty-drawBase: 0; /* Prevents double border */
+    background-color: transparent;
+}
+
+/* ------------------------------
+   Tabs - General Style
+--------------------------------*/
+QTabBar::tab {
+    background-color: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #e8f5e9,
+        stop: 1 #c8e6c9
+    );
+    border: 1px solid  rgb(157, 178, 255);
+    border-bottom: none;               /* So selected tab merges with pane */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    min-width: 100px;
+    padding: 4px 7px;
+    color: #2e7d32;                    /* Dark green text */
+    margin-right: 3px;
+}
+
+/* ------------------------------
+   Hovered Tab
+--------------------------------*/
+QTabBar::tab:hover {
+    background-color: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #dcedc8,
+        stop: 1 #aed581
+    );
+    border-color: #81c784;
+}
+
+/* ------------------------------
+   Selected (Active) Tab
+--------------------------------*/
+QTabBar::tab:selected {
+    background-color: qlineargradient(
+        x1: 0, y1: 0, x2: 0, y2: 1,
+        stop: 0 #a5d6a7,
+        stop: 1 #81c784
+    );
+    border-color: #66bb6a;
+    color: white;
+    font-weight: 600;
+}
+
+/* ------------------------------
+   Disabled Tab
+--------------------------------*/
+QTabBar::tab:disabled {
+    color: #bdbdbd;
+    background-color: #f5f5f5;
+    border-color: #dcdcdc;
+}
+
+/* ------------------------------
+   Tab Positions (Optional)
+--------------------------------*/
+QTabBar::tab:top:selected {
+    margin-bottom: -1px;
+}
+
+QTabBar::tab:bottom:selected {
+    margin-top: -1px;
+}
+
+QTabBar::tab:left:selected {
+    margin-right: -1px;
+}
+
+QTabBar::tab:right:selected {
+    margin-left: -1px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="title">
+      <string>Post</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QTabWidget" name="tabWidget">
+           <property name="font">
+            <font>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="cursor">
+            <cursorShape>ArrowCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="tabPosition">
+            <enum>QTabWidget::North</enum>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="elideMode">
+            <enum>Qt::ElideNone</enum>
+           </property>
+           <property name="usesScrollButtons">
+            <bool>false</bool>
+           </property>
+           <property name="movable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="PostReel">
+            <attribute name="title">
+             <string>Post Reels</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="groupBox_7">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Post</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_9">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_22" stretch="0,0,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="post">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Post</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="text">
+                     <string>Total Posts</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="total_posts">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="text">
+                     <string>Videos</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_24" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="tag">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Tag Peoples</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_14">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="tag_from">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_14">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="tag_to">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QCheckBox" name="ai_label_reels">
+                  <property name="text">
+                   <string>AI Label</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_3">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);
+background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Share</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0,0">
+                <item row="0" column="0">
+                 <layout class="QHBoxLayout" name="horizontalLayout_23" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="share_to_group">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Share To Groups</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_13">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_from">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_13">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_to">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QFrame" name="frame_3">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_suggest">
+                     <property name="text">
+                      <string>Group Suggest   </string>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">buttonGroup_2</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_seleted">
+                     <property name="text">
+                      <string>Group by Seleted</string>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">buttonGroup_2</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QPlainTextEdit" name="share_to_group_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking, Group 24H</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QFrame" name="frame_9">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_18">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="share_to_group_tittle">
+                     <property name="text">
+                      <string>Tittle</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_9" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_19">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="use_fixed_share_group_tittle">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="use_random_share_group_tittle">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="2" rowspan="5">
+              <widget class="QGroupBox" name="groupBox_8">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);</string>
+               </property>
+               <property name="title">
+                <string>Group</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_5">
+                <item row="0" column="0">
+                 <widget class="QTableWidget" name="post_reels_group">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="autoFillBackground">
+                   <bool>true</bool>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="columnCount">
+                   <number>2</number>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                    </font>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>ALL</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Group Name</string>
+                   </property>
+                  </column>
+                  <item row="0" column="0">
+                   <property name="text">
+                    <string>SP1</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_5">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Tittle</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <widget class="QWidget" name="widget" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="use_tittle_from_videos">
+                     <property name="text">
+                      <string>Use Title From Videos</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">buttonGroup_3</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="use_fixed_tittle">
+                     <property name="text">
+                      <string>Use Fixed Tittle</string>
+                     </property>
+                     <attribute name="buttonGroup">
+                      <string notr="true">buttonGroup_3</string>
+                     </attribute>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="tittle_text">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking Mokbang 2026</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="1" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_9">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Comments</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <item>
+                 <widget class="QFrame" name="frame_4">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="comments">
+                     <property name="text">
+                      <string>Comments</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_6" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_10">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="comments_use_fixed">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="comments_use_random">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="comments_text">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>#hastage, #Cooking</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="3" column="0" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_4">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Hastag</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <widget class="QFrame" name="frame_2">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_7">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="hastag">
+                     <property name="text">
+                      <string>Hastag</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_5" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_6">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="use_fixed_hastag">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                        <attribute name="buttonGroup">
+                         <string notr="true">buttonGroup_4</string>
+                        </attribute>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="use_random_hastag">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                        <attribute name="buttonGroup">
+                         <string notr="true">buttonGroup_4</string>
+                        </attribute>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="post_reels_hastag">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>#hastage, #Cooking</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QGroupBox" name="groupBox_6">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Location</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QCheckBox" name="check_in">
+                  <property name="text">
+                   <string>Location (Check In)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="check_in_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Phnom Penh</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="3">
+              <widget class="QGroupBox" name="groupBox_2">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Videos</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_5">
+                <item>
+                 <widget class="QWidget" name="widget_2" native="true">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QLabel" name="label_13">
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string>Path</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="videos_reel_path">
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="browse_video_reel_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Folder</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/folder.png</normaloff>:/icons/images/folder.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="refresh_video_reel_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Refresh</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/refresh.png</normaloff>:/icons/images/refresh.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="open_location_videos_reel">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Open</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/1333974.png</normaloff>:/icons/images/1333974.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>219</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_3">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>      Video Post Already :   </string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="videos_reel_post_ready">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0/0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableWidget" name="video_reel_table">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Thumbnail</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>File Name</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Duration</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Size</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Status</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="PostVideos">
+            <attribute name="title">
+             <string>Post Videos</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_8">
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="groupBox_15">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Post</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_26" stretch="0,0,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="post_video">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Post</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_4">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Total Posts</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="total_posts_video">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Videos</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_27" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="video_tag">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Tag Peoples</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_16">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="video_tag_from">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_16">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="video_tag_to">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ai_label_videos">
+                  <property name="text">
+                   <string>AI Label</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_14">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);
+background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Share</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_25" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="share_to_group_video">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Share To Groups</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_15">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_from_video">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_15">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_to_video">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_6">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_suggest_video">
+                     <property name="text">
+                      <string>Group Suggest   </string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_seleted_video">
+                     <property name="text">
+                      <string>Group by Seleted</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_10">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_20">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="share_to_group_tittle_videos">
+                     <property name="text">
+                      <string>Tittle</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_10" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_21">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="use_fixed_share_group_tittle_videos">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="use_random_share_group_tittle_videos">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="share_group_tittle_videos_words">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking, Group 24H</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QGroupBox" name="groupBox_10">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Tittle</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <widget class="QWidget" name="widget_3" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="video_use_tittle_from_videos">
+                     <property name="text">
+                      <string>Use Title From Videos</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="video_use_fixed_tittle">
+                     <property name="text">
+                      <string>Use Fixed Tittle</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="video_tittle_text">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking Mokbang 2026</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QGroupBox" name="groupBox_13">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Feelings</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_7">
+                <item row="0" column="1">
+                 <widget class="QRadioButton" name="feeling_random_video">
+                  <property name="text">
+                   <string>Use Random</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2" rowspan="2" colspan="2">
+                 <widget class="QRadioButton" name="feeling_inlove_video">
+                  <property name="text">
+                   <string>in Love</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QRadioButton" name="feeling_lovely_video">
+                  <property name="text">
+                   <string>Lovely</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QFrame" name="frame_5">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="use_feeling_video">
+                     <property name="text">
+                      <string>Feeling</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_7" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_12">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QRadioButton" name="feeling_blessed_video">
+                  <property name="text">
+                   <string>Blessed</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/blessed.PNG</normaloff>:/icons/images/blessed.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1" rowspan="3">
+                 <widget class="QRadioButton" name="feeling_sad_video">
+                  <property name="text">
+                   <string>Sad</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/sad.PNG</normaloff>:/icons/images/sad.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" rowspan="3">
+                 <widget class="QRadioButton" name="feeling_happy_video">
+                  <property name="text">
+                   <string>Happy</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/happy.PNG</normaloff>:/icons/images/happy.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="2">
+                 <widget class="QRadioButton" name="feeling_excited_video">
+                  <property name="text">
+                   <string>Excited</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/excited.PNG</normaloff>:/icons/images/excited.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QRadioButton" name="feeling_loved_video">
+                  <property name="text">
+                   <string>Loved</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QRadioButton" name="feeling_crazy_video">
+                  <property name="text">
+                   <string>Crazy</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/crazy.PNG</normaloff>:/icons/images/crazy.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QRadioButton" name="feeling_thankful_video">
+                  <property name="text">
+                   <string>Thankful</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/thankful.PNG</normaloff>:/icons/images/thankful.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QGroupBox" name="groupBox_16">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Location</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_11">
+                <item>
+                 <widget class="QCheckBox" name="video_check_in">
+                  <property name="text">
+                   <string>Location (Check In)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="video_check_in_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Phnom Penh</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="5" column="0" colspan="3">
+              <widget class="QGroupBox" name="groupBox_11">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Videos</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QWidget" name="widget_11" native="true">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_17">
+                   <item>
+                    <widget class="QLabel" name="label_15">
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string>Path</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="videos_tab_videos_path">
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="browse_video_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Folder</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/folder.png</normaloff>:/icons/images/folder.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="refresh_video_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Refresh</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/refresh.png</normaloff>:/icons/images/refresh.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="open_location_videos">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Open</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/1333974.png</normaloff>:/icons/images/1333974.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_5">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>219</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_9">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>      Video Post Already :   </string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="videos_post_ready">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0/0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableWidget" name="video_table">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Tittle</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Status</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="0" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_18">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Hastag</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item>
+                 <widget class="QFrame" name="frame_8">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_30">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="hastag_video">
+                     <property name="text">
+                      <string>Hastag</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_13" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_31">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="video_use_fixed_hastag">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="video_use_random_hastag">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="post_videos_hastag">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>#hastage, #Cooking</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QGroupBox" name="groupBox_17">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Comments</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_12">
+                <item>
+                 <widget class="QFrame" name="frame_7">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_14">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="video_comments">
+                     <property name="text">
+                      <string>Comments</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_8" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_15">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="video_comments_use_fixed">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="video_comments_use_random">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="video_comments_text">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Hello every one</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="2" rowspan="5">
+              <widget class="QGroupBox" name="groupBox_12">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);</string>
+               </property>
+               <property name="title">
+                <string>Group</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_6">
+                <item row="0" column="0">
+                 <widget class="QTableWidget" name="post_videos_group">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Post Image</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_11">
+             <item row="5" column="0">
+              <widget class="QGroupBox" name="groupBox_19">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Feelings</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_10">
+                <item row="0" column="1">
+                 <widget class="QRadioButton" name="feeling_random_image">
+                  <property name="text">
+                   <string>Use Random</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2" rowspan="2" colspan="2">
+                 <widget class="QRadioButton" name="feeling_inlove_image">
+                  <property name="text">
+                   <string>in Love</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QRadioButton" name="feeling_lovely_image">
+                  <property name="text">
+                   <string>Lovely</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QFrame" name="frame_12">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_32">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="use_feeling_image">
+                     <property name="text">
+                      <string>Feeling</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_14" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_33">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QRadioButton" name="feeling_blessed_image">
+                  <property name="text">
+                   <string>Blessed</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/blessed.PNG</normaloff>:/icons/images/blessed.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1" rowspan="3">
+                 <widget class="QRadioButton" name="feeling_sad_image">
+                  <property name="text">
+                   <string>Sad</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/sad.PNG</normaloff>:/icons/images/sad.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0" rowspan="3">
+                 <widget class="QRadioButton" name="feeling_happy_image">
+                  <property name="text">
+                   <string>Happy</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/happy.PNG</normaloff>:/icons/images/happy.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="2">
+                 <widget class="QRadioButton" name="feeling_excited_image">
+                  <property name="text">
+                   <string>Excited</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/excited.PNG</normaloff>:/icons/images/excited.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="0">
+                 <widget class="QRadioButton" name="feeling_loved_image">
+                  <property name="text">
+                   <string>Loved</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/loved.PNG</normaloff>:/icons/images/loved.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QRadioButton" name="feeling_crazy_image">
+                  <property name="text">
+                   <string>Crazy</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/crazy.PNG</normaloff>:/icons/images/crazy.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QRadioButton" name="feeling_thankful_image">
+                  <property name="text">
+                   <string>Thankful</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../ui/resources.qrc">
+                    <normaloff>:/icons/images/thankful.PNG</normaloff>:/icons/images/thankful.PNG</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QGroupBox" name="groupBox_42">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Location</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_31">
+                <item>
+                 <widget class="QCheckBox" name="check_in_image">
+                  <property name="text">
+                   <string>Location (Check In)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="check_in_image_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Phnom Penh</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="6" column="0" colspan="3">
+              <widget class="QGroupBox" name="groupBox_35">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Image</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_26">
+                <item>
+                 <widget class="QWidget" name="widget_20" native="true">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_16">
+                   <item>
+                    <widget class="QLabel" name="label_19">
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string>Path</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="image_path">
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="browse_image_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Folder</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/folder.png</normaloff>:/icons/images/folder.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="refresh_image_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Refresh</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/refresh.png</normaloff>:/icons/images/refresh.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="open_location_image">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Open</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/1333974.png</normaloff>:/icons/images/1333974.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_13">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>231</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_20">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string> Images Post Already :   </string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="images_post_ready">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0/0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableWidget" name="images_table">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Thumbnail</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Image Name</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Size</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Status</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QGroupBox" name="groupBox_39">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Post</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_28">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_52" stretch="0,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="post_image">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Post</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_14">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_21">
+                    <property name="text">
+                     <string>Total Posts</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="total_posts_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="tag_image">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Tag Peoples</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_22">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="tag_from_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_22">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="tag_to_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_56" stretch="0,0">
+                  <item>
+                   <widget class="QLabel" name="label_23">
+                    <property name="text">
+                     <string>Total Per Posts</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="total_per_post_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="ai_label_image">
+                  <property name="text">
+                   <string>AI Label</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QGroupBox" name="groupBox_37">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Hastag</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_27">
+                <item>
+                 <widget class="QFrame" name="frame_14">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_46">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="hastag_image">
+                     <property name="text">
+                      <string>Hastag</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_21" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_47">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="use_fixed_hastag_image">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="use_random_hastag_image">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="image_hastag_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>#hastage, #Cooking</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="3" column="1" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_43">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Comments</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_32">
+                <item>
+                 <widget class="QFrame" name="frame_16">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_54">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="comments_image">
+                     <property name="text">
+                      <string>Comments</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_22" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_55">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="comments_use_fixed_image">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="comments_use_random_image">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="comments_image_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Hello Every One</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="1" rowspan="2">
+              <widget class="QGroupBox" name="groupBox_38">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);
+background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Share</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_13">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_50" stretch="11,1,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="share_to_group_image">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Share To Groups</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="from_21">
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>From :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_from_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="to_21">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>To :</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="share_to_group_to_image">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_15">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_51">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_suggest_image">
+                     <property name="text">
+                      <string>Group Suggest   </string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="share_to_group_use_by_seleted_image">
+                     <property name="text">
+                      <string>Group by Seleted</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_11">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_28">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QCheckBox" name="share_to_group_tittle_image">
+                     <property name="text">
+                      <string>Tittle</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QWidget" name="widget_12" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_29">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="use_fixed_share_group_tittle_image">
+                        <property name="text">
+                         <string>Use Fixed</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="use_random_share_group_tittle_image">
+                        <property name="text">
+                         <string>Use Random</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="share_to_group_word_image">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking, Group 24H</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="1" column="0" rowspan="3">
+              <widget class="QGroupBox" name="groupBox_34">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Set Up Tittle</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_25">
+                <item>
+                 <widget class="QWidget" name="widget_19" native="true">
+                  <layout class="QHBoxLayout" name="horizontalLayout_44">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QRadioButton" name="use_tittle_from_image">
+                     <property name="text">
+                      <string>Use Title From Image</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="use_fixed_tittle_image">
+                     <property name="text">
+                      <string>Use Fixed Tittle</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="tittle_image_word">
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Cooking Mokbang 2026</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="0" column="2" rowspan="6">
+              <widget class="QGroupBox" name="groupBox_36">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(194, 202, 250);</string>
+               </property>
+               <property name="title">
+                <string>Group</string>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <widget class="QTableWidget" name="post_image_group">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QGroupBox" name="groupBox_44">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string>Layout</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_33">
+                <item>
+                 <widget class="QFrame" name="frame_17">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_57">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QWidget" name="widget_23" native="true">
+                     <layout class="QHBoxLayout" name="horizontalLayout_58">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QRadioButton" name="classic">
+                        <property name="text">
+                         <string>Classic</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="column">
+                        <property name="text">
+                         <string>Column</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="banner">
+                        <property name="text">
+                         <string>Banner</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="frame_layout">
+                        <property name="text">
+                         <string>Frame</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tab_5">
+            <attribute name="title">
+             <string>Post Story</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_25">
+             <item row="2" column="0" rowspan="2" colspan="2">
+              <widget class="QGroupBox" name="groupBox_40">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(204, 211, 250);</string>
+               </property>
+               <property name="title">
+                <string/>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_14">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_48" stretch="0,0,0,0,0">
+                  <item>
+                   <widget class="QCheckBox" name="post_story">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(204, 211, 250);</string>
+                    </property>
+                    <property name="text">
+                     <string>Post</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_25">
+                    <property name="text">
+                     <string>Total Posts</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="total_post_story">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(136, 199, 247);</string>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_26">
+                    <property name="text">
+                     <string>Videos</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QWidget" name="widget_24" native="true">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_34">
+                   <item>
+                    <widget class="QLabel" name="label_22">
+                     <property name="styleSheet">
+                      <string notr="true"/>
+                     </property>
+                     <property name="text">
+                      <string>Path</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="story_path">
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="browse_story_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Folder</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/folder.png</normaloff>:/icons/images/folder.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="refresh_story_path">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Refresh</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/refresh.png</normaloff>:/icons/images/refresh.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="open_location_story">
+                     <property name="cursor">
+                      <cursorShape>PointingHandCursor</cursorShape>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(85, 85, 127);</string>
+                     </property>
+                     <property name="text">
+                      <string>Open</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../ui/resources.qrc">
+                       <normaloff>:/icons/images/1333974.png</normaloff>:/icons/images/1333974.png</iconset>
+                     </property>
+                     <property name="iconSize">
+                      <size>
+                       <width>20</width>
+                       <height>24</height>
+                      </size>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_15">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>231</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="label_24">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Post Already :   </string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="story_post_ready">
+                     <property name="font">
+                      <font>
+                       <pointsize>10</pointsize>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>0/0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTableWidget" name="story_table">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>300</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Noto Sans Khmer</family>
+                   </font>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 255, 255);</string>
+                  </property>
+                  <property name="editTriggers">
+                   <set>QAbstractItemView::NoEditTriggers</set>
+                  </property>
+                  <property name="dragDropOverwriteMode">
+                   <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::NoSelection</enum>
+                  </property>
+                  <property name="selectionBehavior">
+                   <enum>QAbstractItemView::SelectRows</enum>
+                  </property>
+                  <property name="verticalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="horizontalScrollMode">
+                   <enum>QAbstractItemView::ScrollPerPixel</enum>
+                  </property>
+                  <property name="showGrid">
+                   <bool>false</bool>
+                  </property>
+                  <property name="gridStyle">
+                   <enum>Qt::NoPen</enum>
+                  </property>
+                  <property name="sortingEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="cornerButtonEnabled">
+                   <bool>true</bool>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>ID</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Tittle</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Status</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../ui/resources.qrc"/>
+ </resources>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup_3"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
+</ui>
