@@ -1,0 +1,100 @@
+SP-FARM V2 — FINAL PHASE INDEX
+==============================
+
+THIS IS THE PACKAGE TO USE FROM THE BEGINNING.
+Do not mix older phase packs into this one.
+
+Recommended Git flow:
+main = stable
+develop = integration
+phase/XX-name = each phase
+
+Read these first:
+00_MASTER_GOAL.txt
+01_UX_UI_SOURCE_OF_TRUTH.txt
+02_TARGET_SOURCE_TREE.txt
+03_ACCOUNT_ENVIRONMENT_DATA_MODEL.txt
+04_COMPANION_APP_BRIDGE_REFERENCE.txt
+
+PHASES
+------
+Phase 01 — Clean Repository and Security Reset
+  phase01_clean_repository_and_security_reset.txt
+Phase 02 — Layered Architecture and Dependency Rules
+  phase02_layered_architecture_and_dependency_rules.txt
+Phase 03 — Domain Models and Account Environment Model
+  phase03_domain_models_and_account_environment_model.txt
+Phase 04 — Database, Repositories and Migrations
+  phase04_database_repositories_and_migrations.txt
+Phase 05 — Settings and Secure Secret Vault
+  phase05_settings_and_secure_secret_vault.txt
+Phase 06 — Structured Logging, Audit and Error Center
+  phase06_structured_logging_audit_and_error_center.txt
+Phase 07 — Cute Light Design System and App Shell
+  phase07_cute_light_design_system_and_app_shell.txt
+Phase 08 — Dashboard
+  phase08_dashboard.txt
+Phase 09 — Accounts Workspace
+  phase09_accounts_workspace.txt
+Phase 10 — Pages and Groups Workspace
+  phase10_pages_and_groups_workspace.txt
+Phase 11 — Runtime Device Abstraction
+  phase11_runtime_device_abstraction.txt
+Phase 12 — LDPlayer Provider
+  phase12_ldplayer_provider.txt
+Phase 13 — MuMu Provider
+  phase13_mumu_provider.txt
+Phase 14 — Physical Android Provider
+  phase14_physical_android_provider.txt
+Phase 15 — ADB and Appium Session Infrastructure
+  phase15_adb_and_appium_session_infrastructure.txt
+Phase 16 — Companion App Bridge — No-Restart Environment Apply
+  phase16_companion_app_bridge_no_restart_environment_apply.txt
+Phase 17 — Account Environment Engine
+  phase17_account_environment_engine.txt
+Phase 18 — Device Pool and Resource-Aware Allocation
+  phase18_device_pool_and_resource_aware_allocation.txt
+Phase 19 — Persistent Job Engine and Worker Supervisor
+  phase19_persistent_job_engine_and_worker_supervisor.txt
+Phase 20 — Apps and APK Manager
+  phase20_apps_and_apk_manager.txt
+Phase 21 — Network Profiles — Proxy and VPN
+  phase21_network_profiles_proxy_and_vpn.txt
+Phase 22 — QA/Test Location Profiles
+  phase22_qa_test_location_profiles.txt
+Phase 23 — Account Onboarding and Session Linking
+  phase23_account_onboarding_and_session_linking.txt
+Phase 24 — Account Security Center
+  phase24_account_security_center.txt
+Phase 25 — Mail and Owned-Phone Integrations
+  phase25_mail_and_owned_phone_integrations.txt
+Phase 26 — Meta Official API Integration
+  phase26_meta_official_api_integration.txt
+Phase 27 — Selector Registry and Facebook UI Change Resilience
+  phase27_selector_registry_and_facebook_ui_change_resilience.txt
+Phase 28 — Modern Modular Action Engine
+  phase28_modern_modular_action_engine.txt
+Phase 29 — Profile and Account Maintenance Workflows
+  phase29_profile_and_account_maintenance_workflows.txt
+Phase 30 — Content Library
+  phase30_content_library.txt
+Phase 31 — Post Composer
+  phase31_post_composer.txt
+Phase 32 — Campaign Manager
+  phase32_campaign_manager.txt
+Phase 33 — Scheduler and Calendar
+  phase33_scheduler_and_calendar.txt
+Phase 34 — Publishing Execution Router
+  phase34_publishing_execution_router.txt
+Phase 35 — Comments, Inbox and Community Management
+  phase35_comments_inbox_and_community_management.txt
+Phase 36 — Backups, Restore, Import and Export
+  phase36_backups_restore_import_and_export.txt
+Phase 37 — Analytics and Reports
+  phase37_analytics_and_reports.txt
+Phase 38 — Plugin and Provider SDK
+  phase38_plugin_and_provider_sdk.txt
+Phase 39 — Installer, Updater and Production Packaging
+  phase39_installer_updater_and_production_packaging.txt
+Phase 40 — Testing, Migration, Hardening and V2 Release
+  phase40_testing_migration_hardening_and_v2_release.txt

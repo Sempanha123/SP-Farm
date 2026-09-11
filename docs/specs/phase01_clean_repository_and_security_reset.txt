@@ -1,0 +1,86 @@
+SP-FARM V2 — PHASE 01
+Clean Repository and Security Reset
+===============================================
+
+COPY-PASTE THIS ENTIRE PROMPT INTO THE CODING AI.
+
+IMPORTANT
+---------
+This roadmap is the FINAL starting roadmap.
+Before coding this phase:
+
+1. Read 00_MASTER_GOAL.txt.
+2. Read 01_UX_UI_SOURCE_OF_TRUTH.txt.
+3. Read 02_TARGET_SOURCE_TREE.txt.
+4. Read 03_ACCOUNT_ENVIRONMENT_DATA_MODEL.txt.
+5. Read 04_COMPANION_APP_BRIDGE_REFERENCE.txt when device-environment work is relevant.
+6. Inspect all code from earlier completed phases.
+7. Run existing tests.
+8. Preserve architecture boundaries.
+9. Do not skip acceptance criteria.
+
+PHASE GOAL
+----------
+Create a brand-new SP-Farm V2 repository foundation and remove old architecture/runtime data from the new tree.
+
+MUST BUILD
+----------
+- Archive old project outside the new source tree.
+- Create pyproject.toml, src/spfarm, tests, assets, migrations, docs and scripts.
+- Create .gitignore covering .env, databases, backups, logs, tokens, cookies, media cache, APK cache, generated files and IDE metadata.
+- Create .env.example with placeholders only.
+- Add README.md, SECURITY.md, CONTRIBUTING.md.
+- Add Ruff, type checking, Pytest and pre-commit.
+- Add secret scanning.
+- Add CI for lint/type/test.
+- Add minimal `python -m spfarm` boot.
+
+UX / UI REQUIREMENTS
+--------------------
+Only a minimal splash/boot screen in the cute light theme. No feature UI yet.
+
+TECHNICAL RULES
+---------------
+- Do not copy old JSON databases into repo.
+- Do not reuse any exposed credentials.
+- Use pathlib.
+- All runtime paths configurable.
+
+GLOBAL SAFETY / SECURITY RULES
+------------------------------
+- Operate only on accounts/Pages/Groups/devices/content the operator owns or is authorized to manage.
+- Do not build bulk Facebook signup.
+- Do not build disposable-number Facebook registration.
+- Do not build CAPTCHA/checkpoint/security bypass.
+- Do not build anti-detect hardware identity rotation.
+- Do not generate fake IMEI/MEID/GSF/serial/advertising-ID fingerprints for Facebook evasion.
+- Do not build mass-like/comment/story-view/friend-request/unsolicited-message workflows.
+- Prefer official Meta APIs where supported.
+- Never store secrets in source code/plaintext JSON.
+- Never log secrets.
+
+ACCEPTANCE CRITERIA
+-------------------
+- [ ] Fresh clone installs.
+- [ ] `python -m spfarm` opens.
+- [ ] Tests/lint/type pass.
+- [ ] No secret/runtime files tracked.
+
+DELIVERABLE FORMAT
+------------------
+When finished, respond with:
+
+1. Summary of changes.
+2. Exact files added/modified.
+3. Migrations added.
+4. Commands to install/run/test.
+5. Tests executed and results.
+6. Known limitations.
+7. Architecture notes if anything was refactored.
+8. "Ready for Phase 02" only if all acceptance criteria pass.
+
+Do not call the phase complete if tests fail.
+
+ADDITIONAL NOTES
+----------------
+Rotate any secrets that were previously committed publicly before continuing.

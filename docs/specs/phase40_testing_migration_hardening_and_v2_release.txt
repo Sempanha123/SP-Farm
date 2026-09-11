@@ -1,0 +1,87 @@
+SP-FARM V2 — PHASE 40
+Testing, Migration, Hardening and V2 Release
+========================================================
+
+COPY-PASTE THIS ENTIRE PROMPT INTO THE CODING AI.
+
+IMPORTANT
+---------
+This roadmap is the FINAL starting roadmap.
+Before coding this phase:
+
+1. Read 00_MASTER_GOAL.txt.
+2. Read 01_UX_UI_SOURCE_OF_TRUTH.txt.
+3. Read 02_TARGET_SOURCE_TREE.txt.
+4. Read 03_ACCOUNT_ENVIRONMENT_DATA_MODEL.txt.
+5. Read 04_COMPANION_APP_BRIDGE_REFERENCE.txt when device-environment work is relevant.
+6. Inspect all code from earlier completed phases.
+7. Run existing tests.
+8. Preserve architecture boundaries.
+9. Do not skip acceptance criteria.
+
+PHASE GOAL
+----------
+Stress-test everything, migrate safe old metadata and ship V2.
+
+MUST BUILD
+----------
+- Unit/integration/workflow/device/performance tests.
+- 10k accounts/10k pages/100k jobs test.
+- 16 simulated devices.
+- Crash recovery.
+- UI responsiveness.
+- Secret redaction tests.
+- Migration tests.
+- Old metadata importer.
+- Map old ld_name to runtime history only.
+- Create new environment profile per imported account.
+- Do not auto-import old plaintext secrets.
+- Do not migrate old fake-hardware fields as anti-detect identity.
+- Remove dead code/TODO hacks.
+- Write operator/troubleshooting docs.
+- Secret scan.
+- Release checklist.
+- Tag v2.0.0.
+
+UX / UI REQUIREMENTS
+--------------------
+Final polish across all screens.
+
+TECHNICAL RULES
+---------------
+- Only tested features claimed supported.
+- No known plaintext secret storage.
+
+GLOBAL SAFETY / SECURITY RULES
+------------------------------
+- Operate only on accounts/Pages/Groups/devices/content the operator owns or is authorized to manage.
+- Do not build bulk Facebook signup.
+- Do not build disposable-number Facebook registration.
+- Do not build CAPTCHA/checkpoint/security bypass.
+- Do not build anti-detect hardware identity rotation.
+- Do not generate fake IMEI/MEID/GSF/serial/advertising-ID fingerprints for Facebook evasion.
+- Do not build mass-like/comment/story-view/friend-request/unsolicited-message workflows.
+- Prefer official Meta APIs where supported.
+- Never store secrets in source code/plaintext JSON.
+- Never log secrets.
+
+ACCEPTANCE CRITERIA
+-------------------
+- [ ] End-to-end: install → setup → device → account → Page → content → campaign → schedule → execute → inspect result.
+- [ ] All critical tests pass.
+- [ ] Docs complete.
+
+DELIVERABLE FORMAT
+------------------
+When finished, respond with:
+
+1. Summary of changes.
+2. Exact files added/modified.
+3. Migrations added.
+4. Commands to install/run/test.
+5. Tests executed and results.
+6. Known limitations.
+7. Architecture notes if anything was refactored.
+8. "Ready for Phase 41" only if all acceptance criteria pass.
+
+Do not call the phase complete if tests fail.

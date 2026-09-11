@@ -1,0 +1,81 @@
+SP-FARM V2 — PHASE 23
+Account Onboarding and Session Linking
+==================================================
+
+COPY-PASTE THIS ENTIRE PROMPT INTO THE CODING AI.
+
+IMPORTANT
+---------
+This roadmap is the FINAL starting roadmap.
+Before coding this phase:
+
+1. Read 00_MASTER_GOAL.txt.
+2. Read 01_UX_UI_SOURCE_OF_TRUTH.txt.
+3. Read 02_TARGET_SOURCE_TREE.txt.
+4. Read 03_ACCOUNT_ENVIRONMENT_DATA_MODEL.txt.
+5. Read 04_COMPANION_APP_BRIDGE_REFERENCE.txt when device-environment work is relevant.
+6. Inspect all code from earlier completed phases.
+7. Run existing tests.
+8. Preserve architecture boundaries.
+9. Do not skip acceptance criteria.
+
+PHASE GOAL
+----------
+Create legitimate onboarding for existing/manually created authorized accounts.
+
+MUST BUILD
+----------
+- Create account record.
+- Create environment profile.
+- Choose runtime device/app.
+- Prepare environment.
+- Open Facebook Lite or Official app.
+- Guide user through legitimate sign-in.
+- Detect/confirm success.
+- Store permitted secure session/app-state ref if enabled.
+- Sync allowed metadata.
+- Optional prepare Official Facebook after Lite onboarding.
+- Release device.
+
+UX / UI REQUIREMENTS
+--------------------
+Stepper: Account → Environment → Device → App → Sign in → Verify → Link → Done.
+
+TECHNICAL RULES
+---------------
+- No automated bulk signup.
+- No disposable SMS account creation.
+- No CAPTCHA/checkpoint bypass.
+
+GLOBAL SAFETY / SECURITY RULES
+------------------------------
+- Operate only on accounts/Pages/Groups/devices/content the operator owns or is authorized to manage.
+- Do not build bulk Facebook signup.
+- Do not build disposable-number Facebook registration.
+- Do not build CAPTCHA/checkpoint/security bypass.
+- Do not build anti-detect hardware identity rotation.
+- Do not generate fake IMEI/MEID/GSF/serial/advertising-ID fingerprints for Facebook evasion.
+- Do not build mass-like/comment/story-view/friend-request/unsolicited-message workflows.
+- Prefer official Meta APIs where supported.
+- Never store secrets in source code/plaintext JSON.
+- Never log secrets.
+
+ACCEPTANCE CRITERIA
+-------------------
+- [ ] Existing account links successfully.
+- [ ] Manual review state works.
+
+DELIVERABLE FORMAT
+------------------
+When finished, respond with:
+
+1. Summary of changes.
+2. Exact files added/modified.
+3. Migrations added.
+4. Commands to install/run/test.
+5. Tests executed and results.
+6. Known limitations.
+7. Architecture notes if anything was refactored.
+8. "Ready for Phase 24" only if all acceptance criteria pass.
+
+Do not call the phase complete if tests fail.
