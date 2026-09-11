@@ -54,6 +54,19 @@ class Container:
             ),
         )
 
+        # Register Error Center Service
+        from spfarm.application.services.error_center import ErrorCenterService
+
+        self.register_singleton(ErrorCenterService, ErrorCenterService())
+
+        # Register Audit Service
+        from spfarm.application.services.audit import AuditService
+
+        self.register_singleton(
+            AuditService,
+            AuditService(event_bus=self.resolve(EventBus)),
+        )
+
     def register_singleton(self, service_type: Type[T] | str, instance: T) -> None:
         """Register an existing object as a singleton service."""
         self._singletons[service_type] = instance
@@ -105,6 +118,18 @@ class Container:
         from spfarm.application.services.diagnostics import DiagnosticsService
 
         return self.resolve(DiagnosticsService)
+
+    @property
+    def error_center(self) -> Any:
+        from spfarm.application.services.error_center import ErrorCenterService
+
+        return self.resolve(ErrorCenterService)
+
+    @property
+    def audit_service(self) -> Any:
+        from spfarm.application.services.audit import AuditService
+
+        return self.resolve(AuditService)
 
     @property
     def registered_service_names(self) -> list[str]:
