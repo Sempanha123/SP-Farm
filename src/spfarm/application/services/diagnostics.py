@@ -7,14 +7,18 @@ import logging
 import platform
 import re
 import sys
+from dataclasses import asdict
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import TYPE_CHECKING, Any, Callable, Optional
 
 from spfarm.application.events.base import EventBus
 from spfarm.domain.interfaces.unit_of_work import IUnitOfWork
 from spfarm.shared.paths import paths
 from spfarm.shared.settings import SettingsManager
 from spfarm.shared.time import format_iso
+
+if TYPE_CHECKING:
+    from spfarm.application.services.device_registry import DeviceRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -84,10 +88,12 @@ class DiagnosticsService:
         settings_manager: Optional[SettingsManager] = None,
         event_bus: Optional[EventBus] = None,
         uow_factory: Optional[Callable[[], IUnitOfWork]] = None,
+        device_registry: Optional["DeviceRegistry"] = None,
     ) -> None:
         self._settings_manager = settings_manager
         self._event_bus = event_bus
         self._uow_factory = uow_factory
+        self._device_registry = device_registry
 
     def generate_dump(self) -> dict[str, Any]:
         """Compile a fully redacted diagnostics dump."""
@@ -157,7 +163,33 @@ class DiagnosticsService:
 
             dump["database_metrics"] = table_counts
 
-        # Perform an extra blanket sanitization pass over the whole dump
+        if self._device_registry is not None:
+            devices = self._device_registry.get_all_devices()
+            dump["device_providers"] = [
+                {
+                    "type": provider.provider_type.value,
+                    "name": provider.provider_name,
+                    "available": getattr(provider, "is_available", True),
+                    "install_dir": str(getattr(getattr(provider, "runner", None), "install_dir", "") or ""),
+                    "device_count": sum(
+                        device.provider == provider.provider_type for device in devices
+                    ),
+                }
+                for provider in self._device_registry.list_providers()
+            ]
+            dump["runtime_devices"] = [
+                {
+                    "id": device.id,
+                    "provider": device.provider.value,
+                    "friendly_name": device.friendly_name,
+                    "adb_target": device.adb_target,
+                    "state": device.state.value,
+                    "health": device.health.value,
+                    "capabilities": asdict(self._device_registry.get_capabilities(device.id)),
+                }
+                for device in devices
+            ]
+
         return redact_sensitive_data(dump)
 
     def export_to_file(self, destination: Path) -> Path:

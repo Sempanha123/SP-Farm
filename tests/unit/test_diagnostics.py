@@ -5,7 +5,9 @@ from pathlib import Path
 from typing import Any
 
 from spfarm.application.events.base import EventBus
+from spfarm.application.services.device_registry import DeviceRegistry
 from spfarm.application.services.diagnostics import DiagnosticsService, redact_sensitive_data
+from spfarm.infrastructure.devices.fake_provider import FakeDeviceProvider
 from spfarm.shared.settings import SettingsManager
 
 
@@ -59,10 +61,14 @@ def test_diagnostics_service_dump_and_export(tmp_path: Path) -> None:
     settings_file = tmp_path / "settings.json"
     mgr = SettingsManager(settings_file=settings_file)
     bus = EventBus()
+    registry = DeviceRegistry()
+    registry.register_provider(FakeDeviceProvider())
+    registry.discover_all()
 
     service = DiagnosticsService(
         settings_manager=mgr,
         event_bus=bus,
+        device_registry=registry,
     )
 
     dump = service.generate_dump()
@@ -71,6 +77,9 @@ def test_diagnostics_service_dump_and_export(tmp_path: Path) -> None:
     assert "application_paths" in dump
     assert "settings" in dump
     assert "event_bus" in dump
+    assert dump["device_providers"][0]["type"] == "FAKE"
+    assert dump["device_providers"][0]["device_count"] == 2
+    assert len(dump["runtime_devices"]) == 2
     assert dump["system"]["platform"] != ""
 
     export_path = tmp_path / "diagnostics.json"

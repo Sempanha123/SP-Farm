@@ -7,9 +7,12 @@ from pathlib import Path
 from spfarm.domain.devices.capabilities import DeviceCapabilities
 from spfarm.domain.enums import DeviceProvider, DeviceState
 from spfarm.domain.interfaces.device_provider import IDeviceProvider
+from spfarm.infrastructure.devices.adb import AdbRunner
 from spfarm.infrastructure.devices.ldplayer.cli import LDConsoleRunner
 from spfarm.infrastructure.devices.ldplayer.provider import LDPlayerProvider
 from spfarm.infrastructure.devices.ldplayer.window_layout import LDPlayerWindowLayoutService
+
+_PNG = b"\x89PNG\r\n\x1a\nmock-screen"
 
 
 def _create_mocked_provider(tmp_path: Path) -> LDPlayerProvider:
@@ -29,7 +32,14 @@ def _create_mocked_provider(tmp_path: Path) -> LDPlayerProvider:
         return 0, "SUCCESS", ""
 
     runner = LDConsoleRunner(custom_install_dir=tmp_path, process_executor=mock_executor)
-    return LDPlayerProvider(runner=runner)
+    adb_exe = tmp_path / "adb.exe"
+    adb_exe.write_text("fake binary")
+
+    def mock_adb_executor(args: list[str], timeout: float) -> tuple[int, bytes, bytes]:
+        return 0, _PNG, b""
+
+    adb_runner = AdbRunner(executable_path=adb_exe, executor=mock_adb_executor)
+    return LDPlayerProvider(runner=runner, adb_runner=adb_runner)
 
 
 def test_ldplayer_provider_contract_compliance(tmp_path: Path) -> None:
@@ -127,7 +137,7 @@ def test_ldplayer_package_operations_and_screenshot(tmp_path: Path) -> None:
     shot = tmp_path / "shot.png"
     res_shot = provider.take_screenshot("ldplayer_1", shot)
     assert res_shot.success is True
-    assert shot.exists()
+    assert shot.read_bytes() == _PNG
 
     # Package lifecycle
     apk = tmp_path / "test.apk"

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any, Callable, Type, TypeVar
 
 from spfarm.application.commands.base import CommandBus
@@ -51,6 +52,7 @@ class Container:
                 settings_manager=self.resolve(SettingsManager),
                 event_bus=self.resolve(EventBus),
                 uow_factory=lambda: self.resolve(IUnitOfWork),
+                device_registry=self.resolve("device_registry"),
             ),
         )
 
@@ -264,14 +266,33 @@ class Container:
 
         from spfarm.infrastructure.devices.ldplayer.provider import LDPlayerProvider
         from spfarm.infrastructure.devices.ldplayer.window_layout import LDPlayerWindowLayoutService
+        from spfarm.infrastructure.devices.mumu.provider import MuMuProvider
 
-        ldplayer_provider = LDPlayerProvider()
+        device_settings = self.resolve(SettingsManager).get().devices
+        adb_path = Path(device_settings.adb_path) if device_settings.adb_path else None
+        ldplayer_path = Path(device_settings.ldplayer_path) if device_settings.ldplayer_path else None
+        mumu_path = Path(device_settings.mumu_path) if device_settings.mumu_path else None
+
+        from spfarm.infrastructure.devices.adb import AdbRunner
+
+        adb_runner = AdbRunner(executable_path=adb_path)
+        ldplayer_provider = LDPlayerProvider(
+            custom_install_dir=ldplayer_path,
+            adb_runner=adb_runner,
+        )
+        mumu_provider = MuMuProvider(
+            custom_install_dir=mumu_path,
+            adb_runner=adb_runner,
+        )
         device_registry.register_provider(ldplayer_provider)
+        device_registry.register_provider(mumu_provider)
         device_registry.discover_all()
 
         self.register_singleton(DeviceRegistry, device_registry)
+        self.register_singleton("device_registry", device_registry)
         self.register_singleton(FakeDeviceProvider, fake_provider)
         self.register_singleton(LDPlayerProvider, ldplayer_provider)
+        self.register_singleton(MuMuProvider, mumu_provider)
         self.register_singleton(
             LDPlayerWindowLayoutService,
             LDPlayerWindowLayoutService(provider=ldplayer_provider),

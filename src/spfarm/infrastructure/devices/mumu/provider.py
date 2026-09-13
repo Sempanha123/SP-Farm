@@ -1,4 +1,4 @@
-"""Production LDPlayer device provider implementing IDeviceProvider."""
+"""Production MuMu Player device provider implementing IDeviceProvider."""
 
 from __future__ import annotations
 
@@ -13,39 +13,39 @@ from spfarm.domain.devices.models import RuntimeDevice
 from spfarm.domain.enums import DeviceHealth, DeviceProvider, DeviceState
 from spfarm.domain.interfaces.device_provider import IDeviceProvider
 from spfarm.infrastructure.devices.adb import AdbRunner
-from spfarm.infrastructure.devices.ldplayer.cli import LDConsoleRunner
+from spfarm.infrastructure.devices.mumu.cli import MuMuManagerRunner
 
 logger = logging.getLogger(__name__)
 
 
-class LDPlayerProvider(IDeviceProvider):
-    """Adapter managing LDPlayer emulator instances via ldconsole."""
+class MuMuProvider(IDeviceProvider):
+    """Adapter managing MuMu Player 12 / X emulator instances via MuMuManager."""
 
     def __init__(
         self,
-        runner: Optional[LDConsoleRunner] = None,
+        runner: Optional[MuMuManagerRunner] = None,
         custom_install_dir: Optional[Path] = None,
         adb_runner: Optional[AdbRunner] = None,
     ) -> None:
-        self.runner = runner or LDConsoleRunner(custom_install_dir=custom_install_dir)
+        self.runner = runner or MuMuManagerRunner(custom_install_dir=custom_install_dir)
         self.adb_runner = adb_runner or AdbRunner()
         self._cached_devices: dict[str, RuntimeDevice] = {}
 
     @property
     def provider_type(self) -> DeviceProvider:
-        return DeviceProvider.LDPLAYER
+        return DeviceProvider.MUMU
 
     @property
     def provider_name(self) -> str:
-        return "LDPlayer Android Emulator"
+        return "MuMu Player Android Emulator"
 
     @property
     def is_available(self) -> bool:
-        """Indicates whether LDPlayer is detected on the operating system."""
+        """Indicates whether MuMu Player is detected on the operating system."""
         return self.runner.is_available
 
     def _resolve_index(self, device_id: str) -> int:
-        """Extract or resolve the integer index from an instance ID or friendly name."""
+        """Extract index from device ID (e.g. 'mumu_0' -> 0)."""
         if device_id in self._cached_devices:
             dev = self._cached_devices[device_id]
             try:
@@ -53,8 +53,7 @@ class LDPlayerProvider(IDeviceProvider):
             except ValueError:
                 pass
 
-        # Check if device_id itself is "ldplayer_N" or numeric string
-        clean = device_id.lower().replace("ldplayer-", "").replace("ldplayer_", "")
+        clean = device_id.lower().replace("mumu-", "").replace("mumu_", "")
         try:
             return int(clean)
         except ValueError:
@@ -64,28 +63,28 @@ class LDPlayerProvider(IDeviceProvider):
     # IDeviceProvider Implementation
     # -------------------------------------------------------------------------
     def discover(self) -> list[RuntimeDevice]:
-        """Query ldconsole for all created LDPlayer emulator instances."""
+        """Discover all created MuMu Player emulator instances."""
         if not self.runner.is_available:
-            logger.debug("LDPlayer not found on system; discovery returning empty list")
+            logger.debug("MuMu Player not found on system; discovery returning empty list")
             return []
 
-        instances = self.runner.list2()
+        instances = self.runner.list_instances()
         discovered: list[RuntimeDevice] = []
 
         for inst in instances:
-            dev_id = f"ldplayer_{inst.index}"
-            state = DeviceState.READY if inst.android_started else DeviceState.OFFLINE
+            dev_id = f"mumu_{inst.index}"
+            state = DeviceState.READY if inst.is_running else DeviceState.OFFLINE
             title_display = inst.title if inst.title else f"Instance-{inst.index}"
 
             dev = RuntimeDevice(
                 id=dev_id,
                 provider=self.provider_type,
                 provider_instance_id=str(inst.index),
-                friendly_name=f"LDPlayer-{inst.index} ({title_display})",
+                friendly_name=f"MuMu-{inst.index} ({title_display})",
                 adb_target=inst.adb_target,
-                android_version="9.0",
-                manufacturer_display="Microvirt",
-                model_display="LDPlayer9",
+                android_version="12.0",
+                manufacturer_display="Netease",
+                model_display="MuMu 12",
                 state=state,
                 health=DeviceHealth.HEALTHY,
                 capabilities=[
@@ -95,7 +94,6 @@ class LDPlayerProvider(IDeviceProvider):
                     "proxy",
                     "bridge",
                     "apk_install",
-                    "window_sort",
                 ],
             )
             self._cached_devices[dev_id] = dev
@@ -114,12 +112,12 @@ class LDPlayerProvider(IDeviceProvider):
             if device_id in self._cached_devices:
                 self._cached_devices[device_id].set_state(DeviceState.READY)
             return DeviceCommandResult.ok(
-                f"LDPlayer instance {idx} launched",
+                f"MuMu instance {idx} launched",
                 data={"index": idx, "output": out},
                 duration_ms=duration,
             )
         return DeviceCommandResult.fail(
-            f"Failed to launch LDPlayer instance {idx}: {err or out}",
+            f"Failed to launch MuMu instance {idx}: {err or out}",
             error_code="LAUNCH_FAILED",
             duration_ms=duration,
         )
@@ -128,20 +126,20 @@ class LDPlayerProvider(IDeviceProvider):
         t0 = time.perf_counter()
         idx = self._resolve_index(device_id)
 
-        code, out, err = self.runner.quit(idx)
+        code, out, err = self.runner.close(idx)
         duration = (time.perf_counter() - t0) * 1000
 
         if code == 0:
             if device_id in self._cached_devices:
                 self._cached_devices[device_id].set_state(DeviceState.OFFLINE)
             return DeviceCommandResult.ok(
-                f"LDPlayer instance {idx} stopped",
+                f"MuMu instance {idx} closed",
                 data={"index": idx, "output": out},
                 duration_ms=duration,
             )
         return DeviceCommandResult.fail(
-            f"Failed to quit LDPlayer instance {idx}: {err or out}",
-            error_code="QUIT_FAILED",
+            f"Failed to close MuMu instance {idx}: {err or out}",
+            error_code="CLOSE_FAILED",
             duration_ms=duration,
         )
 
@@ -149,18 +147,18 @@ class LDPlayerProvider(IDeviceProvider):
         t0 = time.perf_counter()
         idx = self._resolve_index(device_id)
 
-        code, out, err = self.runner.reboot(idx)
+        code, out, err = self.runner.restart(idx)
         duration = (time.perf_counter() - t0) * 1000
 
         if code == 0:
             return DeviceCommandResult.ok(
-                f"LDPlayer instance {idx} restarted",
+                f"MuMu instance {idx} restarted",
                 data={"index": idx, "output": out},
                 duration_ms=duration,
             )
         return DeviceCommandResult.fail(
-            f"Failed to reboot LDPlayer instance {idx}: {err or out}",
-            error_code="REBOOT_FAILED",
+            f"Failed to restart MuMu instance {idx}: {err or out}",
+            error_code="RESTART_FAILED",
             duration_ms=duration,
         )
 
@@ -172,7 +170,7 @@ class LDPlayerProvider(IDeviceProvider):
 
     def get_adb_target(self, device_id: str) -> Optional[str]:
         idx = self._resolve_index(device_id)
-        return f"127.0.0.1:{5555 + (idx * 2)}"
+        return f"127.0.0.1:{16384 + (idx * 32)}"
 
     def get_capabilities(self, device_id: str) -> DeviceCapabilities:
         return DeviceCapabilities(
@@ -182,7 +180,7 @@ class LDPlayerProvider(IDeviceProvider):
             supports_companion_bridge=True,
             supports_touch_recording=True,
             abi="x86_64",
-            android_api_level=28,
+            android_api_level=31,
             screen_width=1080,
             screen_height=1920,
             screen_density=320,
@@ -194,7 +192,7 @@ class LDPlayerProvider(IDeviceProvider):
         timeout_sec: float = 60.0,
         poll_interval_sec: float = 1.0,
     ) -> bool:
-        """Poll non-blockingly until the emulator reports running state or timeout expires."""
+        """Poll non-blockingly until MuMu instance is running."""
         idx = self._resolve_index(device_id)
         t_deadline = time.time() + timeout_sec
 
@@ -206,18 +204,15 @@ class LDPlayerProvider(IDeviceProvider):
         return False
 
     def read_safe_properties(self, device_id: str) -> dict[str, str]:
-        """Read standard emulator host metadata.
-
-        Strict safety rule: NO anti-detection hardware identity manipulation.
-        """
+        """Read standard MuMu emulator metadata without anti-detection evasion."""
         idx = self._resolve_index(device_id)
         return {
-            "provider": "LDPlayer",
+            "provider": "MuMu",
             "instance_index": str(idx),
             "adb_target": self.get_adb_target(device_id) or "",
-            "manufacturer": "Microvirt",
-            "model": "LDPlayer9",
-            "android_version": "9.0",
+            "manufacturer": "Netease",
+            "model": "MuMu 12",
+            "android_version": "12.0",
             "display_resolution": "1080x1920",
             "dpi": "320",
         }
@@ -251,7 +246,7 @@ class LDPlayerProvider(IDeviceProvider):
 
         if code == 0:
             return DeviceCommandResult.ok(
-                f"Installed '{apk_path.name}' on LDPlayer-{idx}",
+                f"Installed '{apk_path.name}' on MuMu-{idx}",
                 data={"package": apk_path.stem},
                 duration_ms=duration,
             )
@@ -270,7 +265,7 @@ class LDPlayerProvider(IDeviceProvider):
 
         if code == 0:
             return DeviceCommandResult.ok(
-                f"Uninstalled '{package_name}' from LDPlayer-{idx}",
+                f"Uninstalled '{package_name}' from MuMu-{idx}",
                 duration_ms=duration,
             )
         return DeviceCommandResult.fail(
@@ -293,7 +288,7 @@ class LDPlayerProvider(IDeviceProvider):
 
         if code == 0:
             return DeviceCommandResult.ok(
-                f"Launched '{package_name}' on LDPlayer-{idx}",
+                f"Launched '{package_name}' on MuMu-{idx}",
                 data={"package": package_name, "activity": activity_name},
                 duration_ms=duration,
             )
@@ -307,28 +302,16 @@ class LDPlayerProvider(IDeviceProvider):
         t0 = time.perf_counter()
         idx = self._resolve_index(device_id)
 
-        code, out, err = self.runner.kill_app(idx, package_name)
+        code, out, err = self.runner.stop_app(idx, package_name)
         duration = (time.perf_counter() - t0) * 1000
 
         if code == 0:
             return DeviceCommandResult.ok(
-                f"Stopped '{package_name}' on LDPlayer-{idx}",
+                f"Stopped '{package_name}' on MuMu-{idx}",
                 duration_ms=duration,
             )
         return DeviceCommandResult.fail(
             f"Failed to stop package: {err or out}",
             error_code="STOP_APP_FAILED",
             duration_ms=duration,
-        )
-
-    def sort_windows(self) -> DeviceCommandResult:
-        """Arrange all emulator windows in an aligned grid layout on desktop."""
-        t0 = time.perf_counter()
-        code, out, err = self.runner.sort_windows()
-        duration = (time.perf_counter() - t0) * 1000
-
-        if code == 0:
-            return DeviceCommandResult.ok("Emulator windows arranged", duration_ms=duration)
-        return DeviceCommandResult.fail(
-            f"Failed to arrange windows: {err or out}", duration_ms=duration
         )
