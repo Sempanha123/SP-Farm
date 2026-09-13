@@ -33,7 +33,9 @@ class CommandBus:
     """In-process bus that routes commands to registered handlers."""
 
     def __init__(self) -> None:
-        self._handlers: dict[Type[Command], CommandHandler[Any, Any] | Callable[[Any], Result[Any, AppError]]] = {}
+        self._handlers: dict[
+            Type[Command], CommandHandler[Any, Any] | Callable[[Any], Result[Any, AppError]]
+        ] = {}
 
     def register(
         self,
@@ -48,9 +50,7 @@ class CommandBus:
         cmd_type = type(command)
         handler = self._handlers.get(cmd_type)
         if not handler:
-            return Failure(
-                NotFoundError(f"No command handler registered for {cmd_type.__name__}")
-            )
+            return Failure(NotFoundError(f"No command handler registered for {cmd_type.__name__}"))
 
         if isinstance(handler, CommandHandler):
             return handler.handle(command)

@@ -18,6 +18,7 @@ class AppPaths:
     cache_dir: Path
     secrets_dir: Path
     database_file: Path
+    settings_file: Path
 
     @classmethod
     def resolve(cls) -> AppPaths:
@@ -35,13 +36,26 @@ class AppPaths:
 
         # 2. Subdirectories with optional specific environment overrides
         data = base / "data"
-        logs = Path(os.getenv("SPFARM_LOG_DIR")).resolve() if os.getenv("SPFARM_LOG_DIR") else base / "logs"
-        backups = Path(os.getenv("SPFARM_BACKUP_DIR")).resolve() if os.getenv("SPFARM_BACKUP_DIR") else base / "backups"
-        cache = Path(os.getenv("SPFARM_CACHE_DIR")).resolve() if os.getenv("SPFARM_CACHE_DIR") else base / "cache"
+        logs = (
+            Path(os.getenv("SPFARM_LOG_DIR")).resolve()
+            if os.getenv("SPFARM_LOG_DIR")
+            else base / "logs"
+        )
+        backups = (
+            Path(os.getenv("SPFARM_BACKUP_DIR")).resolve()
+            if os.getenv("SPFARM_BACKUP_DIR")
+            else base / "backups"
+        )
+        cache = (
+            Path(os.getenv("SPFARM_CACHE_DIR")).resolve()
+            if os.getenv("SPFARM_CACHE_DIR")
+            else base / "cache"
+        )
         secrets = base / "secrets"
 
-        # 3. Database path
+        # 3. Database path and settings file
         db_file = data / "spfarm.db"
+        settings_file = base / "settings.json"
 
         return cls(
             base_dir=base,
@@ -51,6 +65,7 @@ class AppPaths:
             cache_dir=cache,
             secrets_dir=secrets,
             database_file=db_file,
+            settings_file=settings_file,
         )
 
     def ensure_directories(self) -> None:

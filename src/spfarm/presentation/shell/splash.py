@@ -50,9 +50,13 @@ class SplashWindow(QWidget):
         # Header with cute heart logo
         header_layout = QHBoxLayout()
         heart_label = QLabel("♡")
-        heart_label.setStyleSheet(f"color: {PALETTE.cute_pink}; font-size: 28px; font-weight: bold;")
+        heart_label.setStyleSheet(
+            f"color: {PALETTE.cute_pink}; font-size: 28px; font-weight: bold;"
+        )
         title_label = QLabel("SP FARM")
-        title_label.setStyleSheet(f"color: {PALETTE.primary_blue}; font-size: 24px; font-weight: 800; letter-spacing: 1px;")
+        title_label.setStyleSheet(
+            f"color: {PALETTE.primary_blue}; font-size: 24px; font-weight: 800; letter-spacing: 1px;"
+        )
 
         version_badge = QLabel(f"v{__version__}")
         version_badge.setStyleSheet(f"""
@@ -73,7 +77,9 @@ class SplashWindow(QWidget):
 
         # Subtitle
         subtitle_label = QLabel("Modern Desktop Operations Platform")
-        subtitle_label.setStyleSheet(f"color: {PALETTE.text_secondary}; font-size: 13px; font-weight: 500;")
+        subtitle_label.setStyleSheet(
+            f"color: {PALETTE.text_secondary}; font-size: 13px; font-weight: 500;"
+        )
         card_layout.addWidget(subtitle_label)
 
         card_layout.addSpacing(16)

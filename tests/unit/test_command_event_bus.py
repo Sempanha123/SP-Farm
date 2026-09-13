@@ -65,7 +65,9 @@ def test_command_bus_dispatches_and_emits_event() -> None:
     handler = CreateAccountHandler(event_bus)
     command_bus.register(CreateAccountCommand, handler)
 
-    cmd = CreateAccountCommand(account_id="acc-001", account_name="Test Account", correlation_id="cid-999")
+    cmd = CreateAccountCommand(
+        account_id="acc-001", account_name="Test Account", correlation_id="cid-999"
+    )
     result = command_bus.dispatch(cmd)
 
     assert result.is_success is True

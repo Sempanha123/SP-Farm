@@ -90,7 +90,7 @@ class ArchitectureStatusDialog(QDialog):
             status_pill = QLabel(status)
             status_pill.setStyleSheet(f"""
                 background-color: {PALETTE.soft_blue};
-                color: {PALETTE.success if status == 'HEALTHY' else PALETTE.primary_blue};
+                color: {PALETTE.success if status == "HEALTHY" else PALETTE.primary_blue};
                 font-weight: bold;
                 font-size: 10px;
                 padding: 3px 8px;
@@ -118,7 +118,9 @@ class ArchitectureStatusDialog(QDialog):
             col = QVBoxLayout()
             val_lbl = QLabel(value)
             val_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            val_lbl.setStyleSheet(f"color: {PALETTE.primary_blue}; font-size: 16px; font-weight: bold;")
+            val_lbl.setStyleSheet(
+                f"color: {PALETTE.primary_blue}; font-size: 16px; font-weight: bold;"
+            )
             desc_lbl = QLabel(label)
             desc_lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
             desc_lbl.setStyleSheet(f"color: {PALETTE.text_secondary}; font-size: 11px;")

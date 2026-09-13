@@ -16,6 +16,7 @@ def test_paths_default_are_pathlib() -> None:
     assert isinstance(paths.cache_dir, Path)
     assert isinstance(paths.secrets_dir, Path)
     assert isinstance(paths.database_file, Path)
+    assert isinstance(paths.settings_file, Path)
 
 
 def test_paths_custom_environment(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

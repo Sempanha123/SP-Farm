@@ -81,7 +81,9 @@ class EventBus:
     @property
     def total_subscribers_count(self) -> int:
         """Return total count of registered event subscriptions."""
-        return sum(len(subs) for subs in self._subscribers.values()) + len(self._all_events_subscribers)
+        return sum(len(subs) for subs in self._subscribers.values()) + len(
+            self._all_events_subscribers
+        )
 
     @property
     def subscribed_event_types(self) -> list[str]:
