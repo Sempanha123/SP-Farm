@@ -36,6 +36,7 @@ class DeviceState(str, Enum):
     """Runtime allocation state of a physical device or emulator instance."""
 
     OFFLINE = "OFFLINE"
+    UNAUTHORIZED = "UNAUTHORIZED"
     BOOTING = "BOOTING"
     READY = "READY"
     RESERVED = "RESERVED"

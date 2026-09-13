@@ -264,6 +264,7 @@ class Container:
         fake_provider = FakeDeviceProvider()
         device_registry.register_provider(fake_provider)
 
+        from spfarm.infrastructure.devices.android.provider import PhysicalAndroidProvider
         from spfarm.infrastructure.devices.ldplayer.provider import LDPlayerProvider
         from spfarm.infrastructure.devices.ldplayer.window_layout import LDPlayerWindowLayoutService
         from spfarm.infrastructure.devices.mumu.provider import MuMuProvider
@@ -276,6 +277,7 @@ class Container:
         from spfarm.infrastructure.devices.adb import AdbRunner
 
         adb_runner = AdbRunner(executable_path=adb_path)
+        physical_android_provider = PhysicalAndroidProvider(adb_runner=adb_runner)
         ldplayer_provider = LDPlayerProvider(
             custom_install_dir=ldplayer_path,
             adb_runner=adb_runner,
@@ -284,6 +286,7 @@ class Container:
             custom_install_dir=mumu_path,
             adb_runner=adb_runner,
         )
+        device_registry.register_provider(physical_android_provider)
         device_registry.register_provider(ldplayer_provider)
         device_registry.register_provider(mumu_provider)
         device_registry.discover_all()
@@ -291,6 +294,7 @@ class Container:
         self.register_singleton(DeviceRegistry, device_registry)
         self.register_singleton("device_registry", device_registry)
         self.register_singleton(FakeDeviceProvider, fake_provider)
+        self.register_singleton(PhysicalAndroidProvider, physical_android_provider)
         self.register_singleton(LDPlayerProvider, ldplayer_provider)
         self.register_singleton(MuMuProvider, mumu_provider)
         self.register_singleton(

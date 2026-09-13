@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
+from typing import Any, Callable, Optional
 
-from PySide6.QtCore import Qt, QTimer, Signal
+from PySide6.QtCore import QObject, QRunnable, Qt, QThreadPool, QTimer, Signal, Slot
 from PySide6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
@@ -64,6 +64,21 @@ PROVIDER_ICONS = {
     "FAKE": "🧪 Simulated",
 }
 
+class _OperationSignals(QObject):
+    completed = Signal(object)
+
+
+class _Operation(QRunnable):
+    def __init__(self, function: Callable[[], Any]) -> None:
+        super().__init__()
+        self.function = function
+        self.signals = _OperationSignals()
+
+    @Slot()
+    def run(self) -> None:
+        self.signals.completed.emit(self.function())
+
+
 STATE_PILL_TYPES = {
     "READY": "ready",
     "RUNNING": "running",
@@ -72,6 +87,7 @@ STATE_PILL_TYPES = {
     "STOPPING": "cooldown",
     "COOLDOWN": "cooldown",
     "OFFLINE": "offline",
+    "UNAUTHORIZED": "warning",
     "ERROR": "error",
 }
 
@@ -107,6 +123,8 @@ class DevicesView(QWidget):
 
         self._selected_device_id: Optional[str] = None
         self._devices_cache: list[DeviceSummaryDTO] = []
+        self._thread_pool = QThreadPool.globalInstance()
+        self._operations: set[_Operation] = set()
 
         self.setStyleSheet(f"""
             QWidget {{
@@ -189,6 +207,7 @@ class DevicesView(QWidget):
         self.cmb_state.addItem("Running / Busy", "RUNNING")
         self.cmb_state.addItem("Booting", "BOOTING")
         self.cmb_state.addItem("Offline", "OFFLINE")
+        self.cmb_state.addItem("Unauthorized — approve USB debugging", "UNAUTHORIZED")
         self.cmb_state.addItem("Error", "ERROR")
         self.cmb_state.currentIndexChanged.connect(self.refresh_data)
         toolbar.addWidget(self.cmb_state)
@@ -340,7 +359,13 @@ class DevicesView(QWidget):
             item_name = QTableWidgetItem(d.friendly_name)
             item_name.setToolTip(f"ID: {d.id}\nModel: {d.model}")
 
-            item_adb = QTableWidgetItem(d.adb_target)
+            connection = "TCP" if d.provider == "PHYSICAL_ANDROID" and ":" in d.adb_target else "USB"
+            adb_text = (
+                f"{d.adb_target} · {connection}"
+                if d.provider == "PHYSICAL_ANDROID"
+                else d.adb_target
+            )
+            item_adb = QTableWidgetItem(adb_text)
             item_os = QTableWidgetItem(f"Android {d.android_version}")
 
             self.table_view.setItem(row, 0, item_prov)
@@ -387,8 +412,17 @@ class DevicesView(QWidget):
         self.insp_subtitle.setText(f"{prov_icon} • State: <b>{detail.state}</b>")
 
         caps_list = ", ".join(detail.capabilities) if detail.capabilities else "None"
+        connection = (
+            "TCP" if detail.provider == "PHYSICAL_ANDROID" and ":" in detail.adb_target else "USB"
+        )
+        connection_html = (
+            f"<b>Connection:</b> {connection}<br>"
+            if detail.provider == "PHYSICAL_ANDROID"
+            else ""
+        )
         specs_html = f"""
         <b>ADB Target:</b> {detail.adb_target}<br>
+        {connection_html}
         <b>Android:</b> Version {detail.android_version}<br>
         <b>Display:</b> {detail.resolution_display}<br>
         <b>Manufacturer:</b> {detail.manufacturer}<br>
@@ -412,8 +446,29 @@ class DevicesView(QWidget):
     # -------------------------------------------------------------------------
     # Actions
     # -------------------------------------------------------------------------
+    def _run_operation(
+        self, function: Callable[[], Any], completed: Callable[[Any], None]
+    ) -> None:
+        operation = _Operation(function)
+        self._operations.add(operation)
+
+        def finish(result: object) -> None:
+            self._operations.discard(operation)
+            completed(result)
+
+        operation.signals.completed.connect(finish)
+        self._thread_pool.start(operation)
+
     def _on_scan_devices(self) -> None:
-        res = self.discover_handler.handle(DiscoverDevicesCommand())
+        self.btn_scan.setEnabled(False)
+        self._run_operation(
+            lambda: self.discover_handler.handle(DiscoverDevicesCommand()),
+            self._on_scan_completed,
+        )
+
+    def _on_scan_completed(self, result: Any) -> None:
+        self.btn_scan.setEnabled(True)
+        res = result
         if res.is_success:
             count = len(res.value)
             self.refresh_data()
@@ -424,46 +479,55 @@ class DevicesView(QWidget):
     def _on_start_selected(self) -> None:
         if not self._selected_device_id:
             return
-        res = self.start_handler.handle(StartDeviceCommand(device_id=self._selected_device_id))
-        if res.is_success:
-            self.refresh_data()
-            self.insp_log.setText(f"✓ {res.value.message}")
-        else:
-            QMessageBox.warning(self, "Start Device Failed", res.error.message)
+        device_id = self._selected_device_id
+        self._run_operation(
+            lambda: self.start_handler.handle(StartDeviceCommand(device_id=device_id)),
+            lambda result: self._on_device_operation_completed(result, "Start Device Failed"),
+        )
 
     def _on_stop_selected(self) -> None:
         if not self._selected_device_id:
             return
-        res = self.stop_handler.handle(StopDeviceCommand(device_id=self._selected_device_id))
-        if res.is_success:
-            self.refresh_data()
-            self.insp_log.setText(f"✓ {res.value.message}")
-        else:
-            QMessageBox.warning(self, "Stop Device Failed", res.error.message)
+        device_id = self._selected_device_id
+        self._run_operation(
+            lambda: self.stop_handler.handle(StopDeviceCommand(device_id=device_id)),
+            lambda result: self._on_device_operation_completed(result, "Stop Device Failed"),
+        )
 
     def _on_restart_selected(self) -> None:
         if not self._selected_device_id:
             return
-        res = self.restart_handler.handle(RestartDeviceCommand(device_id=self._selected_device_id))
-        if res.is_success:
+        device_id = self._selected_device_id
+        self._run_operation(
+            lambda: self.restart_handler.handle(RestartDeviceCommand(device_id=device_id)),
+            lambda result: self._on_device_operation_completed(result, "Restart Device Failed"),
+        )
+
+    def _on_device_operation_completed(self, result: Any, error_title: str) -> None:
+        if result.is_success:
             self.refresh_data()
-            self.insp_log.setText(f"✓ {res.value.message}")
+            self.insp_log.setText(f"✓ {result.value.message}")
         else:
-            QMessageBox.warning(self, "Restart Device Failed", res.error.message)
+            QMessageBox.warning(self, error_title, result.error.message)
 
     def _on_screenshot_selected(self) -> None:
         if not self._selected_device_id:
             return
-        out_dir = paths.logs_dir / "screenshots"
-        out_path = out_dir / f"screenshot_{self._selected_device_id}.png"
-        res = self.screenshot_handler.handle(
-            TakeDeviceScreenshotCommand(device_id=self._selected_device_id, output_path=out_path)
+        device_id = self._selected_device_id
+        out_path = paths.logs_dir / "screenshots" / f"screenshot_{device_id}.png"
+        self._run_operation(
+            lambda: self.screenshot_handler.handle(
+                TakeDeviceScreenshotCommand(device_id=device_id, output_path=out_path)
+            ),
+            lambda result: self._on_screenshot_completed(result, out_path.name),
         )
-        if res.is_success:
+
+    def _on_screenshot_completed(self, result: Any, filename: str) -> None:
+        if result.is_success:
             self.refresh_data()
-            self.insp_log.setText(f"✓ Screenshot saved to {out_path.name}")
+            self.insp_log.setText(f"✓ Screenshot saved to {filename}")
         else:
-            QMessageBox.warning(self, "Screenshot Failed", res.error.message)
+            QMessageBox.warning(self, "Screenshot Failed", result.error.message)
 
     def _on_event_received(self, event: Event) -> None:
         if isinstance(

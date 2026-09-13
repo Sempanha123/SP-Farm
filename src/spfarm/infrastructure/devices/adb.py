@@ -40,15 +40,20 @@ class AdbRunner:
     def is_available(self) -> bool:
         return self.executable_path is not None and self.executable_path.exists()
 
+    def run(self, args: list[str], timeout: float = 30.0) -> tuple[int, bytes, bytes]:
+        if not self.is_available or not self.executable_path:
+            return -1, b"", b"ADB executable not found"
+        return self.executor([str(self.executable_path), *args], timeout)
+
+    def run_text(self, args: list[str], timeout: float = 30.0) -> tuple[int, str, str]:
+        code, stdout, stderr = self.run(args, timeout)
+        return code, stdout.decode(errors="replace"), stderr.decode(errors="replace")
+
     def screenshot(
         self, target: str, output_path: Path, timeout: float = 30.0
     ) -> tuple[int, str]:
-        if not self.is_available or not self.executable_path:
-            return -1, "ADB executable not found"
-
-        code, stdout, stderr = self.executor(
-            [str(self.executable_path), "-s", target, "exec-out", "screencap", "-p"],
-            timeout,
+        code, stdout, stderr = self.run(
+            ["-s", target, "exec-out", "screencap", "-p"], timeout
         )
         if code != 0:
             return code, stderr.decode(errors="replace") or stdout.decode(errors="replace")
