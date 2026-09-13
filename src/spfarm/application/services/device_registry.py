@@ -11,6 +11,7 @@ from spfarm.application.events.base import EventBus
 from spfarm.application.events.device_events import (
     DeviceCommandExecutedEvent,
     DeviceDiscoveredEvent,
+    DeviceHealthChangedEvent,
     DeviceStateChangedEvent,
 )
 from spfarm.application.services.audit import AuditService
@@ -18,7 +19,7 @@ from spfarm.domain.devices.capabilities import DeviceCapabilities
 from spfarm.domain.devices.command_result import DeviceCommandResult
 from spfarm.domain.devices.models import RuntimeDevice
 from spfarm.domain.devices.state_machine import DeviceStateMachine
-from spfarm.domain.enums import DeviceProvider, DeviceState
+from spfarm.domain.enums import DeviceHealth, DeviceProvider, DeviceState
 from spfarm.domain.interfaces.device_provider import IDeviceProvider
 
 logger = logging.getLogger(__name__)
@@ -78,13 +79,31 @@ class DeviceRegistry:
         for provider in self.list_providers():
             try:
                 devs = provider.discover()
+                discovered_ids = {device.id for device in devs}
+                with self._lock:
+                    missing_devices = [
+                        device
+                        for device in self._devices.values()
+                        if device.provider == provider.provider_type
+                        and device.id not in discovered_ids
+                    ]
+                for missing in missing_devices:
+                    self._update_discovery_status(
+                        missing,
+                        DeviceState.OFFLINE,
+                        DeviceHealth.UNHEALTHY,
+                        "Device disconnected",
+                    )
+
                 for device in devs:
                     with self._lock:
-                        is_new = device.id not in self._devices
+                        previous = self._devices.get(device.id)
                         self._devices[device.id] = device
                     all_discovered.append(device)
 
-                    if is_new and self.event_bus:
+                    if previous:
+                        self._publish_discovery_changes(previous, device)
+                    elif self.event_bus:
                         self.event_bus.publish(
                             DeviceDiscoveredEvent(
                                 device_id=device.id,
@@ -102,6 +121,59 @@ class DeviceRegistry:
                 )
 
         return all_discovered
+
+    def _update_discovery_status(
+        self,
+        device: RuntimeDevice,
+        state: DeviceState,
+        health: DeviceHealth,
+        reason: str,
+    ) -> None:
+        old_state = device.state
+        old_health = device.health
+        with self._lock:
+            device.state = state
+            device.health = health
+        if self.event_bus and old_state != state:
+            self.event_bus.publish(
+                DeviceStateChangedEvent(
+                    device_id=device.id,
+                    old_state=old_state.value,
+                    new_state=state.value,
+                    reason=reason,
+                )
+            )
+        if self.event_bus and old_health != health:
+            self.event_bus.publish(
+                DeviceHealthChangedEvent(
+                    device_id=device.id,
+                    old_health=old_health.value,
+                    new_health=health.value,
+                )
+            )
+
+    def _publish_discovery_changes(
+        self, previous: RuntimeDevice, current: RuntimeDevice
+    ) -> None:
+        if not self.event_bus:
+            return
+        if previous.state != current.state:
+            self.event_bus.publish(
+                DeviceStateChangedEvent(
+                    device_id=current.id,
+                    old_state=previous.state.value,
+                    new_state=current.state.value,
+                    reason="ADB connection state changed",
+                )
+            )
+        if previous.health != current.health:
+            self.event_bus.publish(
+                DeviceHealthChangedEvent(
+                    device_id=current.id,
+                    old_health=previous.health.value,
+                    new_health=current.health.value,
+                )
+            )
 
     def register_device(self, device: RuntimeDevice) -> None:
         """Directly register or update a runtime device in the registry."""

@@ -8,10 +8,12 @@ from unittest.mock import MagicMock
 from spfarm.application.events.base import EventBus
 from spfarm.application.events.device_events import (
     DeviceDiscoveredEvent,
+    DeviceHealthChangedEvent,
+    DeviceStateChangedEvent,
 )
 from spfarm.application.services.audit import AuditService
 from spfarm.application.services.device_registry import DeviceRegistry
-from spfarm.domain.enums import DeviceProvider, DeviceState
+from spfarm.domain.enums import DeviceHealth, DeviceProvider, DeviceState
 from spfarm.infrastructure.devices.fake_provider import FakeDeviceProvider
 
 
@@ -112,6 +114,27 @@ def test_device_registry_action_routing(tmp_path: Path) -> None:
 
     res_uninst = registry.uninstall_package(dev_id, "mock")
     assert res_uninst.success is True
+
+
+def test_discovery_marks_disconnected_devices_offline_and_emits_live_updates() -> None:
+    mock_events = MagicMock(spec=EventBus)
+    registry = DeviceRegistry(event_bus=mock_events)
+    provider = FakeDeviceProvider()
+    registry.register_provider(provider)
+    registry.discover_all()
+    removed_id = provider.discover()[0].id
+    provider._devices.pop(removed_id)
+    mock_events.reset_mock()
+
+    registry.discover_all()
+
+    disconnected = registry.get_device(removed_id)
+    assert disconnected is not None
+    assert disconnected.state == DeviceState.OFFLINE
+    assert disconnected.health == DeviceHealth.UNHEALTHY
+    events = [call.args[0] for call in mock_events.publish.call_args_list]
+    assert any(isinstance(event, DeviceStateChangedEvent) for event in events)
+    assert any(isinstance(event, DeviceHealthChangedEvent) for event in events)
 
 
 def test_device_registry_unregistered_device_or_provider() -> None:

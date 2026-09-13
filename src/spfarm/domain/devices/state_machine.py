@@ -12,13 +12,20 @@ from spfarm.shared.result import Failure, Result, Success
 logger = logging.getLogger(__name__)
 
 VALID_TRANSITIONS: dict[DeviceState, set[DeviceState]] = {
-    DeviceState.OFFLINE: {DeviceState.BOOTING, DeviceState.READY, DeviceState.ERROR},
+    DeviceState.OFFLINE: {
+        DeviceState.BOOTING,
+        DeviceState.READY,
+        DeviceState.UNAUTHORIZED,
+        DeviceState.ERROR,
+    },
+    DeviceState.UNAUTHORIZED: {DeviceState.OFFLINE, DeviceState.READY, DeviceState.ERROR},
     DeviceState.BOOTING: {DeviceState.READY, DeviceState.ERROR, DeviceState.OFFLINE},
     DeviceState.READY: {
         DeviceState.RESERVED,
         DeviceState.RUNNING,
         DeviceState.STOPPING,
         DeviceState.OFFLINE,
+        DeviceState.UNAUTHORIZED,
         DeviceState.ERROR,
     },
     DeviceState.RESERVED: {

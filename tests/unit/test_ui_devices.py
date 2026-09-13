@@ -175,6 +175,8 @@ def test_devices_view_action_buttons(qapp: QApplication) -> None:
 
     # 1. Scan button click
     view.btn_scan.click()
+    view._thread_pool.waitForDone()
+    qapp.processEvents()
     mock_discover.handle.assert_called_once()
 
     # 2. Select device
@@ -182,19 +184,27 @@ def test_devices_view_action_buttons(qapp: QApplication) -> None:
 
     # 3. Start button click
     view.btn_power_start.click()
+    view._thread_pool.waitForDone()
+    qapp.processEvents()
     mock_start.handle.assert_called_once()
     assert "Started" in view.insp_log.text()
 
     # 4. Stop button click
     view.btn_power_stop.click()
+    view._thread_pool.waitForDone()
+    qapp.processEvents()
     mock_stop.handle.assert_called_once()
 
     # 5. Restart button click
     view.btn_power_restart.click()
+    view._thread_pool.waitForDone()
+    qapp.processEvents()
     mock_restart.handle.assert_called_once()
 
     # 6. Screenshot button click
     view.btn_screenshot.click()
+    view._thread_pool.waitForDone()
+    qapp.processEvents()
     mock_screenshot.handle.assert_called_once()
 
 
