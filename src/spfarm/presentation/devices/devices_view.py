@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import logging
 from typing import Any, Callable, Optional
 
@@ -412,6 +413,11 @@ class DevicesView(QWidget):
         self.insp_subtitle.setText(f"{prov_icon} • State: <b>{detail.state}</b>")
 
         caps_list = ", ".join(detail.capabilities) if detail.capabilities else "None"
+        adb_status = "Available" if detail.adb_diagnostics.get("available") else "Unavailable"
+        appium_status = (
+            "Available" if detail.appium_diagnostics.get("available") else "Unavailable"
+        )
+        active_sessions = detail.session_diagnostics.get("active_sessions", 0)
         connection = (
             "TCP" if detail.provider == "PHYSICAL_ANDROID" and ":" in detail.adb_target else "USB"
         )
@@ -421,16 +427,19 @@ class DevicesView(QWidget):
             else ""
         )
         specs_html = f"""
-        <b>ADB Target:</b> {detail.adb_target}<br>
+        <b>ADB Target:</b> {html.escape(detail.adb_target)}<br>
         {connection_html}
-        <b>Android:</b> Version {detail.android_version}<br>
-        <b>Display:</b> {detail.resolution_display}<br>
-        <b>Manufacturer:</b> {detail.manufacturer}<br>
-        <b>Model:</b> {detail.model}<br>
-        <b>Capabilities:</b> {caps_list}<br>
-        <b>Assigned Env:</b> {detail.current_environment_id or "None"}<br>
-        <b>Active Lease:</b> {detail.lease_token or "None"}<br>
-        <b>Last Seen:</b> {detail.last_seen_at or "Never"}
+        <b>ADB Service:</b> {adb_status}<br>
+        <b>Appium:</b> {appium_status}<br>
+        <b>Appium Sessions:</b> {active_sessions}<br>
+        <b>Android:</b> Version {html.escape(detail.android_version)}<br>
+        <b>Display:</b> {html.escape(detail.resolution_display)}<br>
+        <b>Manufacturer:</b> {html.escape(detail.manufacturer)}<br>
+        <b>Model:</b> {html.escape(detail.model)}<br>
+        <b>Capabilities:</b> {html.escape(caps_list)}<br>
+        <b>Assigned Env:</b> {html.escape(detail.current_environment_id or "None")}<br>
+        <b>Active Lease:</b> {html.escape(detail.lease_token or "None")}<br>
+        <b>Last Seen:</b> {html.escape(detail.last_seen_at or "Never")}
         """
         self.insp_specs.setText(specs_html)
         if clear_log:

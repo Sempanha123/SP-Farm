@@ -52,6 +52,7 @@ class DevicesSettings(BaseModel):
     """Device pool and emulator execution configuration."""
 
     adb_path: str = ""
+    appium_path: str = ""
     ldplayer_path: str = ""
     mumu_path: str = ""
     poll_interval_seconds: float = Field(default=5.0, ge=1.0, le=60.0)

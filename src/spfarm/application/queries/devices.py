@@ -4,12 +4,17 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from spfarm.application.queries.base import Query
 from spfarm.application.services.device_registry import DeviceRegistry
 from spfarm.domain.devices.capabilities import DeviceCapabilities
 from spfarm.domain.interfaces.unit_of_work import IUnitOfWork
+
+if TYPE_CHECKING:
+    from spfarm.infrastructure.automation.adb.service import AdbService
+    from spfarm.infrastructure.automation.appium.service import AppiumServiceManager
+    from spfarm.infrastructure.automation.sessions.pool import AppiumSessionPool
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +45,9 @@ class DeviceDetailDTO(DeviceSummaryDTO):
     capabilities_detail: Optional[DeviceCapabilities] = None
     resolution_display: str = "1080x1920 (320 DPI)"
     lease_token: Optional[str] = None
+    adb_diagnostics: dict[str, object] = field(default_factory=dict)
+    appium_diagnostics: dict[str, object] = field(default_factory=dict)
+    session_diagnostics: dict[str, object] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -59,9 +67,15 @@ class DeviceQueryService:
         self,
         registry: DeviceRegistry,
         uow_factory: Optional[Callable[[], IUnitOfWork]] = None,
+        adb_service: Optional["AdbService"] = None,
+        appium_manager: Optional["AppiumServiceManager"] = None,
+        session_pool: Optional["AppiumSessionPool"] = None,
     ) -> None:
         self.registry = registry
         self.uow_factory = uow_factory
+        self.adb_service = adb_service
+        self.appium_manager = appium_manager
+        self.session_pool = session_pool
 
     def list_devices(self, query: Optional[ListDevicesQuery] = None) -> list[DeviceSummaryDTO]:
         """List and filter runtime devices across the registered fleet."""
@@ -143,4 +157,11 @@ class DeviceQueryService:
             capabilities_detail=caps,
             resolution_display=caps.resolution_str,
             lease_token=lease_tok,
+            adb_diagnostics=self.adb_service.diagnostics() if self.adb_service else {},
+            appium_diagnostics=(
+                self.appium_manager.diagnostics() if self.appium_manager else {}
+            ),
+            session_diagnostics=(
+                self.session_pool.diagnostics(device_id) if self.session_pool else {}
+            ),
         )

@@ -53,6 +53,9 @@ class Container:
                 event_bus=self.resolve(EventBus),
                 uow_factory=lambda: self.resolve(IUnitOfWork),
                 device_registry=self.resolve("device_registry"),
+                adb_service=self.resolve("adb_service"),
+                appium_manager=self.resolve("appium_manager"),
+                session_pool=self.resolve("appium_session_pool"),
             ),
         )
 
@@ -271,12 +274,22 @@ class Container:
 
         device_settings = self.resolve(SettingsManager).get().devices
         adb_path = Path(device_settings.adb_path) if device_settings.adb_path else None
+        appium_path = Path(device_settings.appium_path) if device_settings.appium_path else None
         ldplayer_path = Path(device_settings.ldplayer_path) if device_settings.ldplayer_path else None
         mumu_path = Path(device_settings.mumu_path) if device_settings.mumu_path else None
 
+        from spfarm.infrastructure.automation.adb.service import AdbService
+        from spfarm.infrastructure.automation.appium.service import AppiumServiceManager
+        from spfarm.infrastructure.automation.sessions.pool import AppiumSessionPool
         from spfarm.infrastructure.devices.adb import AdbRunner
 
         adb_runner = AdbRunner(executable_path=adb_path)
+        adb_service = AdbService(runner=adb_runner)
+        appium_manager = AppiumServiceManager(executable_path=appium_path)
+        appium_session_pool = AppiumSessionPool(
+            service_manager=appium_manager,
+            command_timeout=self.resolve(SettingsManager).get().automation.default_timeout_seconds,
+        )
         physical_android_provider = PhysicalAndroidProvider(adb_runner=adb_runner)
         ldplayer_provider = LDPlayerProvider(
             custom_install_dir=ldplayer_path,
@@ -293,6 +306,12 @@ class Container:
 
         self.register_singleton(DeviceRegistry, device_registry)
         self.register_singleton("device_registry", device_registry)
+        self.register_singleton(AdbService, adb_service)
+        self.register_singleton("adb_service", adb_service)
+        self.register_singleton(AppiumServiceManager, appium_manager)
+        self.register_singleton("appium_manager", appium_manager)
+        self.register_singleton(AppiumSessionPool, appium_session_pool)
+        self.register_singleton("appium_session_pool", appium_session_pool)
         self.register_singleton(FakeDeviceProvider, fake_provider)
         self.register_singleton(PhysicalAndroidProvider, physical_android_provider)
         self.register_singleton(LDPlayerProvider, ldplayer_provider)
@@ -306,6 +325,9 @@ class Container:
             lambda: DeviceQueryService(
                 registry=self.resolve(DeviceRegistry),
                 uow_factory=lambda: self.resolve(IUnitOfWork),
+                adb_service=self.resolve(AdbService),
+                appium_manager=self.resolve(AppiumServiceManager),
+                session_pool=self.resolve(AppiumSessionPool),
             ),
         )
 

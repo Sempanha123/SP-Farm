@@ -293,6 +293,9 @@ class SettingsDialog(QDialog):
         self.txt_adb_path = QLineEdit()
         self.txt_adb_path.setPlaceholderText("(Auto-detected from PATH or standard SDK)")
 
+        self.txt_appium_path = QLineEdit()
+        self.txt_appium_path.setPlaceholderText("(Auto-detected from PATH)")
+
         self.txt_ldplayer_path = QLineEdit()
         self.txt_ldplayer_path.setPlaceholderText("(e.g. C:\\LDPlayer\\LDPlayer9)")
 
@@ -306,6 +309,7 @@ class SettingsDialog(QDialog):
         self.chk_auto_discover = QCheckBox("Automatically Discover Connected Devices")
 
         form.addRow("ADB Executable:", self.txt_adb_path)
+        form.addRow("Appium Executable:", self.txt_appium_path)
         form.addRow("LDPlayer Path:", self.txt_ldplayer_path)
         form.addRow("MuMu Player Path:", self.txt_mumu_path)
         form.addRow("Poll Interval:", self.spn_poll_interval)
@@ -487,6 +491,7 @@ class SettingsDialog(QDialog):
         self.spn_retained_backups.setValue(s.storage.max_retained_backups)
 
         self.txt_adb_path.setText(s.devices.adb_path)
+        self.txt_appium_path.setText(s.devices.appium_path)
         self.txt_ldplayer_path.setText(s.devices.ldplayer_path)
         self.txt_mumu_path.setText(s.devices.mumu_path)
         self.spn_poll_interval.setValue(s.devices.poll_interval_seconds)
@@ -515,6 +520,7 @@ class SettingsDialog(QDialog):
             s.storage.max_retained_backups = self.spn_retained_backups.value()
 
             s.devices.adb_path = self.txt_adb_path.text().strip()
+            s.devices.appium_path = self.txt_appium_path.text().strip()
             s.devices.ldplayer_path = self.txt_ldplayer_path.text().strip()
             s.devices.mumu_path = self.txt_mumu_path.text().strip()
             s.devices.poll_interval_seconds = self.spn_poll_interval.value()

@@ -19,6 +19,9 @@ from spfarm.shared.time import format_iso
 
 if TYPE_CHECKING:
     from spfarm.application.services.device_registry import DeviceRegistry
+    from spfarm.infrastructure.automation.adb.service import AdbService
+    from spfarm.infrastructure.automation.appium.service import AppiumServiceManager
+    from spfarm.infrastructure.automation.sessions.pool import AppiumSessionPool
 
 logger = logging.getLogger(__name__)
 
@@ -89,11 +92,17 @@ class DiagnosticsService:
         event_bus: Optional[EventBus] = None,
         uow_factory: Optional[Callable[[], IUnitOfWork]] = None,
         device_registry: Optional["DeviceRegistry"] = None,
+        adb_service: Optional["AdbService"] = None,
+        appium_manager: Optional["AppiumServiceManager"] = None,
+        session_pool: Optional["AppiumSessionPool"] = None,
     ) -> None:
         self._settings_manager = settings_manager
         self._event_bus = event_bus
         self._uow_factory = uow_factory
         self._device_registry = device_registry
+        self._adb_service = adb_service
+        self._appium_manager = appium_manager
+        self._session_pool = session_pool
 
     def generate_dump(self) -> dict[str, Any]:
         """Compile a fully redacted diagnostics dump."""
@@ -162,6 +171,13 @@ class DiagnosticsService:
                 table_counts["status"] = f"unreachable: {exc}"
 
             dump["database_metrics"] = table_counts
+
+        if self._adb_service is not None:
+            dump["adb"] = self._adb_service.diagnostics()
+        if self._appium_manager is not None:
+            dump["appium"] = self._appium_manager.diagnostics()
+        if self._session_pool is not None:
+            dump["appium_sessions"] = self._session_pool.diagnostics()
 
         if self._device_registry is not None:
             devices = self._device_registry.get_all_devices()
